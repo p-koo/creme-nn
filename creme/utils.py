@@ -1,6 +1,7 @@
 import os
 import pyfaidx
 import kipoiseq
+import numpy as np
 
 
 ########################################################################################
