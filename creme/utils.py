@@ -92,14 +92,19 @@ def one_hot_encode(sequence):
 
 def set_tile_range(L, window, stride):
     """create tile coordinates for input sequence"""
-    tiles = []
-    i = 0
-    while i < L:
-        tiles.append([i, i+window])
-        i += stride 
-        if i+window > L:
-            break
-    return tiles
+
+    center_start = midpoint - window//2
+    center_end = center_start + window
+    center_tile = [center_start, center_end]
+
+    other_tiles = []
+    start = np.mod(center_start, window)
+    for i in np.arange(start, center_start, window):
+        other_tiles.append([i, i+window])
+    for i in np.arange(center_end, SEQUENCE_LEN, window):
+        other_tiles.append([i, i+window])
+
+    return center_tile, other_tiles 
 
 
 def remove_tss_tile(tiles, tile_index):

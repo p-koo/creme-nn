@@ -1,5 +1,5 @@
 import numpy as np
-import shuffle 
+from . import shuffle 
 
 
 def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):

@@ -13,7 +13,6 @@ from tqdm import tqdm
 SEQUENCE_LEN = 393216
 track_index = 5111
 bin_index = 448
-num_shuffle = 10
 batch_size = 1
 thresh = 30
 save_path = utils.make_dir('../results')
