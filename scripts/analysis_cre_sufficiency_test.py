@@ -5,7 +5,7 @@ from creme import shuffle
 import pandas as pd
 import pyranges as pr
 from tqdm import tqdm
-from creme import utils, custom_model 
+from creme import utils, custom_model, creme 
 
 ########################################################################################
 # parameters
@@ -50,10 +50,10 @@ for i, row in tqdm(tss_df.iterrows()):
     x = seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True)
 
     # perform TSS Context Swap Test
-    pred_wt, pred_mut, pred_control = perturb.sufficiency_test(model, x, tss_tile, other_tiles, num_shuffle, mean=True)
+    pred_wt, pred_mut, pred_control = creme.sufficiency_test(model, x, tss_tile, other_tiles, num_shuffle, mean=True)
 
     # normalize predictions
-    pred_norm = perturb.normalized_tile_effect(pred_wt, pred_mut, pred_control, bin_index)
+    pred_norm = creme.normalized_tile_effect(pred_wt, pred_mut, pred_control, bin_index)
 
     # store predictions
     pred_all.append(pred_norm)
