@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="tfomics",
+    name="creme",
     # TODO: Consider using https://github.com/python-versioneer/python-versioneer to
     # get version information from git.
-    version="0.1.0-dev0",
-    description="A sample Python project",
+    version="0.1.0",
+    description="An in silico perturbation framework to interpret large-scale genomic deep learning",
     # author='A. Random Developer',
     # author_email='author@example.com',
     classifiers=[
@@ -25,11 +25,11 @@ setup(
     # Do not install tensorflow here, because might want to use tensorflow or
     # tensorflow-cpu.
     install_requires=[
-        "logomaker",
+        "pyranges",
         "numpy",
         "pandas",
-        "scikit-learn",
-        "scipy",
+        "kipoiseq",
+        "tensorflow-hub",
     ],
     extras_require={
         "dev": [
