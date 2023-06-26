@@ -42,15 +42,15 @@ class Enformer(ModelBase):
         N = x.shape[0]
 
         # create empty array to fill (896 is number of predicted bins)
-        preds = np.empty((N, 896))
         if batch_size < N:
+            preds = []
             i = 0
             for batch in batch_np(x, batch_size):
-                preds[i:i+batch.shape[0]] = self.predict_on_batch(batch)[self.head][:,:,self.track_index]
+                preds.append(self.predict_on_batch(batch)[self.head][:,:,self.track_index])
                 i += batch.shape[0]
+            return np.array(preds)
         else:
-            preds = self.predict_on_batch(x)[self.head][:, :, self.track_index]
-        return preds
+            return self.predict_on_batch(x)[self.head][:, :, self.track_index]
 
 
     def predict_all(self, x, batch_size=1):
@@ -60,14 +60,16 @@ class Enformer(ModelBase):
         N = x.shape[0]
 
         # create empty array to fill (896 is number of predicted bins)
-        preds = []
+        
         if batch_size < N:
+            preds = []
+            i = 0
             for batch in batch_np(x, batch_size):
                 preds.append(self.predict_on_batch(batch)[self.head])
-            preds = np.vstack(preds)
+                i += batch.shape[0]
+            return np.array(preds)
         else:
-            preds = self.predict_on_batch(x)[self.head]
-        return preds
+            return self.predict_on_batch(x)[self.head]
 
 
     @tf.function

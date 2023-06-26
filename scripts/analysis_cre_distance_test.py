@@ -22,7 +22,9 @@ fasta_path = 'hg19.fa'
 
 
 tss_path = 'TSS.csv'
-save_path = '../results/tss_context_dependence_test.pickle'
+enhancer_path = 'enhancers.csv'
+save_path = '../results/cre_sufficiency_test.pickle'
+
 
 ########################################################################################
 # analysis
@@ -31,9 +33,10 @@ save_path = '../results/tss_context_dependence_test.pickle'
 
 # load TSS dataframe (with all TSS positions)
 tss_df = pd.read_csv(tss_path)
+enhancers_df = pd.read_csv(enhancer_path)
 
 # get coordinates of central tss 
-tss_tile,_ = utils.set_tile_range(SEQUENCE_LEN, window, stride)
+tss_tile, other_tiles = utils.set_tile_range(SEQUENCE_LEN, window, stride)
 
 # load enformer model 
 model = custom_model.Enformer(tfhub_url, head='human', track_index=track_index)
@@ -48,11 +51,11 @@ for i, row in tqdm(tss_df.iterrows()):
     # get seequence from reference genome and convert to one-hot
     x = seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True)
 
-    # perform TSS Context Dependence Test
-    pred_wt, pred_mut = perturb.context_dependence_test(model, x, tss_tile, num_shuffle, mean=True)
+    # perform TSS Context Swap Test
+    pred_wt, pred_mut, pred_control = perturb.distance_test(model, x, tss_tile, other_tiles, num_shuffle, mean=True)
 
     # normalize predictions
-    pred_norm = perturb.context_effect_on_tss(pred_wt, pred_mut, bin_index)
+    pred_norm = perturb.normalized_tile_effect(pred_wt, pred_mut, pred_control, bin_index)
 
     # store predictions
     pred_all.append(pred_norm)

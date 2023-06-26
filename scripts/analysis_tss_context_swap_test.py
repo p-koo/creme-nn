@@ -21,8 +21,10 @@ tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
 fasta_path = 'hg19.fa'
 
 
-tss_path = 'TSS.csv'
-save_path = '../results/tss_context_dependence_test.pickle'
+source_path = 'TSS_enhancing.csv'
+target_path = 'TSS_neutral.csv'
+save_path = '../results/tss_context_swap_test.pickle'
+
 
 ########################################################################################
 # analysis
@@ -30,7 +32,8 @@ save_path = '../results/tss_context_dependence_test.pickle'
 
 
 # load TSS dataframe (with all TSS positions)
-tss_df = pd.read_csv(tss_path)
+source_df = pd.read_csv(source_path)
+target_df = pd.read_csv(target_path)
 
 # get coordinates of central tss 
 tss_tile,_ = utils.set_tile_range(SEQUENCE_LEN, window, stride)
@@ -41,15 +44,21 @@ model = custom_model.Enformer(tfhub_url, head='human', track_index=track_index)
 # set up sequence parser from fasta 
 seq_parser = utils.SequenceParser(fasta_path)
 
+x_target = []
+for row in tss_df.iterrows():
+    # get seequence from reference genome and convert to one-hot
+    x_target.append(seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True))
+x_target = np.array(x_target)
+
 # loop athrough and predict TSS activity
 pred_all = []
 for i, row in tqdm(tss_df.iterrows()):
 
     # get seequence from reference genome and convert to one-hot
-    x = seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True)
+    x_source = seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True)
 
-    # perform TSS Context Dependence Test
-    pred_wt, pred_mut = perturb.context_dependence_test(model, x, tss_tile, num_shuffle, mean=True)
+    # perform TSS Context Swap Test
+    pred_wt, pred_mut = perturb.context_swap_test(model, x_source, x_target, tss_tile, mean=True)
 
     # normalize predictions
     pred_norm = perturb.context_effect_on_tss(pred_wt, pred_mut, bin_index)

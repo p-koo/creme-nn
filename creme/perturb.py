@@ -1,7 +1,6 @@
 import numpy as np
 from . import shuffle 
 
-
 def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):
     """
     This test places a sequence pattern bounded by start and end in shuffled 
@@ -26,14 +25,13 @@ def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):
     for n in range(num_shuffle):
         x_mut = shuffle.dinuc_shuffle(x)
         x_mut[start:end,:] = x_pattern
-        pred_mut.append(model.predict(x_mut)[np.newaxis])
-    pred_mut = np.array(pred_mut)
+        pred_mut.append(model.predict(x_mut)[np.newaxis][0])
+    pred_mut = np.concatenate(pred_mut, axis=0)
 
     if mean:
-        return np.mean(pred_wt, axis=0), np.mean(pred_mut, axis=0)
+        return pred_wt[0], np.mean(pred_mut, axis=0)
     else:
         return pred_wt, pred_mut 
-
 
 
 def context_swap_test(model, x_source, x_targets, tile_pos, mean=True):
@@ -47,7 +45,6 @@ def context_swap_test(model, x_source, x_targets, tile_pos, mean=True):
         tile_pos: list of start and end index of pattern along L
         x_targets: (N,L,A) multiple target sequences that will inherit a source pattern
     """
-
     if len(x_targets.shape) == 2:
         x_targets = np.expand_dims(x_targets, axis=0)
 
@@ -66,10 +63,10 @@ def context_swap_test(model, x_source, x_targets, tile_pos, mean=True):
 
         # predict mutant sequence
         pred_mut.append(model.predict(x_mut[np.newaxis]))
-    pred_mut = np.array(pred_mut)
+    pred_mut = np.concatenate(pred_mut, axis=0)
 
     if mean:
-        return np.mean(pred_wt, axis=0), np.mean(pred_mut, axis=0)
+        return pred_wt[0], np.mean(pred_mut, axis=0)
     else:
         return pred_wt, pred_mut 
 
@@ -102,17 +99,18 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True):
             x_mut[start:end,:] = shuffle.dinuc_shuffle(x_mut[start:end,:])
 
             # predict mutated sequence
-            pred_shuffle.append(model.predict(x_mut[np.newaxis]))
+            pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
         pred_mut.append(pred_shuffle)
     pred_mut = np.array(pred_mut)
 
     if mean:
-        return np.mean(pred_wt, axis=0), np.mean(pred_mut, axis=0)
+        return pred_wt[0], np.mean(pred_mut, axis=1)
     else:
         return pred_wt, pred_mut 
 
 
-def sufficiency_test(model, x, tiles, num_shuffle, mean=True):
+
+def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
     """
     This test measures is a region of the sequence is sufficient for model predictions.
     inputs:
@@ -126,24 +124,40 @@ def sufficiency_test(model, x, tiles, num_shuffle, mean=True):
 
     # loop over number of shuffles
     pred_mut = []
-    for n in range(num_shuffle):
+    pred_control = []
+    for pos in tiles:
+        start, end = pos
 
-        # shuffle sequence
-        x_mut = shuffle.dinuc_shuffle(x)
-    
-        # embed each original tile in shuffled sequence
-        for pos in tiles:
-            start, end = pos
+
+        pred_shuffle = []
+        pred_shuffle2 = []
+        for n in range(num_shuffle):
+            x_mut = shuffle.dinuc_shuffle(x)
+            
+            # embed tss tile
+            x_mut[tss_tile[0]:tss_tile[1],:] = x[tss_tile[0]:tss_tile[1],:] 
+
+            # predict shuffled context with just TSS
+            pred_shuffle2.append(model.predict(x_mut[np.newaxis])[0])
+
+            # embed tile of interest in 
             x_mut[start:end,:] = x[start:end,:]
 
-        # predict and store sequence
-        pred_mut.append(model.predict(x_mut[np.newaxis]))
+            # predict mutated sequence
+            pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
+
+        # store results
+        pred_mut.append(pred_shuffle)
+        pred_control.append(pred_shuffle2)
+
     pred_mut = np.array(pred_mut)
+    pred_control = np.array(pred_control)
 
     if mean:
-        return np.mean(pred_wt, axis=0), np.mean(pred_mut, axis=0)
+        return pred_wt[0], np.mean(pred_mut, axis=1), np.mean(pred_control, axis=1)
     else:
-        return pred_wt, pred_mut 
+        return pred_wt, pred_mut, pred_control 
+
 
 
 def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=True):
@@ -188,7 +202,7 @@ def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=Tru
     pred_mut = np.array(pred_mut)
 
     if mean:
-        return np.mean(pred_wt, axis=0), np.mean(pred_mut, axis=1)
+        return pred_wt[0], np.mean(pred_mut, axis=1)
     else:
         return pred_wt, pred_mut 
 
@@ -323,13 +337,22 @@ def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, redu
 
 def context_effect_on_tss(pred_wt, pred_mut, bin_index=488):
     """Normalization based on difference between the effect size of the mutation and wt divided by wt"""
-    return (pred_wt[bin_index] - pred_mut[bin_index]) / pred_wt[bin_index]
+    if (pred_mut.shape) == 1:
+        return (pred_wt[bin_index] - pred_mut[bin_index]) / pred_wt[bin_index]
+    else:
+        return (pred_wt[bin_index] - pred_mut[:,bin_index])/pred_wt[bin_index]
 
 
 def fold_change_over_control(pred_wt, pred_mut, bin_index=488):
     """Normalization based on difference between the effect size of the mutation and wt divided by wt"""
-    return pred_mut[bin_index] / pred_wt[bin_index]
+    if (pred_mut.shape) == 1:
+        return pred_mut[bin_index] / pred_wt[bin_index]
+    else:
+        return pred_mut[:,bin_index] / pred_wt[bin_index]
 
+
+def normalized_tile_effect(pred_wt, pred_mut, pred_control, bin_index=488):
+    return (pred_mut[:,bin_index] - pred_control[:,bin_index])/pred_wt[bin_index]
 
 def reduce_enformer_pred(pred, bin_index=448):
     return pred[:,448]

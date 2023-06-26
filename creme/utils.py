@@ -93,6 +93,7 @@ def one_hot_encode(sequence):
 def set_tile_range(L, window, stride):
     """create tile coordinates for input sequence"""
 
+    midpoint = int(L/2)
     center_start = midpoint - window//2
     center_end = center_start + window
     center_tile = [center_start, center_end]
