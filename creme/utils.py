@@ -3,20 +3,49 @@ import pyfaidx
 import kipoiseq
 
 
-def make_dir(dir_path):
-    """
-    :param dir_path: new directory path
-    :return: str path
-    """
-    if not os.path.isdir(dir_path):
-        os.mkdir(dir_path)
-    return dir_path
+########################################################################################
+# Classes
+########################################################################################
+
+class SequenceParser():
+    """sequence parser from fasta file for enformer"""
+
+    def __init__(self, fasta_path):
+        self.fasta_extractor = FastaStringExtractor(fasta_path) 
+
+    def extract_seq_centered(self, chrom, midpoint, seq_len, onehot=True):
+
+        # get coordinates for tss
+        target_interval = kipoiseq.Interval(chrom, midpoint, midpoint + 1).resize(seq_len)
+
+        # get seequence from reference genome
+        seq = fasta_extractor.extract(target_interval)
+
+        if onehot:
+            return one_hot_encode(seq)
+        else:
+            return seq
+
+    def extract_seq_interval(self, chrom, start, end, seq_len=None, onehot=True):
+
+        # get coordinates for tss
+        target_interval = kipoiseq.Interval(chrom, start, end)
+
+        if seq_len:
+            target_interval = target_interval.resize(seq_len)
+
+        # get seequence from reference genome
+        seq = fasta_extractor.extract(target_interval)
+
+        if onehot:
+            return one_hot_encode(seq)
+        else:
+            return seq
 
 
-
-"""The fasta string extractor for enformer"""
 class FastaStringExtractor:
-    
+    """The fasta string extractor for enformer"""
+
     def __init__(self, fasta_file):
         self.fasta = pyfaidx.Fasta(fasta_file)
         self._chromosome_sizes = {k: len(v) for k, v in self.fasta.items()}
@@ -50,12 +79,18 @@ class FastaStringExtractor:
         return self.fasta.close()
 
 
-def one_hot_encode(sequence):
-  return kipoiseq.transforms.functional.one_hot_dna(sequence).astype(np.float32)
 
+########################################################################################
+# Functions
+########################################################################################
+
+def one_hot_encode(sequence):
+    """convert sequence to one-hot"""
+    return kipoiseq.transforms.functional.one_hot_dna(sequence).astype(np.float32)
 
 
 def set_tile_range(L, window, stride):
+    """create tile coordinates for input sequence"""
     tiles = []
     i = 0
     while i < L:
@@ -65,8 +100,19 @@ def set_tile_range(L, window, stride):
             break
     return tiles
 
+
 def remove_tss_tile(tiles, tile_index):
+    """remove a tile form a list of tile coordinates"""
     del tiles[tile_index]
 
+
+def make_dir(dir_path):
+    """
+    :param dir_path: new directory path
+    :return: str path
+    """
+    if not os.path.isdir(dir_path):
+        os.mkdir(dir_path)
+    return dir_path
 
 

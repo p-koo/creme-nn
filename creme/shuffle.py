@@ -3,6 +3,7 @@ import numpy as np
 
 
 def random_shuffle(seq):
+    """shuffle input sequence"""
     rand_index = np.random.permutation(len(seq))
     return seq[rand_index,:]
 
