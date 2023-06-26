@@ -19,7 +19,7 @@ class SequenceParser():
         target_interval = kipoiseq.Interval(chrom, midpoint, midpoint + 1).resize(seq_len)
 
         # get seequence from reference genome
-        seq = fasta_extractor.extract(target_interval)
+        seq = self.fasta_extractor.extract(target_interval)
 
         if onehot:
             return one_hot_encode(seq)
@@ -35,7 +35,7 @@ class SequenceParser():
             target_interval = target_interval.resize(seq_len)
 
         # get seequence from reference genome
-        seq = fasta_extractor.extract(target_interval)
+        seq = self.fasta_extractor.extract(target_interval)
 
         if onehot:
             return one_hot_encode(seq)
