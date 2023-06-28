@@ -102,8 +102,9 @@ def set_tile_range(L, window, stride):
     start = np.mod(center_start, window)
     for i in np.arange(start, center_start, window):
         other_tiles.append([i, i+window])
-    for i in np.arange(center_end, SEQUENCE_LEN, window):
-        other_tiles.append([i, i+window])
+    for i in np.arange(center_end, L, window):
+        if i + window < L:
+            other_tiles.append([i, i+window])
 
     return center_tile, other_tiles 
 
@@ -111,6 +112,12 @@ def set_tile_range(L, window, stride):
 def remove_tss_tile(tiles, tile_index):
     """remove a tile form a list of tile coordinates"""
     del tiles[tile_index]
+
+
+
+def reduce_pred_index(pred, bin_index=448):
+    return pred[:, bin_index]
+
 
 
 def make_dir(dir_path):

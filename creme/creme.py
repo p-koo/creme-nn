@@ -128,7 +128,6 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
     for pos in tiles:
         start, end = pos
 
-
         pred_shuffle = []
         pred_shuffle2 = []
         for n in range(num_shuffle):
@@ -169,16 +168,23 @@ def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=Tru
         shuffle_poss: list of start and end posinates for each shuffle position
     """
 
-    # get sufficiency prediction for both tiles
-    poss = tile1
-    poss.append(tile2)
-    _, pred_wt = sufficiency_test(model, x, poss, num_shuffle)
-
     # crop pattern of interest
     x_tile1 = x[tile1[0]:tile1[1],:]  # fixed tile
     x_tile2 = x[tile2[0]:tile2[1],:]  # variable position tile
 
-    # loop over shuffle posinate list
+    # get sufficiency of tiles in original positions
+    pred_control = []
+    for n in range(num_shuffle):
+        # shuffle sequence and place tiles in respective positions
+        x_mut = shuffle.dinuc_shuffle(x)
+        x_mut[tile1[0]:tile1[1],:] = x_tile1
+        x_mut[tile2[0]:tile2[1],:] = x_tile2
+
+        # predict mutant sequence
+        pred_control.append(model.predict(x_mut[np.newaxis])[0])
+    pred_control = np.array(pred_control)
+
+    # loop over embedding tile2 in avilable position list
     pred_mut = []
     for pos in available_tiles:
         start, end = pos
@@ -197,19 +203,19 @@ def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=Tru
             x_mut[start:end,:] = x_tile2
 
             # predict mutant sequence
-            pred_shuffle.append(model.predict(x_mut[np.newaxis]))
+            pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
         pred_mut.append(pred_shuffle)
     pred_mut = np.array(pred_mut)
 
     if mean:
-        return pred_wt[0], np.mean(pred_mut, axis=1)
+        return np.mean(pred_control, axis=0), np.mean(pred_mut, axis=1)
     else:
-        return pred_wt, pred_mut 
+        return pred_control, pred_mut 
 
 
 
 
-def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_shuffle, reduce_fun=reduce_enformer_pred, num_rounds=10):
+def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_shuffle, num_rounds=10, optimization=np.argmax, reduce_fun=np.mean):
     """
     This test measures is a region of the sequence is sufficient for model predictions.
     inputs:
@@ -244,7 +250,7 @@ def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_sh
                 x_mut[start:end,:] = shuffle.dinuc_shuffle(x_mut[start:end,:])
 
                 # get model prediction
-                pred_shuffle.append(model.predict(x_mut[np.newaxis]))
+                pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
             pred_mut.append(pred_shuffle)
         
         # average predictions acrros shuffles
@@ -254,21 +260,20 @@ def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_sh
         pred_mut = reduce_fun(pred_mut)
 
         # find largest effect size
-        max_index = np.argmax(pred_mut)
+        max_index = optimization(pred_mut)
         pred_per_round.append(pred_mut[max_index])
 
         # add coordinates to fixed_tiles
         fixed_tiles.append(available_tiles[max_index])
 
         # update available positions 
-        available_tiles[max_index].pop()
+        utils.remove_tss_tile(available_tiles, max_index)
 
-    return pred_wt, pred_per_round, fixed_tiles 
-
-
+    return pred_wt[0], pred_per_round, fixed_tiles 
 
 
-def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, reduce_fun=reduce_enformer_pred, num_rounds=10):
+
+def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, num_rounds=10, optimization=np.argmax, reduce_fun=np.mean):
     """
     This test measures is a region of the sequence is sufficient for model predictions.
     inputs:
@@ -277,17 +282,22 @@ def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, redu
         shuffle_poss: list of start and end posinates for each shuffle position
     """
 
-    # get sufficiency prediction for both tiles
-    pos = tile1
-    pos.append(tile2)
-    _, pred_wt = sufficiency_test(model, x, pos, num_shuffle)
-    pred_wt = np.mean(pred_wt, axis=0)
-    pred_wt = reduce_fun(pred_wt)
-        
 
     # crop pattern of interest
-    x_tile1 = x[tile1[0]:tile1[1],:]    # fixed tile position
-    x_tile2 = x[tile2[0]:tile2[1],:]    # variable tile position
+    x_tile1 = x[tile1[0]:tile1[1],:]  # fixed tile
+    x_tile2 = x[tile2[0]:tile2[1],:]  # variable position tile
+
+    # get sufficiency of tiles in original positions
+    pred_control = []
+    for n in range(num_shuffle):
+        # shuffle sequence and place tiles in respective positions
+        x_mut = shuffle.dinuc_shuffle(x)
+        x_mut[tile1[0]:tile1[1],:] = x_tile1
+        x_mut[tile2[0]:tile2[1],:] = x_tile2
+
+        # predict mutant sequence
+        pred_control.append(model.predict(x_mut[np.newaxis])[0])
+    pred_control = np.array(pred_control)
 
     # loop over multiplicity rounds (greedy search)
     pred_per_round = []
@@ -314,7 +324,7 @@ def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, redu
                     x_mut[max_pos[0]:max_pos[1]] = x_tile2
 
                 # get model predictions
-                pred_shuffle.append(model.predict(x_mut[np.newaxis]))
+                pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
             pred_mut.append(pred_shuffle)
 
         # average predictions acrros shuffles
@@ -324,15 +334,20 @@ def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, redu
         pred_mut = reduce_fun(pred_mut)
 
         # find largest effect size
-        max_index = np.argmax(pred_mut)
+        max_index = optimization(pred_mut)
         max_positions.append(available_tiles[max_index])
         pred_per_round.append(pred_mut[max_index])
 
         # update available positions 
-        available_tiles[max_index].pop()
+        utils.remove_tss_tile(available_tiles, max_index)
 
-    return pred_wt, pred_mut, max_positions 
+    return pred_control, pred_per_round, max_positions 
 
+
+
+########################################################################################
+# Normalization functions
+########################################################################################
 
 
 def context_effect_on_tss(pred_wt, pred_mut, bin_index=488):
@@ -354,13 +369,8 @@ def fold_change_over_control(pred_wt, pred_mut, bin_index=488):
 def normalized_tile_effect(pred_wt, pred_mut, pred_control, bin_index=488):
     return (pred_mut[:,bin_index] - pred_control[:,bin_index])/pred_wt[bin_index]
 
-def reduce_enformer_pred(pred, bin_index=448):
-    return pred[:,448]
 
-
-
-
-
-
+def reduce_pred_index(pred, bin_index=448):
+    return pred[:, bin_index]
 
 

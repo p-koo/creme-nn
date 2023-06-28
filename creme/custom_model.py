@@ -119,6 +119,7 @@ def batch_np(whole_dataset, batch_size):
         yield whole_dataset[i:i + batch_size]
 
 
-
+def reduce_pred_index(pred, bin_index=448):
+    return pred[:, bin_index]
 
 

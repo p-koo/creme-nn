@@ -11,19 +11,27 @@ from creme import utils, custom_model, creme
 # parameters
 ########################################################################################
 
+# enformer params
 SEQUENCE_LEN = 393216
 track_index = 5111
 bin_index = 448
-num_shuffle = 10
-window = 5000
-stride = 5000
 tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
 fasta_path = 'hg19.fa'
 
+# tile params
+window = 5000
+stride = 5000
 
+# test params
+num_shuffle = 10
+num_rounds = 25
+optimization = np.argmax             # argmin to search for enhancers and argmax to search for silencers
+reduce_fun = utils.reduce_pred_index # function to reduce prediction of model to scalar
+
+# file paths
 enhancer_path = 'enhancers.csv'
-cre_start = 'enhancer_start'
-save_path = '../results/cre_distance_test.pickle'
+cre_start = 'enhancer_start'        # name of column to get the start locations of the CRE positions
+save_path = '../results/cre_multiplicity_test.pickle'
 
 
 ########################################################################################
@@ -45,6 +53,7 @@ seq_parser = utils.SequenceParser(fasta_path)
 
 # loop through and predict TSS activity
 pred_all = []
+positions_all = []
 for i, row in tqdm(enhancers_df.iterrows()):
 
     # get seequence from reference genome and convert to one-hot
@@ -53,18 +62,27 @@ for i, row in tqdm(enhancers_df.iterrows()):
     # get coordinates for enhancer of interest
     cre_tile = [row[cre_start], row[cre_start]+window]
 
-    # perform TSS-CRE distance dependence Test
-    pred_control, pred_mut = creme.distance_test(model, x, tss_tile, enhancer_tile, other_tiles, num_shuffle, mean=True)
+    # perform CRE Higher-order Interaction Test
+    pred_wt, pred_per_round, max_positions  = creme.multiplicity_test(model, x, 
+                                                                      tss_tile, 
+                                                                      cre_tile,
+                                                                      other_tiles, 
+                                                                      num_shuffle, 
+                                                                      num_rounds, 
+                                                                      optimization,
+                                                                      reduce_fun)
 
     # normalize predictions
-    pred_norm = creme.fold_change_over_control(pred_control, pred_mut, bin_index)
+    pred_norm = creme.fold_change_over_control(pred_wt, pred_per_round, bin_index)
 
     # store predictions
     pred_all.append(pred_norm)
+    positions_all.append(max_positions)
 
 # save results
 with open(save_path, 'wb') as fout:
     cPickle.dump(np.array(pred_all), fout)
+    cPickle.dump(np.array(positions_all), fout)
 
 
 
