@@ -22,7 +22,7 @@ fasta_path = 'hg19.fa'
 
 
 enhancer_path = 'enhancers.csv'
-cre_start = 'enhancer_start'
+cre_start = 'enhancer_start'     
 save_path = '../results/cre_distance_test.pickle'
 
 

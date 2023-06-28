@@ -114,12 +114,6 @@ def remove_tss_tile(tiles, tile_index):
     del tiles[tile_index]
 
 
-
-def reduce_pred_index(pred, bin_index=448):
-    return pred[:, bin_index]
-
-
-
 def make_dir(dir_path):
     """
     :param dir_path: new directory path
