@@ -1,9 +1,6 @@
 import os
-from creme import utils, custom_model 
-import kipoiseq
+import numpy as np
 import pandas as pd
-import pyranges as pr
-from tqdm import tqdm
 
 # This script should be run after analysis_cre_necessity_test.py
 
@@ -18,7 +15,7 @@ with open(results_path, 'rb') as fout:
 
 # enhancing context
 enhancing_index = np.where(pred_all > 0.95)[0]
-enhancing_df = tss_df.iloc[filtered_index]
+enhancing_df = tss_df.iloc[enhancing_index]
 enhancing_df.to_csv('../data/enhancing_context.csv')
 
 # neutral context

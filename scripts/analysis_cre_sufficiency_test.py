@@ -25,7 +25,7 @@ num_shuffle = 10
 
 # file paths
 tss_path = '../data/enhancing_context.csv'  # silencing_context.csv, neutral_context.csv
-save_path = '../results/cre_sufficiency_test.pickle'
+save_path = '../results/cre_sufficiency_test_enhancing_context.pickle'
 
 
 ########################################################################################
@@ -50,7 +50,7 @@ pred_all = []
 for i, row in tqdm(tss_df.iterrows()):
 
     # get seequence from reference genome and convert to one-hot
-    x = seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True)
+    x = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)
 
     # perform CRE Sufficiency Test
     pred_wt, pred_mut, pred_control = creme.sufficiency_test(model, x, tss_tile, other_tiles, num_shuffle, mean=True)

@@ -1,45 +1,119 @@
 import os
-from creme import utils, custom_model 
-import kipoiseq
+import numpy as np
 import pandas as pd
-import pyranges as pr
-from tqdm import tqdm
+from six.moves import cPickle
 
 # This script should be run after analysis_cre_sufficiency_test.py
 
 
+############################################################################################
+# Process CRE types
+############################################################################################
 
-# get coordinates of central tss 
-window = 5000
-stride = 5000
-tss_tile, other_tiles = utils.set_tile_range(SEQUENCE_LEN, window, stride)
-
+# parameters
+strong_thresh = 0.5
+weak_thresh = 0.3
 
 # load TSS dataframe (with all TSS positions)
 tss_path = '../data/TSS.csv'
 tss_df = pd.read_csv(tss_path)
 
-# load results
-results_path = '../results/cre_sufficiency_test.pickle'
-with open(results_path, 'rb') as fout:
+# CRE files
+enhancer_df = pd.DataFrame(columns=['index', 'chrom', 'tss', 'gene', 'context_type', 'tile_start', 'tile_type'])
+silencer_df = pd.DataFrame(columns=['index', 'chrom', 'tss', 'gene', 'context_type', 'tile_start', 'tile_type'])
+
+context = 'enhancing'
+pickle_path = '../results/cre_sufficiency_test_enhancing_context.pickle'
+with open(pickle_path, 'rb') as fout:
     pred_all = cPickle.load(fout)
+enhancer_df = parse_enhancers_to_df(tss_df, enhancer_df, pred_all, context, weak_thresh, strong_thresh)
+silencer_df = parse_silencers_to_df(tss_df, silencer_df, pred_all, context, weak_thresh, strong_thresh)
 
-# enhancing context
-index1, index2 = np.where(pred_all > 0.5)[0]
-strong_enhancer_df = tss_df.iloc[filtered_index]
-enhancing_df.to_csv('../data/enhancing_context.csv')
+context = 'neutral'
+pickle_path = '../results/cre_sufficiency_test_neutral_context.pickle'
+with open(pickle_path, 'rb') as fout:
+    pred_all = cPickle.load(fout)
+enhancer_df = parse_enhancers_to_df(tss_df, enhancer_df, pred_all, context, weak_thresh, strong_thresh)
+silencer_df = parse_silencers_to_df(tss_df, silencer_df, pred_all, context, weak_thresh, strong_thresh)
 
-# neutral context
-neutral_index = np.where(np.abs(pred_all) < 0.2)[0]
-neutral_df = tss_df.iloc[neutral_index]
-neutral_df.to_csv('../data/neutral_context.csv')
+context = 'silencing'
+pickle_path = '../results/cre_sufficiency_test_silencing_context.pickle'
+with open(pickle_path, 'rb') as fout:
+    pred_all = cPickle.load(fout)
+enhancer_df = parse_enhancers_to_df(tss_df, enhancer_df, pred_all, context, weak_thresh, strong_thresh)
+silencer_df = parse_silencers_to_df(tss_df, silencer_df, pred_all, context, weak_thresh, strong_thresh)
 
-# silencing context
-silencing_index = np.where(pred_all < -0.5)[0]
-silencing_df = tss_df.iloc[silencing_index]
-silencing_df.to_csv('../data/silencing_context.csv')
+# save to file
+enhancer_df.to_csv('../data/enhancers.csv')
+silencer_df.to_csv('../data/silencers.csv')
 
 
 
+############################################################################################
+# Useful function
+############################################################################################
+
+
+def parse_enhancers_to_df(tss_df, save_df, pred_all, context, weak_thresh, strong_thresh):
+
+    for j, pred in enumerate(pred_all):
+        index = np.where(pred > weak_thresh)[0]
+        if np.array(index).any():
+
+            # loop through tiles
+            for i in index:
+
+                # add original entry of the sequence information
+                vals = []
+                for val in tss_df.iloc[j]:
+                    vals.append(val)
+
+                # add entry for context type
+                vals.append(context)
+
+                # get index of which tiles are strong enhancers
+                vals.append(i)
+                
+                # add label for enhancer strength
+                if pred[index] > strong_thresh:
+                    vals.append('strong_enhancer')
+                else:
+                    vals.append('weak_enhancer')
+
+                # add tile information
+                save_df.loc[len(save_df.index)] = vals
+    return save_df
+
+
+
+def parse_silencers_to_df(tss_df, save_df, pred_all, context, weak_thresh, strong_thresh):
+
+    for j, pred in enumerate(pred_all):
+        index = np.where(pred < weak_thresh)[0]
+        if np.array(index).any():
+
+            # loop through tiles
+            for i in index:
+
+                # add original entry of the sequence information
+                vals = []
+                for val in tss_df.iloc[j]:
+                    vals.append(val)
+
+                # add entry for context type
+                vals.append(context)
+
+                # get index of which tiles are strong enhancers
+                vals.append(i)
+                
+                # add label for enhancer strength
+                if pred[index] < strong_thresh:
+                    vals.append('strong_silencer')
+                else:
+                    vals.append('weak_silencer')
+
+                # add tile information
+                save_df.loc[len(save_df.index)] = vals
+    return save_df
 
 

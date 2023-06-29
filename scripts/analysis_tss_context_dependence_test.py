@@ -49,7 +49,7 @@ pred_all = []
 for i, row in tqdm(tss_df.iterrows()):
 
     # get seequence from reference genome and convert to one-hot
-    x = seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True)
+    x = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)
 
     # perform TSS Context Dependence Test
     pred_wt, pred_mut = creme.context_dependence_test(model, x, tss_tile, num_shuffle, mean=True)

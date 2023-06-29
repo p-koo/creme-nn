@@ -48,7 +48,7 @@ for i, row in tss_df.iterrows():
         print(row)
 
 # create dataframe
-tss_df = pd.DataFrame(tss_positions, columns=['chrom', 'start', 'gene'])
+tss_df = pd.DataFrame(tss_positions, columns=['chrom', 'tss', 'gene'])
 
 
 ########################################################################################
@@ -62,27 +62,35 @@ model = custom_model.Enformer(tfhub_url, head='human', track_index=track_index)
 seq_parser = utils.SequenceParser(fasta_path)
 
 # loop athrough and predict TSS activity
-filtered_index = []
+filter_index = []
 for i, row in tqdm(tss_df.iterrows()):
 
     # get seequence from reference genome and convert to one-hot
-    one_hot = seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True)
+    one_hot = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)
 
     # acquire predictions
     pred = model.predict(one_hot, batch_size=batch_size)
 
     # check to see if tss has high activity (i.e. larger than thresh) and is the highest signal in prediction
     if pred[0].argmax() == bin_index and pred[0][bin_index] > thresh:
-        filtered_index.append(i)
-filtered_index = np.array(filtered_index)
+        filter_index.append(i)
+tss_df = tss_df.iloc[filter_index]
 
+########################################################################################
+# Filtered out duplicate genes TSS
+########################################################################################
+
+filter_index = []
+for gene in tss_df['gene'].unique():
+    index = tss_df.loc[tss_df['gene'] == gene].index.to_numpy()
+    filter_index.append(index[0])
+tss_df = tss_df.iloc[filter_index]
 
 ########################################################################################
 # save filtered TSS
 ########################################################################################
 
 # save the strong tss list to file
-tss_df = tss_df.iloc[filtered_index]
 tss_df.to_csv(save_path)
 
 

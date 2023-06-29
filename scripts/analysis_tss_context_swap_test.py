@@ -50,7 +50,7 @@ seq_parser = utils.SequenceParser(fasta_path)
 x_target = []
 for row in tss_df.iterrows():
     # get seequence from reference genome and convert to one-hot
-    x_target.append(seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True))
+    x_target.append(seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True))
 x_target = np.array(x_target)
 
 # loop athrough and predict TSS activity
@@ -58,7 +58,7 @@ pred_all = []
 for i, row in tqdm(tss_df.iterrows()):
 
     # get seequence from reference genome and convert to one-hot
-    x_source = seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True)
+    x_source = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)
 
     # perform TSS Context Swap Test
     pred_wt, pred_mut = creme.context_swap_test(model, x_source, x_target, tss_tile, mean=True)

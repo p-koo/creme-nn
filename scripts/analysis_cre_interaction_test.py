@@ -54,7 +54,7 @@ positions_all = []
 for i, row in tqdm(enhancers_df.iterrows()):
 
     # get seequence from reference genome and convert to one-hot
-    x = seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True)
+    x = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)
 
     # perform CRE Higher-order Interaction Test
     pred_control, pred_per_round, max_positions  = creme.higher_order_interaction_test(model, x, 

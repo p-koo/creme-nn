@@ -28,7 +28,6 @@ reduce_fun = utils.reduce_pred_index # function to reduce prediction of model to
 
 # file paths
 enhancer_path = '../data/enhancers.csv'
-cre_start = 'enhancer_start'      # name of column to get the start locations of the CRE positions
 save_path = '../results/cre_multiplicity_test.pickle'
 
 
@@ -55,10 +54,10 @@ positions_all = []
 for i, row in tqdm(enhancers_df.iterrows()):
 
     # get seequence from reference genome and convert to one-hot
-    x = seq_parser.extract_seq_centered(row['chrom'], row['start'], SEQUENCE_LEN, onehot=True)
+    x = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)
 
     # get coordinates for enhancer of interest
-    cre_tile = [row[cre_start], row[cre_start]+window]
+    cre_tile = [row['tile_start'], row['tile_start']+window]
 
     # perform CRE Higher-order Interaction Test
     pred_wt, pred_per_round, max_positions  = creme.multiplicity_test(model, x, 
