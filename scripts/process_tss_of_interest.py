@@ -1,9 +1,7 @@
-import os
-from creme import utils, custom_model 
-import kipoiseq
 import pandas as pd
 import pyranges as pr
 from tqdm import tqdm
+from creme import utils, custom_model 
 
 
 ########################################################################################

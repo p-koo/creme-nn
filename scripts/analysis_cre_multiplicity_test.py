@@ -1,9 +1,6 @@
-import os
 import numpy as np
 from six.moves import cPickle
-from creme import shuffle
 import pandas as pd
-import pyranges as pr
 from tqdm import tqdm
 from creme import utils, custom_model, creme 
 

@@ -1,5 +1,5 @@
-import os
 import numpy as np
+from six.moves import cPickle
 import pandas as pd
 
 # This script should be run after analysis_cre_necessity_test.py

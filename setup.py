@@ -30,6 +30,7 @@ setup(
         "pandas",
         "kipoiseq",
         "tensorflow-hub",
+        "pyfaidx",
     ],
     extras_require={
         "dev": [
