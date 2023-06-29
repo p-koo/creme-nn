@@ -15,22 +15,20 @@ from creme import utils, custom_model, creme
 SEQUENCE_LEN = 393216
 track_index = 5111
 bin_index = 448
-
-# tile params
-window = 5000
-stride = 5000
+tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
+fasta_path = '../data/hg19.fa'
 
 # test params
+window = 5000
+stride = 5000
 num_shuffle = 10
 num_rounds = 25
 optimization = np.argmax             # argmin to search for enhancers and argmax to search for silencers
 reduce_fun = creme.reduce_pred_index # function to reduce prediction of model to scalar
 
 # file paths
-enhancer_path = 'enhancers.csv'
+enhancer_path = '../data/enhancers.csv'
 save_path = '../results/cre_interaction_test.pickle'
-tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
-fasta_path = 'hg19.fa'
 
 
 ########################################################################################
@@ -67,11 +65,8 @@ for i, row in tqdm(enhancers_df.iterrows()):
                                                                                       optimization,
                                                                                       reduce_fun)
 
-    # normalize predictions
-    pred_norm = creme.fold_change_over_control(pred_control, pred_per_round, bin_index)
-
     # store predictions
-    pred_all.append(pred_norm)
+    pred_all.append(pred_per_round/pred_control[bin_index])
     positions_all.append(max_positions)
 
 # save results

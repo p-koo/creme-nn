@@ -1,16 +1,32 @@
 import numpy as np
 from . import shuffle 
 
+############################################################################################
+# TSS Context Dependence Test
+############################################################################################
+
 def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):
     """
     This test places a sequence pattern bounded by start and end in shuffled 
     background contexts -- in line with a global importance analysis. 
 
-    inputs:
-        model: keras model 
-        x: a single one-hot sequence shape (L, A)
-        tile_pos: list with start index and end index of pattern along L
-        num_shuffle: number of shuffles to apply
+    Parameters
+    ----------
+        model : keras.Model 
+            A keras model.
+        x : np.array
+            Single one-hot sequence shape (L, A).
+        tile_pos : list
+            List with start index and end index of pattern-of-interest along L (i.e. [start, end]).
+        num_shuffle : int
+            Number of shuffles to apply and average over.
+        mean : bool
+            If True, return the mean predictions across shuffles, otherwise return full predictions.
+
+    Returns
+    -------
+        np.array: prediction of wild type sequence
+        np.array: prediction of mutant sequences
     """
 
     # get wild-type prediction
@@ -33,6 +49,11 @@ def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):
     else:
         return pred_wt, pred_mut 
 
+
+
+############################################################################################
+# TSS Context Swap Test
+############################################################################################
 
 def context_swap_test(model, x_source, x_targets, tile_pos, mean=True):
     """
@@ -72,6 +93,9 @@ def context_swap_test(model, x_source, x_targets, tile_pos, mean=True):
 
 
 
+############################################################################################
+# CRE Necessity Test
+############################################################################################
 
 def necessity_test(model, x, tiles, num_shuffle, mean=True):
     """
@@ -109,6 +133,10 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True):
         return pred_wt, pred_mut 
 
 
+
+############################################################################################
+# CRE Sufficiency Test
+############################################################################################
 
 def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
     """
@@ -158,6 +186,10 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
         return pred_wt, pred_mut, pred_control 
 
 
+
+############################################################################################
+# TSS-CRE Distance Test
+############################################################################################
 
 def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=True):
     """
@@ -214,6 +246,9 @@ def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=Tru
 
 
 
+############################################################################################
+# CRE Higher-order Interaction Test
+############################################################################################
 
 def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_shuffle, num_rounds=10, optimization=np.argmax, reduce_fun=np.mean):
     """
@@ -269,19 +304,27 @@ def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_sh
         # update available positions 
         utils.remove_tss_tile(available_tiles, max_index)
 
-    return pred_wt[0], pred_per_round, fixed_tiles 
+    return pred_wt[0], np.array(pred_per_round), fixed_tiles 
 
 
+
+############################################################################################
+# CRE Multiplicity Test
+############################################################################################
 
 def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, num_rounds=10, optimization=np.argmax, reduce_fun=np.mean):
     """
-    This test measures is a region of the sequence is sufficient for model predictions.
+    This test measures the extrapolation behavior when adding tile2 in progressively more locations.
     inputs:
         model: keras model 
         x: a single one-hot sequence shape (L, A) from which a pattern will be taken
-        shuffle_poss: list of start and end posinates for each shuffle position
+        tile1: TSS tile which is fixed
+        tile2: CRE tile under investigation
+        available_tiles: list of coordinates [start, end] for available tiles for tile2 insertions
+        num_shuffle: number of shuffles to average over when performing shuffle-based occlusion perturbations 
+        optimization: optimizing objective (e.g. np.argmax for increasing signal and np.argmin for decreasing signal)
+        reduce_fun: function to reduce model predicitons to a scalar value
     """
-
 
     # crop pattern of interest
     x_tile1 = x[tile1[0]:tile1[1],:]  # fixed tile
@@ -341,7 +384,7 @@ def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, num_
         # update available positions 
         utils.remove_tss_tile(available_tiles, max_index)
 
-    return pred_control, pred_per_round, max_positions 
+    return pred_control, np.array(pred_per_round), max_positions 
 
 
 
@@ -371,6 +414,11 @@ def normalized_tile_effect(pred_wt, pred_mut, pred_control, bin_index=488):
 
 
 def reduce_pred_index(pred, bin_index=448):
+    """Reduce multivariate prediction by selecting an index"""
     return pred[:, bin_index]
+
+
+
+
 
 

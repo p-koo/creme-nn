@@ -10,15 +10,20 @@ from tqdm import tqdm
 # parameters
 ########################################################################################
 
+# enformer params
 SEQUENCE_LEN = 393216
 track_index = 5111
 bin_index = 448
+tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
+fasta_path = '../data/hg19.fa'
+
+# file paths
+annotation_path = '../datagencode.v43lift37.basic.annotation.gtf'
+
+# test params
 batch_size = 1
 thresh = 30
-save_path = utils.make_dir('../results')
-tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
-fasta_path = 'hg19.fa'
-annotation_path = 'gencode.v43lift37.basic.annotation.gtf'
+save_path = '../data/TSS.csv'
 
 
 ########################################################################################
@@ -78,10 +83,7 @@ filtered_index = np.array(filtered_index)
 
 # save the strong tss list to file
 tss_df = tss_df.iloc[filtered_index]
-tss_df.to_csv(os.path.join(save_path, 'TSS.csv'))
-
-
-
+tss_df.to_csv(save_path)
 
 
 

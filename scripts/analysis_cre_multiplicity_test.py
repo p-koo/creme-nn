@@ -16,21 +16,19 @@ SEQUENCE_LEN = 393216
 track_index = 5111
 bin_index = 448
 tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
-fasta_path = 'hg19.fa'
-
-# tile params
-window = 5000
-stride = 5000
+fasta_path = '../data/hg19.fa'
 
 # test params
+window = 5000
+stride = 5000
 num_shuffle = 10
 num_rounds = 25
 optimization = np.argmax             # argmin to search for enhancers and argmax to search for silencers
 reduce_fun = utils.reduce_pred_index # function to reduce prediction of model to scalar
 
 # file paths
-enhancer_path = 'enhancers.csv'
-cre_start = 'enhancer_start'        # name of column to get the start locations of the CRE positions
+enhancer_path = '../data/enhancers.csv'
+cre_start = 'enhancer_start'      # name of column to get the start locations of the CRE positions
 save_path = '../results/cre_multiplicity_test.pickle'
 
 
@@ -72,11 +70,8 @@ for i, row in tqdm(enhancers_df.iterrows()):
                                                                       optimization,
                                                                       reduce_fun)
 
-    # normalize predictions
-    pred_norm = creme.fold_change_over_control(pred_wt, pred_per_round, bin_index)
-
     # store predictions
-    pred_all.append(pred_norm)
+    pred_all.append(pred_per_round/np.mean(pred_control,axis=0)[bin_index])
     positions_all.append(max_positions)
 
 # save results

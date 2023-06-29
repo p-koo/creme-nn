@@ -11,17 +11,20 @@ from creme import utils, custom_model, creme
 # parameters
 ########################################################################################
 
+# enformer params
 SEQUENCE_LEN = 393216
 track_index = 5111
 bin_index = 448
-num_shuffle = 10
+tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
+fasta_path = '../data/hg19.fa'
+
+# test params
 window = 5000
 stride = 5000
-tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
-fasta_path = 'hg19.fa'
+num_shuffle = 10
 
-
-tss_path = 'TSS.csv'
+# file paths
+tss_path = '../data/TSS.csv'
 save_path = '../results/tss_context_dependence_test.pickle'
 
 ########################################################################################

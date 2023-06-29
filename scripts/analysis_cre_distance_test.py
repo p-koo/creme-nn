@@ -11,17 +11,23 @@ from creme import utils, custom_model, creme
 # parameters
 ########################################################################################
 
+# enformer params
 SEQUENCE_LEN = 393216
 track_index = 5111
 bin_index = 448
-num_shuffle = 10
+tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
+fasta_path = '../data/hg19.fa'
+
+# test params
 window = 5000
 stride = 5000
-tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
-fasta_path = 'hg19.fa'
+num_shuffle = 10
+num_rounds = 25
+optimization = np.argmax             # argmin to search for enhancers and argmax to search for silencers
+reduce_fun = creme.reduce_pred_index # function to reduce prediction of model to scalar
 
-
-enhancer_path = 'enhancers.csv'
+# file paths
+enhancer_path = '../data/enhancers.csv'
 cre_start = 'enhancer_start'     
 save_path = '../results/cre_distance_test.pickle'
 
