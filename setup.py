@@ -31,6 +31,7 @@ setup(
         "kipoiseq",
         "tensorflow-hub",
         "pyfaidx",
+        "protobuf==3.20",
     ],
     extras_require={
         "dev": [

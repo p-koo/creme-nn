@@ -16,7 +16,7 @@ tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
 fasta_path = '../data/hg19.fa'
 
 # file paths
-annotation_path = '../datagencode.v43lift37.basic.annotation.gtf'
+annotation_path = '../data/gencode.v43lift37.basic.annotation.gtf'
 
 # test params
 batch_size = 1
@@ -47,7 +47,20 @@ for i, row in tss_df.iterrows():
 
 # create dataframe
 tss_df = pd.DataFrame(tss_positions, columns=['chrom', 'tss', 'gene'])
+print('Starting with %d genes'%(len(tss_df)))
 
+
+########################################################################################
+# filtered out duplicate genes TSS
+########################################################################################
+
+filter_index = []
+for gene in tss_df['gene'].unique():
+    index = tss_df.loc[tss_df['gene'] == gene].index.to_numpy()
+    filter_index.append(index[0])
+tss_df = tss_df.iloc[filter_index]
+
+print('Removed duplicate genes. Filtered genes: %d'%(len(tss_df)))
 
 ########################################################################################
 # acquire enformer predictions and filter genes-of-interest
@@ -74,15 +87,7 @@ for i, row in tqdm(tss_df.iterrows()):
         filter_index.append(i)
 tss_df = tss_df.iloc[filter_index]
 
-########################################################################################
-# Filtered out duplicate genes TSS
-########################################################################################
-
-filter_index = []
-for gene in tss_df['gene'].unique():
-    index = tss_df.loc[tss_df['gene'] == gene].index.to_numpy()
-    filter_index.append(index[0])
-tss_df = tss_df.iloc[filter_index]
+print('Total filtered genes: %d'%(len(tss_df)))
 
 ########################################################################################
 # save filtered TSS
