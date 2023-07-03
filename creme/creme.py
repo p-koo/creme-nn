@@ -500,7 +500,7 @@ def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, num_
 
 def context_effect_on_tss(pred_wt, pred_mut, bin_index=488):
     """Normalization based on difference between the effect size of the mutation and wt divided by wt"""
-    if (pred_mut.shape) == 1:
+    if len(pred_mut.shape) == 1:
         return (pred_wt[bin_index] - pred_mut[bin_index]) / pred_wt[bin_index]
     else:
         return (pred_wt[bin_index] - pred_mut[:,bin_index])/pred_wt[bin_index]
@@ -508,7 +508,7 @@ def context_effect_on_tss(pred_wt, pred_mut, bin_index=488):
 
 def fold_change_over_control(pred_wt, pred_mut, bin_index=488):
     """Normalization based on difference between the effect size of the mutation and wt divided by wt"""
-    if (pred_mut.shape) == 1:
+    if len(pred_mut.shape) == 1:
         return pred_mut[bin_index] / pred_wt[bin_index]
     else:
         return pred_mut[:,bin_index] / pred_wt[bin_index]
