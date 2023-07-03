@@ -1,9 +1,9 @@
 .. creme-nn documentation master file, created by
-   sphinx-quickstart on Sun Jul  2 23:55:10 2023.
+   sphinx-quickstart on Mon Jul  3 15:33:13 2023.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to creme-nn's documentation!
+Welcome to CREME's documentation!
 ====================================
 
 .. toctree::

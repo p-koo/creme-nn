@@ -9,15 +9,15 @@
 project = 'creme-nn'
 copyright = '2023, Shushan Toneyan and Peter Koo'
 author = 'Shushan Toneyan and Peter Koo'
-release = '0.1.0'
+release = '0.1.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = []
+extensions = ["myst_parser"]
 
 templates_path = ['_templates']
-exclude_patterns = []
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 
 
