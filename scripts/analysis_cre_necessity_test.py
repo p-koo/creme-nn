@@ -21,7 +21,7 @@ num_shuffle = 10
 
 # file paths
 tss_path = '../data/enhancing_context.csv'  # silencing_context.csv, neutral_context.csv
-save_path = '../results/cre_necessity_test.pickle'
+save_path = '../results/cre_necessity_test_enhancing_context.pickle'
 
 
 ########################################################################################
