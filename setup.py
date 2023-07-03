@@ -1,7 +1,10 @@
 from setuptools import setup, find_packages
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(
-    name="creme",
+    name="creme-nn",
     # TODO: Consider using https://github.com/python-versioneer/python-versioneer to
     # get version information from git.
     version="0.1.0",
