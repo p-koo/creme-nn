@@ -88,14 +88,12 @@ print('Total filtered genes: %d'%(len(filtered_tss_df)))
 ########################################################################################
 
 filter_index = []
-for gene in tss_df['gene'].unique():
-    index = tss_df.loc[tss_df['gene'] == gene].index.to_numpy()
+for gene in filtered_tss_df['gene'].unique():
+    index = filtered_tss_df.loc[filtered_tss_df['gene'] == gene].index.to_numpy()
     filter_index.append(index[0])
-tss_df = tss_df.iloc[filter_index]
+filtered_tss_df = filtered_tss_df.iloc[filter_index]
 
-# save to file
-tss_df.to_csv(save_path)
-print('Removed duplicate genes. Filtered genes: %d'%(len(tss_df)))
+print('Removed duplicate genes. Filtered genes: %d'%(len(filtered_tss_df)))
 
 
 ########################################################################################
