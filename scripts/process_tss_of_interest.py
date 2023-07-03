@@ -1,6 +1,6 @@
+import numpy as np
 import pandas as pd
 import pyranges as pr
-from tqdm import tqdm
 from creme import utils, custom_model 
 
 
@@ -51,18 +51,6 @@ print('Starting with %d genes'%(len(tss_df)))
 
 
 ########################################################################################
-# filtered out duplicate genes TSS
-########################################################################################
-
-filter_index = []
-for gene in tss_df['gene'].unique():
-    index = tss_df.loc[tss_df['gene'] == gene].index.to_numpy()
-    filter_index.append(index[0])
-tss_df = tss_df.iloc[filter_index]
-
-print('Removed duplicate genes. Filtered genes: %d'%(len(tss_df)))
-
-########################################################################################
 # acquire enformer predictions and filter genes-of-interest
 ########################################################################################
 
@@ -74,7 +62,12 @@ seq_parser = utils.SequenceParser(fasta_path)
 
 # loop athrough and predict TSS activity
 filter_index = []
-for i, row in tqdm(tss_df.iterrows()):
+i = 0
+for k, row in tss_df.iterrows():
+    if np.mod(i+1, 1000) == 0:
+        print("%d out of %d"%(i+1, len(tss_df)))
+        filtered_tss_df = tss_df.iloc[filter_index]
+        filtered_tss_df.to_csv(save_path)
 
     # get seequence from reference genome and convert to one-hot
     one_hot = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)
@@ -85,16 +78,33 @@ for i, row in tqdm(tss_df.iterrows()):
     # check to see if tss has high activity (i.e. larger than thresh) and is the highest signal in prediction
     if pred[0].argmax() == bin_index and pred[0][bin_index] > thresh:
         filter_index.append(i)
+    i += 1
+filtered_tss_df = tss_df.iloc[filter_index]
+
+print('Total filtered genes: %d'%(len(filtered_tss_df)))
+
+
+########################################################################################
+# filtered out duplicate genes TSS
+########################################################################################
+
+filter_index = []
+for gene in tss_df['gene'].unique():
+    index = tss_df.loc[tss_df['gene'] == gene].index.to_numpy()
+    filter_index.append(index[0])
 tss_df = tss_df.iloc[filter_index]
 
-print('Total filtered genes: %d'%(len(tss_df)))
+# save to file
+tss_df.to_csv(save_path)
+print('Removed duplicate genes. Filtered genes: %d'%(len(tss_df)))
+
 
 ########################################################################################
 # save filtered TSS
 ########################################################################################
 
 # save the strong tss list to file
-tss_df.to_csv(save_path)
+filtered_tss_df.to_csv(save_path)
 
 
 
