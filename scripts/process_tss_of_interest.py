@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 import pandas as pd
 import pyranges as pr
 from creme import utils, custom_model 
@@ -61,12 +62,7 @@ seq_parser = utils.SequenceParser(fasta_path)
 
 # loop athrough and predict TSS activity
 filter_index = []
-i = 0
-for k, row in tss_df.iterrows():
-    if np.mod(i+1, 1000) == 0:
-        print("%d out of %d"%(i+1, len(tss_df)))
-        filtered_tss_df = tss_df.iloc[filter_index]
-        filtered_tss_df.to_csv(save_path)
+for k, row in tqdm(tss_df.iterrows(), total=len(tss_df)):
 
     # get seequence from reference genome and convert to one-hot
     one_hot = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)
@@ -77,9 +73,7 @@ for k, row in tss_df.iterrows():
     # check to see if tss has high activity (i.e. larger than thresh) and is the highest signal in prediction
     if pred[0].argmax() == bin_index and pred[0][bin_index] > thresh:
         filter_index.append(i)
-    i += 1
 filtered_tss_df = tss_df.iloc[filter_index]
-
 print('Total filtered genes: %d'%(len(filtered_tss_df)))
 
 
@@ -92,7 +86,6 @@ for gene in filtered_tss_df['gene'].unique():
     index = filtered_tss_df.loc[filtered_tss_df['gene'] == gene].index.to_numpy()
     filter_index.append(index[0])
 filtered_tss_df = filtered_tss_df.iloc[filter_index]
-
 print('Removed duplicate genes. Filtered genes: %d'%(len(filtered_tss_df)))
 
 

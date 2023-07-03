@@ -43,7 +43,7 @@ seq_parser = utils.SequenceParser(fasta_path)
 
 # loop athrough and predict TSS activity
 pred_all = []
-for i, row in tqdm(tss_df.iterrows()):
+for i, row in tqdm(tss_df.iterrows(), total=len(tss_df)):
 
     # get seequence from reference genome and convert to one-hot
     x = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)

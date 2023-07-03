@@ -23,7 +23,7 @@ optimization = np.argmax             # argmin to search for enhancers and argmax
 reduce_fun = creme.reduce_pred_index # function to reduce prediction of model to scalar
 
 # file paths
-enhancer_path = '../data/enhancers.csv'
+cre_path = '../data/enhancers.csv'
 save_path = '../results/cre_interaction_test.pickle'
 
 
@@ -33,7 +33,7 @@ save_path = '../results/cre_interaction_test.pickle'
 
 
 # load TSS dataframe (with all TSS positions)
-enhancers_df = pd.read_csv(enhancer_path)
+cre_df = pd.read_csv(cre_path)
 
 # get coordinates of central tss 
 tss_tile, other_tiles = utils.set_tile_range(SEQUENCE_LEN, window, stride)
@@ -47,7 +47,7 @@ seq_parser = utils.SequenceParser(fasta_path)
 # loop through and predict TSS activity
 pred_all = []
 positions_all = []
-for i, row in tqdm(enhancers_df.iterrows()):
+for i, row in tqdm(cre_df.iterrows(), total=len(cre_df)):
 
     # get seequence from reference genome and convert to one-hot
     x = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)
