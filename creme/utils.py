@@ -9,7 +9,7 @@ import numpy as np
 ########################################################################################
 
 class SequenceParser():
-    """sequence parser from fasta file for enformer"""
+    """Sequence parser from fasta file for enformer."""
 
     def __init__(self, fasta_path):
         self.fasta_extractor = FastaStringExtractor(fasta_path) 
@@ -45,7 +45,7 @@ class SequenceParser():
 
 
 class FastaStringExtractor:
-    """The fasta string extractor for enformer"""
+    """Fasta string extractor for enformer."""
 
     def __init__(self, fasta_file):
         self.fasta = pyfaidx.Fasta(fasta_file)
@@ -86,18 +86,20 @@ class FastaStringExtractor:
 ########################################################################################
 
 def one_hot_encode(sequence):
-    """convert sequence to one-hot"""
+    """Convert sequence to one-hot."""
     return kipoiseq.transforms.functional.one_hot_dna(sequence).astype(np.float32)
 
 
 def set_tile_range(L, window, stride):
-    """create tile coordinates for input sequence"""
+    """Create tile coordinates for input sequence."""
 
+    # get center tile
     midpoint = int(L/2)
     center_start = midpoint - window//2
     center_end = center_start + window
     center_tile = [center_start, center_end]
 
+    # get other tiles 
     other_tiles = []
     start = np.mod(center_start, window)
     for i in np.arange(start, center_start, window):
@@ -110,15 +112,12 @@ def set_tile_range(L, window, stride):
 
 
 def remove_tss_tile(tiles, tile_index):
-    """remove a tile form a list of tile coordinates"""
+    """Remove a tile form a list of tile coordinates."""
     del tiles[tile_index]
 
 
 def make_dir(dir_path):
-    """
-    :param dir_path: new directory path
-    :return: str path
-    """
+    """ Make directory if doesn't exist."""
     if not os.path.isdir(dir_path):
         os.mkdir(dir_path)
     return dir_path

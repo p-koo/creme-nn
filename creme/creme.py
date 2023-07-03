@@ -25,8 +25,8 @@ def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):
 
     Returns
     -------
-        np.array: prediction of wild type sequence
-        np.array: prediction of mutant sequences
+        np.array : prediction of wild type sequence.
+        np.array : prediction of mutant sequences.
     """
 
     # get wild-type prediction
@@ -62,10 +62,22 @@ def context_swap_test(model, x_source, x_targets, tile_pos, mean=True):
 
     inputs:
         model: keras model 
-        x_source: a single one-hot sequence shape (L, A) from which a pattern will be taken
-        tile_pos: list of start and end index of pattern along L
-        x_targets: (N,L,A) multiple target sequences that will inherit a source pattern
+            A keras model.
+        x_source : np.array
+            Source sequence (one-hot with shape (L, A) from which a pattern will be taken.
+        x_targets : np.array
+            Target seqeunces with shape (N,L,A) that will inherit a source pattern.
+        tile_pos : list
+            List of start and end index of pattern along L.
+        mean : bool
+            If True, return the mean predictions across shuffles, otherwise return full predictions.
+
+    Returns
+    -------
+        np.array : prediction of wild type sequence.
+        np.array : prediction of mutant sequences.
     """
+    
     if len(x_targets.shape) == 2:
         x_targets = np.expand_dims(x_targets, axis=0)
 
@@ -99,11 +111,25 @@ def context_swap_test(model, x_source, x_targets, tile_pos, mean=True):
 
 def necessity_test(model, x, tiles, num_shuffle, mean=True):
     """
-    This test shuffles a region of the sequence. 
-    inputs:
-        model: keras model 
-        x: a single one-hot sequence shape (L, A) from which a pattern will be taken
-        tiles: list of start and end positions for each shuffle
+    This test systematically measures how tile shuffles affects model predictions. 
+
+    Parameters
+    ----------
+        model : keras.Model 
+            A keras model.
+        x : np.array
+            Single one-hot sequence shape (L, A).
+        tiles : list
+            List of tile positions (start, end) to shuffle (i.e. [[start1, end1], [start2, end2],...]).
+        num_shuffle : int
+            Number of shuffles to apply and average over.
+        mean : bool
+            If True, return the mean predictions across shuffles, otherwise return full predictions.
+
+    Returns
+    -------
+        np.array : prediction of wild type sequence.
+        np.array : prediction of mutant sequences.
     """
 
     # get wild-type prediction
@@ -140,11 +166,28 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True):
 
 def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
     """
-    This test measures is a region of the sequence is sufficient for model predictions.
-    inputs:
-        model: keras model 
-        x: a single one-hot sequence shape (L, A) from which a pattern will be taken
-        shuffle_poss: list of start and end posinates for each shuffle position
+    This test measures if a region of the sequence is sufficient for model predictions. 
+
+    Parameters
+    ----------
+        model : keras.Model 
+            A keras model.
+        x : np.array
+            Single one-hot sequence shape (L, A).
+        tss_tile : list
+            List of the tss_tile position to include in all sufficiency test, i.e. [start, end].
+        tiles : list
+            List of tile positions (start, end) to include in sufficiency test (i.e. [[start1, end1], [start2, end2],...]).
+        num_shuffle : int
+            Number of dinuc shuffles to apply to sequence context and average over.
+        mean : bool
+            If True, return the mean predictions across shuffles, otherwise return full predictions.
+
+    Returns
+    -------
+        np.array : prediction of wild type sequence.
+        np.array : prediction of mutant sequences (dinuc shuffled sequence with TSS and tile).
+        np.array : prediction of control sequence (dinuc shuffled sequence with TSS only).
     """
 
     # get wild-type prediction
@@ -193,11 +236,30 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
 
 def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=True):
     """
-    This test measures is a region of the sequence is sufficient for model predictions.
-    inputs:
-        model: keras model 
-        x: a single one-hot sequence shape (L, A) from which a pattern will be taken
-        shuffle_poss: list of start and end posinates for each shuffle position
+    This test maps out the distance dependence of tile1 (anchored) and tile 2 (variable). 
+    Tiles are placed in dinuc shuffled background contexts, in line with global importance analysis. 
+
+    Parameters
+    ----------
+        model : keras.Model 
+            A keras model.
+        x : np.array
+            Single one-hot sequence shape (L, A).
+        tile1 : list
+            List with start index and end index of tile that is anchored (i.e. [start, end]).
+        tile2 : list
+            List with start index and end index of tile that is to be tested at avilable_tiles.
+        available_tiles : list
+            List with start index and end index of positions to test tile2.
+        num_shuffle : int
+            Number of shuffles to apply and average over.
+        mean : bool
+            If True, return the mean predictions across shuffles, otherwise return full predictions.
+
+    Returns
+    -------
+        np.array : prediction of dinuc sequence with tiles placed in original locations.
+        np.array : prediction of dinuc sequenc with tiles placed in variable locations.
     """
 
     # crop pattern of interest
@@ -252,11 +314,34 @@ def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=Tru
 
 def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_shuffle, num_rounds=10, optimization=np.argmax, reduce_fun=np.mean):
     """
-    This test measures is a region of the sequence is sufficient for model predictions.
-    inputs:
-        model: keras model 
-        x: a single one-hot sequence shape (L, A) from which a pattern will be taken
-        shuffle_poss: list of start and end posinates for each shuffle position
+    This test performs a greedy search to identify which tile sets lead to optimal changes
+    in model predictions. In each round, a new tile is identified, given the previous sets 
+    of tiles. Effect size is measured by placing tiles in dinuc shuffled sequences.
+
+    Parameters
+    ----------
+        model : keras.Model 
+            A keras model.
+        x : np.array
+            Single one-hot sequence shape (L, A).
+        fixed_tiles : list
+            List with fixed tiles, each with a list that consists of start index and end index.
+        available_tiles : list
+            List with available tiles, each with a list that consists of start index and end index.
+        num_shuffle : int
+            Number of shuffles to apply and average over.
+        num_rounds : int
+            Number of rounds to perform greedy search.
+        optimization : np.argmax or np.argmin
+            Function that identifies tile index for each round of greedy search.
+        reduce_fun : np.mean
+            Function to reduce (multivariate) predictions to a scalar.
+
+    Returns
+    -------
+        np.array : prediction of wild type sequence.
+        np.array : prediction of mutant sequences in each optimization round.
+        list : list of fixed tiles from each round.
     """
 
     # get wild-type prediction
@@ -314,16 +399,36 @@ def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_sh
 
 def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, num_rounds=10, optimization=np.argmax, reduce_fun=np.mean):
     """
-    This test measures the extrapolation behavior when adding tile2 in progressively more locations.
-    inputs:
-        model: keras model 
-        x: a single one-hot sequence shape (L, A) from which a pattern will be taken
-        tile1: TSS tile which is fixed
-        tile2: CRE tile under investigation
-        available_tiles: list of coordinates [start, end] for available tiles for tile2 insertions
-        num_shuffle: number of shuffles to average over when performing shuffle-based occlusion perturbations 
-        optimization: optimizing objective (e.g. np.argmax for increasing signal and np.argmin for decreasing signal)
-        reduce_fun: function to reduce model predicitons to a scalar value
+    This test measures the extrapolation behavior when adding tile2 in progressively more 
+    locations. In each round, a new tile is identified, given the previous sets 
+    of tiles. Effect size is measured by placing tiles in dinuc shuffled sequences.
+
+    Parameters
+    ----------
+        model : keras.Model 
+            A keras model.
+        x : np.array
+            Single one-hot sequence shape (L, A).
+        tile1 : list
+            List with start index and end index of tile that is anchored (i.e. [start, end]).
+        tile2 : list
+            List with start index and end index of tile that is to be tested at avilable_tiles.
+        available_tiles : list
+            List with available tiles, each with a list that consists of start index and end index.
+        num_shuffle : int
+            Number of shuffles to apply and average over.
+        num_rounds : int
+            Number of rounds to perform greedy search.
+        optimization : np.argmax or np.argmin
+            Function that identifies tile index for each round of greedy search.
+        reduce_fun : np.mean
+            Function to reduce (multivariate) predictions to a scalar.
+
+    Returns
+    -------
+        np.array : prediction of wild type sequence.
+        np.array : prediction of mutant sequences in each round.
+        list : list of tile positions from each optimization round.
     """
 
     # crop pattern of interest
@@ -410,6 +515,7 @@ def fold_change_over_control(pred_wt, pred_mut, bin_index=488):
 
 
 def normalized_tile_effect(pred_wt, pred_mut, pred_control, bin_index=488):
+    """Normalization used for sufficiency test"""
     return (pred_mut[:,bin_index] - pred_control[:,bin_index])/pred_wt[bin_index]
 
 

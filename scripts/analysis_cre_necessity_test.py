@@ -12,7 +12,6 @@ from creme import utils, custom_model, creme
 SEQUENCE_LEN = 393216
 track_index = 5111
 bin_index = 448
-tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
 fasta_path = '../data/hg19.fa'
 
 # test params
@@ -37,7 +36,7 @@ tss_df = pd.read_csv(tss_path)
 tss_tile,other_tiles = utils.set_tile_range(SEQUENCE_LEN, window, stride)
 
 # load enformer model 
-model = custom_model.Enformer(tfhub_url, head='human', track_index=track_index)
+model = custom_model.Enformer(head='human', track_index=track_index)
 
 # set up sequence parser from fasta 
 seq_parser = utils.SequenceParser(fasta_path)
