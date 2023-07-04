@@ -10,5 +10,12 @@
 CREME is based on the notion that by fitting experimental data, the DNN essentially approximates the underlying "function" of the experimental assay. Thus, the trained DNN can be treated as a surrogate for the experimental assay, enabling in silico "measurements" for any  sequence. CREME comprises a suite of perturbation experiments to uncover how DNNs learn rules of interactions between CREs and their target genes
 
 
+Paper: https://www.biorxiv.org/content/10.1101/2023.07.03.547592v1 
 
+Tutorial and full documentation on Readthedocs.org comding soon...
+
+CREME is pip installable:
+```
+pip install creme-nn
+```
 
