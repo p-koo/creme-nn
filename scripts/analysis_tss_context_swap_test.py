@@ -44,14 +44,14 @@ model = custom_model.Enformer(head='human', track_index=track_index)
 seq_parser = utils.SequenceParser(fasta_path)
 
 x_target = []
-for row in tss_df.iterrows():
+for i, row in target_df.iterrows():
     # get seequence from reference genome and convert to one-hot
     x_target.append(seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True))
 x_target = np.array(x_target)
 
 # loop athrough and predict TSS activity
 pred_all = []
-for i, row in tqdm(tss_df.iterrows(), total=len(tss_df)):
+for i, row in tqdm(source_df.iterrows(), total=len(source_df)):
 
     # get seequence from reference genome and convert to one-hot
     x_source = seq_parser.extract_seq_centered(row['chrom'], row['tss'], SEQUENCE_LEN, onehot=True)
