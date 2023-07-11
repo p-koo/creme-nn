@@ -24,7 +24,7 @@ reduce_fun = creme.reduce_pred_index # function to reduce prediction of model to
 
 # file paths
 cre_path = '../data/enhancers.csv'
-save_path = '../results/cre_interaction_test.pickle'
+save_path = '../results/cre_interaction_test_enhancers.pickle'
 
 
 ########################################################################################

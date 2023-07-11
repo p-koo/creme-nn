@@ -111,11 +111,6 @@ def set_tile_range(L, window, stride):
     return center_tile, other_tiles 
 
 
-def remove_tss_tile(tiles, tile_index):
-    """Remove a tile form a list of tile coordinates."""
-    del tiles[tile_index]
-
-
 def make_dir(dir_path):
     """ Make directory if doesn't exist."""
     if not os.path.isdir(dir_path):

@@ -1,5 +1,5 @@
 import numpy as np
-from . import shuffle 
+from . import shuffle
 
 ############################################################################################
 # TSS Context Dependence Test
@@ -387,7 +387,7 @@ def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_sh
         fixed_tiles.append(available_tiles[max_index])
 
         # update available positions 
-        utils.remove_tss_tile(available_tiles, max_index)
+        remove_tss_tile(available_tiles, max_index)
 
     return pred_wt[0], np.array(pred_per_round), fixed_tiles 
 
@@ -487,7 +487,7 @@ def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, num_
         pred_per_round.append(pred_mut[max_index])
 
         # update available positions 
-        utils.remove_tss_tile(available_tiles, max_index)
+        remove_tss_tile(available_tiles, max_index)
 
     return pred_control, np.array(pred_per_round), max_positions 
 
@@ -524,7 +524,9 @@ def reduce_pred_index(pred, bin_index=448):
     return pred[:, bin_index]
 
 
-
+def remove_tss_tile(tiles, tile_index):
+    """Remove a tile form a list of tile coordinates."""
+    del tiles[tile_index]
 
 
 
