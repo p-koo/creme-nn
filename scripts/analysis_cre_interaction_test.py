@@ -19,7 +19,7 @@ window = 5000
 stride = 5000
 num_shuffle = 10
 num_rounds = 25
-optimization = np.argmax             # argmin to search for enhancers and argmax to search for silencers
+optimization = np.argmin             # argmin to search for enhancers and argmax to search for silencers
 reduce_fun = creme.reduce_pred_index # function to reduce prediction of model to scalar
 
 # file paths

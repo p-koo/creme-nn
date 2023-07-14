@@ -372,9 +372,10 @@ def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_sh
                 # get model prediction
                 pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
             pred_mut.append(pred_shuffle)
+        pred_mut = np.array(pred_mut)
         
         # average predictions acrros shuffles
-        pred_mut = np.mean(np.array(pred_mut), axis=1)
+        pred_mut = np.mean(pred_mut, axis=1)
 
         # reduce predictions to scalar
         pred_mut = reduce_fun(pred_mut)
