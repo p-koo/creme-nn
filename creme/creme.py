@@ -109,6 +109,20 @@ def context_swap_test(model, x_source, x_targets, tile_pos, mean=True):
 # CRE Necessity Test
 ############################################################################################
 
+def generate_tile_shuffles(x, tile_set, num_shuffle):
+    seq_mut = np.empty(([num_shuffle] + list(x.shape)))
+    for n in range(num_shuffle):
+        x_mut = np.copy(x)  # start a new mutant
+        for pos in tile_set:  # tile set can include more than one start
+            start, end = pos
+
+            # shuffle tile
+            x_mut[start:end, :] = shuffle.dinuc_shuffle(x_mut[start:end, :])
+
+            # save mutant
+            seq_mut[n] = x_mut
+    return seq_mut
+
 def necessity_test(model, x, tiles, num_shuffle, mean=True):
     """
     This test systematically measures how tile shuffles affects model predictions. 
@@ -499,7 +513,7 @@ def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, num_
 ########################################################################################
 
 
-def context_effect_on_tss(pred_wt, pred_mut, bin_index=488):
+def context_effect_on_tss(pred_wt, pred_mut, bin_index):
     """Normalization based on difference between the effect size of the mutation and wt divided by wt"""
     if len(pred_mut.shape) == 1:
         return (pred_wt[bin_index] - pred_mut[bin_index]) / pred_wt[bin_index]
@@ -507,7 +521,7 @@ def context_effect_on_tss(pred_wt, pred_mut, bin_index=488):
         return (pred_wt[bin_index] - pred_mut[:,bin_index])/pred_wt[bin_index]
 
 
-def fold_change_over_control(pred_wt, pred_mut, bin_index=488):
+def fold_change_over_control(pred_wt, pred_mut, bin_index):
     """Normalization based on difference between the effect size of the mutation and wt divided by wt"""
     if len(pred_mut.shape) == 1:
         return pred_mut[bin_index] / pred_wt[bin_index]
@@ -515,12 +529,12 @@ def fold_change_over_control(pred_wt, pred_mut, bin_index=488):
         return pred_mut[:,bin_index] / pred_wt[bin_index]
 
 
-def normalized_tile_effect(pred_wt, pred_mut, pred_control, bin_index=488):
+def normalized_tile_effect(pred_wt, pred_mut, pred_control, bin_index):
     """Normalization used for sufficiency test"""
     return (pred_mut[:,bin_index] - pred_control[:,bin_index])/pred_wt[bin_index]
 
 
-def reduce_pred_index(pred, bin_index=448):
+def reduce_pred_index(pred, bin_index):
     """Reduce multivariate prediction by selecting an index"""
     return pred[:, bin_index]
 
