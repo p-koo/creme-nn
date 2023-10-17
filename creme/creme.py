@@ -1,5 +1,5 @@
 import numpy as np
-from . import shuffle
+import shuffle
 
 ############################################################################################
 # TSS Context Dependence Test
