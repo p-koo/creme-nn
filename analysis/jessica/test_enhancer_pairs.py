@@ -27,6 +27,7 @@ def main():
     seq_len = seq_len_true + pseudo_padding
 
     output_dir = utils.make_dir('./csvs/')
+    enhancer_data = enhancer_data.sample(frac = 1)
     for i, row in tqdm(enhancer_data.iterrows(), total=enhancer_data.shape[0]):
         result_path = f'{output_dir}/{i}.csv'
         print(result_path)
