@@ -53,7 +53,7 @@ def main():
             else:
                 print('Bad enhancer')
                 for k in preds.keys():
-                    preds.append('NA')
+                    row[k] = 'NA'
 
             pd.DataFrame(row).T.to_csv(result_path)
 
