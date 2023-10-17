@@ -45,13 +45,13 @@ def main():
     for i, row in tqdm(tss_df.iterrows(), total=N):
         print(i, N)
         assert i < N, 'bad index'
-        # result_path = f'{results_dir}/{i}.csv'
-        # if not os.path.isfile(result_path):
-        #     print(f'Processing {i} to save at {result_path}')
-        #     chrom, start = row[:2]
-        #     sequence_one_hot = seq_parser.extract_seq_centered(chrom, start, seq_len)
-        #     wt_pred = np.squeeze(model.predict_all(sequence_one_hot))
-        #     pd.DataFrame(wt_pred).to_csv(result_path, index=None)
+        result_path = f'{results_dir}/{i}.csv'
+        if not os.path.isfile(result_path):
+            print(f'Processing {i} to save at {result_path}')
+            chrom, start = row[:2]
+            sequence_one_hot = seq_parser.extract_seq_centered(chrom, start, seq_len)
+            wt_pred = np.squeeze(model.predict_all(sequence_one_hot))
+            pd.DataFrame(wt_pred).to_csv(result_path, index=None)
 
 
 if __name__ == '__main__':
