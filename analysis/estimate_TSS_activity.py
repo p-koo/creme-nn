@@ -16,7 +16,7 @@ import utils
 
 def main():
     model = custom_model.Enformer()
-    seq_len = 393216
+    seq_len = 393216 # change for other models
     data_dir = '../data/'
     tracks_of_interest = [4824, 5110, 5111]
     results_dir = utils.make_dir('../results/')
