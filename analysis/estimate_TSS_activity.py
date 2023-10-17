@@ -43,14 +43,15 @@ def main():
     seq_parser = utils.SequenceParser(fasta_path)
     N = tss_df.shape[0]
     for i, row in tqdm(tss_df.iterrows(), total=N):
-        assert i < N-1, 'bad index'
-        result_path = f'{results_dir}/{i}.csv'
-        if not os.path.isfile(result_path):
-            print(f'Processing {i} to save at {result_path}')
-            chrom, start = row[:2]
-            sequence_one_hot = seq_parser.extract_seq_centered(chrom, start, seq_len)
-            wt_pred = np.squeeze(model.predict_all(sequence_one_hot))
-            pd.DataFrame(wt_pred).to_csv(result_path, index=None)
+        print(i, N)
+        assert i < N, 'bad index'
+        # result_path = f'{results_dir}/{i}.csv'
+        # if not os.path.isfile(result_path):
+        #     print(f'Processing {i} to save at {result_path}')
+        #     chrom, start = row[:2]
+        #     sequence_one_hot = seq_parser.extract_seq_centered(chrom, start, seq_len)
+        #     wt_pred = np.squeeze(model.predict_all(sequence_one_hot))
+        #     pd.DataFrame(wt_pred).to_csv(result_path, index=None)
 
 
 if __name__ == '__main__':
