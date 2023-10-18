@@ -21,11 +21,7 @@ def main():
     fasta_path = '../../data/hg19.fa'
     seq_parser = utils.SequenceParser(fasta_path)
 
-    seq_len_true = 196608
-    pseudo_padding = 196608
-
-    seq_len = seq_len_true + pseudo_padding
-
+    seq_len = 196608
     output_dir = utils.make_dir('./csvs/')
     enhancer_data = enhancer_data.sample(frac = 1)
     for i, row in tqdm(enhancer_data.iterrows(), total=enhancer_data.shape[0]):
@@ -34,14 +30,13 @@ def main():
         if not os.path.isfile(result_path):
             chrom, start = row['gene_chrom'], row['gene_start']
             sequence_one_hot = seq_parser.extract_seq_centered(chrom, start, seq_len)
-            wt_pred = np.squeeze(model.predict(sequence_one_hot))[448]
-            row['wt'] = wt_pred
+            row['wt'] = np.squeeze(model.predict(sequence_one_hot))[448]
             seq_start_coord = start - seq_len // 2
             relative_start_1, relative_end_1 = row['enhancer_1_start'] - seq_start_coord, row[
                 'enhancer_1_stop'] - seq_start_coord
             relative_start_2, relative_end_2 = row['enhancer_2_start'] - seq_start_coord, row[
                 'enhancer_2_stop'] - seq_start_coord
-            if relative_start_1 >= 0 and relative_start_2 >= 0:
+            if relative_start_1 >= 0 and relative_start_2 >=0 and relative_end_1 <= seq_len and relative_end_2 <= seq_len:
 
                 for k, tile_set in {
                     'E1': [[relative_start_1, relative_end_1]],
