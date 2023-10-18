@@ -38,10 +38,15 @@ class Enformer(ModelBase):
         self.model = hub.load(tfhub_url).model
         self.head = head
         self.track_index = track_index
+        self.pseudo_pad = 196608
 
 
     def predict_on_batch(self, x):
         """Get full predictions from Enformer."""
+        assert len(x.shape) == 3, 'input not 3D'
+        # Enformer uses 196608 extra input length which does not affect the predictions
+        if x.shape[1] == self.pseudo_pad:
+            x = np.pad(x, ((0, 0), (self.pseudo_pad // 2, self.pseudo_pad // 2), (0, 0)), 'constant')
         predictions = self.model.predict_on_batch(x)
         return {k: v.numpy() for k, v in predictions.items()}
 
