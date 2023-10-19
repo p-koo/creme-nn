@@ -2,6 +2,7 @@ import os
 import numpy as np 
 import tensorflow as tf
 import tensorflow_hub as hub
+import glob
 
 ########################################################################################
 # CREME model
@@ -14,6 +15,88 @@ class ModelBase():
 
     def predict(self, x):
         raise NotImplementedError()
+
+########################################################################################
+# Borzoi model
+########################################################################################
+
+
+
+
+class Borzoi(ModelBase):
+    """
+    Wrapper class for Borzoi.
+    inputs:
+        head : str
+            Borzoi head to get predictions --> head or mouse.
+        track_index : int
+            Enformer index of prediciton track for a given head.
+    """
+    def __init__(self, model_path, track_index=5111):
+
+        # path to Borzoi model(s)
+        self.track_index = track_index
+
+        self.models = []
+        print('Adding following models:')
+        print(glob.glob(model_path))
+        for one_model_path in glob.glob(model_path):
+
+            seqnn_model = seqnn.SeqNN(params_model)
+            seqnn_model.restore(one_model_path, 0)
+            self.models.append(seqnn_model)
+
+
+    def predict_on_batch(self, x):
+        """Get full predictions from Enformer."""
+        assert len(x.shape) == 3, 'input not 3D'
+        # Enformer uses 196608 extra input length which does not affect the predictions
+        if x.shape[1] == self.pseudo_pad:
+            x = np.pad(x, ((0, 0), (self.pseudo_pad // 2, self.pseudo_pad // 2), (0, 0)), 'constant')
+        predictions = self.model.predict_on_batch(x)
+        return {k: v.numpy() for k, v in predictions.items()}
+
+
+    def predict(self, x, batch_size=1):
+        """Get curated predictions from enformer in batches."""
+
+        # check to make sure shape is correct
+        if len(x.shape) == 2:
+            x = x[np.newaxis]
+        N = x.shape[0]
+
+        # get predictions
+        if batch_size < N:
+            preds = []
+            i = 0
+            for batch in batch_np(x, batch_size):
+                preds.append(self.predict_on_batch(batch)[self.head][:,:,self.track_index])
+                i += batch.shape[0]
+            return np.array(preds)
+        else:
+            return self.predict_on_batch(x)[self.head][:, :, self.track_index]
+
+
+    def predict_all(self, x, batch_size=1):
+        """Get full predictions from enformer in batches."""
+
+        # check to make sure shape is correct
+        if len(x.shape) == 2:
+            x = x[np.newaxis]
+        N = x.shape[0]
+
+        # get predictions
+        if batch_size < N:
+            preds = []
+            i = 0
+            for batch in batch_np(x, batch_size):
+                preds.append(self.predict_on_batch(batch)[self.head])
+                i += batch.shape[0]
+            return np.array(preds)
+        else:
+            return self.predict_on_batch(x)[self.head]
+
+
 
 
 ########################################################################################
