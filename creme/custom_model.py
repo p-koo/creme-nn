@@ -3,6 +3,8 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
 import glob
+import seqnn
+import json
 
 ########################################################################################
 # CREME model
@@ -32,13 +34,19 @@ class Borzoi(ModelBase):
         track_index : int
             Enformer index of prediciton track for a given head.
     """
-    def __init__(self, model_path, track_index=5111):
+    def __init__(self, model_path, track_index, aggregate, params_file='../data/borzoi_params_pred.json'):
 
-        # path to Borzoi model(s)
-        self.track_index = track_index
-
+        # Read model parameters
+        with open(params_file) as params_open:
+            params = json.load(params_open)
+            params_model = params['model']
+            params_model['norm_type'] = 'batch' # makes compatible with 2.11 tf and doesn't change output
+        self.seq_length = params_model['seq_length']
         self.models = []
-        print('Adding following models:')
+        self.track_index = track_index
+        self.aggregate = aggregate
+
+        print('Adding models:')
         print(glob.glob(model_path))
         for one_model_path in glob.glob(model_path):
 
@@ -47,54 +55,24 @@ class Borzoi(ModelBase):
             self.models.append(seqnn_model)
 
 
-    def predict_on_batch(self, x):
-        """Get full predictions from Enformer."""
-        assert len(x.shape) == 3, 'input not 3D'
-        # Enformer uses 196608 extra input length which does not affect the predictions
-        if x.shape[1] == self.pseudo_pad:
-            x = np.pad(x, ((0, 0), (self.pseudo_pad // 2, self.pseudo_pad // 2), (0, 0)), 'constant')
-        predictions = self.model.predict_on_batch(x)
-        return {k: v.numpy() for k, v in predictions.items()}
-
-
-    def predict(self, x, batch_size=1):
-        """Get curated predictions from enformer in batches."""
+    def predict(self, x):
+        """Get full predictions from borzoi in batches."""
 
         # check to make sure shape is correct
         if len(x.shape) == 2:
             x = x[np.newaxis]
-        N = x.shape[0]
-
         # get predictions
-        if batch_size < N:
-            preds = []
-            i = 0
-            for batch in batch_np(x, batch_size):
-                preds.append(self.predict_on_batch(batch)[self.head][:,:,self.track_index])
-                i += batch.shape[0]
-            return np.array(preds)
-        else:
-            return self.predict_on_batch(x)[self.head][:, :, self.track_index]
+        preds = []
+        for j, m in enumerate(self.models):
+            preds.append(m(x)[:, None, ...].astype("float16"))
+        preds = np.concatenate(preds, axis=1)
+        if self.aggregate:
+            preds = preds.mean(axis=1)
+        if self.track_index:
+            preds = preds[..., self.track_index]
+        return preds
 
 
-    def predict_all(self, x, batch_size=1):
-        """Get full predictions from enformer in batches."""
-
-        # check to make sure shape is correct
-        if len(x.shape) == 2:
-            x = x[np.newaxis]
-        N = x.shape[0]
-
-        # get predictions
-        if batch_size < N:
-            preds = []
-            i = 0
-            for batch in batch_np(x, batch_size):
-                preds.append(self.predict_on_batch(batch)[self.head])
-                i += batch.shape[0]
-            return np.array(preds)
-        else:
-            return self.predict_on_batch(x)[self.head]
 
 
 
@@ -113,7 +91,7 @@ class Enformer(ModelBase):
         track_index : int
             Enformer index of prediciton track for a given head.
     """
-    def __init__(self, head='human', track_index=5111):
+    def __init__(self, track_index=None, head='human'):
 
         # path to enformer on tensorflow-hub
         tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
@@ -121,57 +99,25 @@ class Enformer(ModelBase):
         self.model = hub.load(tfhub_url).model
         self.head = head
         self.track_index = track_index
+        self.seq_length = 196608
         self.pseudo_pad = 196608
 
 
-    def predict_on_batch(self, x):
-        """Get full predictions from Enformer."""
-        assert len(x.shape) == 3, 'input not 3D'
-        # Enformer uses 196608 extra input length which does not affect the predictions
-        if x.shape[1] == self.pseudo_pad:
-            x = np.pad(x, ((0, 0), (self.pseudo_pad // 2, self.pseudo_pad // 2), (0, 0)), 'constant')
-        predictions = self.model.predict_on_batch(x)
-        return {k: v.numpy() for k, v in predictions.items()}
 
-
-    def predict(self, x, batch_size=1):
-        """Get curated predictions from enformer in batches."""
-
-        # check to make sure shape is correct
-        if len(x.shape) == 2:
-            x = x[np.newaxis]
-        N = x.shape[0]
-
-        # get predictions
-        if batch_size < N:
-            preds = []
-            i = 0
-            for batch in batch_np(x, batch_size):
-                preds.append(self.predict_on_batch(batch)[self.head][:,:,self.track_index])
-                i += batch.shape[0]
-            return np.array(preds)
-        else:
-            return self.predict_on_batch(x)[self.head][:, :, self.track_index]
-
-
-    def predict_all(self, x, batch_size=1):
+    def predict(self, x):
         """Get full predictions from enformer in batches."""
 
         # check to make sure shape is correct
         if len(x.shape) == 2:
             x = x[np.newaxis]
-        N = x.shape[0]
 
-        # get predictions    
-        if batch_size < N:
-            preds = []
-            i = 0
-            for batch in batch_np(x, batch_size):
-                preds.append(self.predict_on_batch(batch)[self.head])
-                i += batch.shape[0]
-            return np.array(preds)
-        else:
-            return self.predict_on_batch(x)[self.head]
+        # get predictions
+        if x.shape[1] == self.pseudo_pad:
+            x = np.pad(x, ((0, 0), (self.pseudo_pad // 2, self.pseudo_pad // 2), (0, 0)), 'constant')
+        preds = self.model.predict_on_batch(x)[self.head].numpy()
+        if self.track_index:
+            preds = preds[..., self.track_index]
+        return preds
 
 
     @tf.function

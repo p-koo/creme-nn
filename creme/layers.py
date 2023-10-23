@@ -290,6 +290,7 @@ class MultiheadAttention(tf.keras.layers.Layer):
         initializer="he_normal",
         l2_scale=0,
         qkv_width=1,
+        **kwargs
     ):
         """Creates a MultiheadAttention module.
            Original version written by Ziga Avsec.
@@ -313,7 +314,7 @@ class MultiheadAttention(tf.keras.layers.Layer):
           initializer: Initializer for the projection layers. If unspecified,
             VarianceScaling is used with scale = 2.0.
         """
-        super().__init__()
+        super().__init__(**kwargs)
         self._value_size = value_size
         self._key_size = key_size
         self._num_heads = heads
@@ -939,8 +940,8 @@ class EnsembleReverseComplement(tf.keras.layers.Layer):
 class StochasticReverseComplement(tf.keras.layers.Layer):
     """Stochastically reverse complement a one hot encoded DNA sequence."""
 
-    def __init__(self):
-        super(StochasticReverseComplement, self).__init__()
+    def __init__(self, **kwargs):
+        super(StochasticReverseComplement, self).__init__(**kwargs)
 
     def call(self, seq_1hot, training=None):
         if training:
@@ -1073,8 +1074,8 @@ class EnsembleShift(tf.keras.layers.Layer):
 class StochasticShift(tf.keras.layers.Layer):
     """Stochastically shift a one hot encoded DNA sequence."""
 
-    def __init__(self, shift_max=0, symmetric=True, pad="uniform"):
-        super(StochasticShift, self).__init__()
+    def __init__(self, shift_max=0, symmetric=True, pad="uniform", **kwargs):
+        super(StochasticShift, self).__init__( **kwargs)
         self.shift_max = shift_max
         self.symmetric = symmetric
         if self.symmetric:

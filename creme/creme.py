@@ -45,9 +45,9 @@ def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):
     pred_mut = np.concatenate(pred_mut, axis=0)
 
     if mean:
-        return pred_wt[0], np.mean(pred_mut, axis=0)
+        return pred_wt[0], np.mean(pred_mut, axis=0), np.std(pred_mut, axis=0)
     else:
-        return pred_wt, pred_mut 
+        return pred_wt, pred_mut
 
 
 
