@@ -25,7 +25,7 @@ def main():
 
     print(f'USING model {model_name}')
     if model_name.lower() == 'enformer':
-        model = custom_model.Enformer([4824, 5110, 5111])
+        model = custom_model.Enformer(track_index=[4824, 5110, 5111])
     elif model_name.lower() == 'borzoi':
         target_df = pd.read_csv('../data/borzoi_targets_human.txt', sep='\t')
         cage_rna_tracks = [i for i, t in enumerate(target_df['description']) if 'CAGE' in t or 'RNA' in t]
@@ -51,9 +51,9 @@ def main():
     half_window_size = 5000 // 2
     N_shuffles = 10
     for i, row in tqdm(tss_df.iterrows(), total=tss_df.shape[0]):
-        result_path = f'{model_results_dir}/{i}.pickle'
+        result_path = f"{model_results_dir}/{row['gene_name']}_{row['Chromosome']}_{row['start']}.pickle"
         if not os.path.isfile(result_path):
-            x = seq_parser.extract_seq_centered(row['Chromosome'], row['start'], model.seq_length)
+            x = seq_parser.extract_seq_centered(row['Chromosome'], row['start'], row['Strand'], model.seq_length)
 
             pred_wt, pred_mut, pred_std = creme.context_dependence_test(model, x,
                                                                         [seq_halflen - half_window_size, seq_halflen + half_window_size],

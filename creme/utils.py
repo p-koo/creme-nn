@@ -117,4 +117,20 @@ def make_dir(dir_path):
         os.mkdir(dir_path)
     return dir_path
 
+def get_summary(row):
+    return f"{row['gene_name']}_{row['Chromosome']}_{row['start']}"
 
+def plot_cdf(x, bins=1000):
+    # getting data of the histogram
+    count, bins_count = np.histogram(x, bins=bins)
+
+    # finding the PDF of the histogram using count values
+    pdf = count / sum(count)
+
+    # using numpy np.cumsum to calculate the CDF
+    # We can also find using the PDF values by looping and adding
+    cdf = np.cumsum(pdf)
+
+    # plotting PDF and CDF
+
+    return cdf

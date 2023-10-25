@@ -25,7 +25,8 @@ def main():
     elif model_name.lower() == 'borzoi':
         target_df = pd.read_csv('../data/borzoi_targets_human.txt', sep='\t')
         cage_rna_tracks = [i for i, t in enumerate(target_df['description']) if 'CAGE' in t or 'RNA' in t]
-        model = custom_model.Borzoi('../data/borzoi/*/*', cage_rna_tracks, True)
+        target_df.iloc[cage_rna_tracks].to_csv('../data/borzoi_cage_rna_tracks.csv')
+        model = custom_model.Borzoi('../data/borzoi/*/*', cage_rna_tracks, True, 8176)
 
     else:
         print('Unkown model')
@@ -63,7 +64,8 @@ def main():
         assert j < N, 'bad index'
         if not os.path.isfile(result_path):
             chrom, start = row[:2]
-            sequence_one_hot = seq_parser.extract_seq_centered(chrom, start, seq_len)
+            strand = row['Strand']
+            sequence_one_hot = seq_parser.extract_seq_centered(chrom, start, strand, seq_len)
             wt_pred = np.squeeze(model.predict(sequence_one_hot))
             np.save(result_path, wt_pred)
 

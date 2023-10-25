@@ -34,7 +34,7 @@ class Borzoi(ModelBase):
         track_index : int
             Enformer index of prediciton track for a given head.
     """
-    def __init__(self, model_path, track_index, aggregate, params_file='../data/borzoi_params_pred.json'):
+    def __init__(self, model_path, track_index, aggregate, bin_index=None, params_file='../data/borzoi_params_pred.json'):
 
         # Read model parameters
         with open(params_file) as params_open:
@@ -44,7 +44,12 @@ class Borzoi(ModelBase):
         self.seq_length = params_model['seq_length']
         self.models = []
         self.track_index = track_index
+        if type(self.track_index)==int:
+            self.track_index = [self.track_index]
         self.aggregate = aggregate
+        self.bin_index = bin_index
+        if type(self.bin_index)==int:
+            self.bin_index = [self.bin_index]
 
         print('Adding models:')
         print(glob.glob(model_path))
@@ -66,10 +71,15 @@ class Borzoi(ModelBase):
         for j, m in enumerate(self.models):
             preds.append(m(x)[:, None, ...].astype("float16"))
         preds = np.concatenate(preds, axis=1)
+        if self.bin_index:
+            preds = preds[:,:,self.bin_index,:]
         if self.aggregate:
             preds = preds.mean(axis=1)
         if self.track_index:
+
             preds = preds[..., self.track_index]
+
+
         return preds
 
 

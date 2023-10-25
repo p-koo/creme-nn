@@ -12,6 +12,8 @@ from tqdm import tqdm
 def main():
     tss_df = pd.read_csv('../results/tss_positions.csv')
     cell_lines = [4824, 5110, 5111]
+    bin_index = [446, 447, 448, 449]
+    print(f'Using bins {bin_index}')
     model_name = 'enformer'
     targets = pd.read_csv(f'../data/{model_name}_targets_human.txt', sep='\t')
     column_names = [t.split(':')[-1].split(' ENCODE')[0].strip() for t in targets.iloc[cell_lines]['description'].values]
@@ -20,7 +22,8 @@ def main():
     N = tss_df.shape[0]
     all_tss = np.empty((N, len(cell_lines)))
     for i, row in tqdm(tss_df.iterrows(), total=N):
-        all_tss[i] = np.load(f'../results/{model_name}_gencode_tss_predictions/{i}.npy')[448, cell_lines]
+        pred = np.load(f'../results/{model_name}_gencode_tss_predictions/{i}.npy')[:, cell_lines]
+        all_tss[i] = pred[bin_index].mean(axis=0)
 
     np.save(f'../results/{model_name}_summary_cage_448.npy', all_tss)
 
@@ -32,7 +35,7 @@ def main():
 
         max_tss_set = max_tss_set.sort_values(column_names[i]).iloc[-5000:]
 
-        max_tss_set.to_csv(f'../results/{model_name}_{column_names[i]}_selected_tss.csv')
+        max_tss_set.to_csv(f'../results/{model_name}_{cell_lines[i]}_{column_names[i]}_selected_tss.csv')
 
 
 if __name__ == "__main__":
