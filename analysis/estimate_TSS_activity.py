@@ -26,7 +26,7 @@ def main():
         target_df = pd.read_csv('../data/borzoi_targets_human.txt', sep='\t')
         cage_rna_tracks = [i for i, t in enumerate(target_df['description']) if 'CAGE' in t or 'RNA' in t]
         target_df.iloc[cage_rna_tracks].to_csv('../data/borzoi_cage_rna_tracks.csv')
-        model = custom_model.Borzoi('../data/borzoi/*/*', cage_rna_tracks, True, 8176)
+        model = custom_model.Borzoi('../data/borzoi/*/*', cage_rna_tracks, True, [8174, 8175, 8176, 8177])
 
     else:
         print('Unkown model')
