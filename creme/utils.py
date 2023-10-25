@@ -4,6 +4,23 @@ import kipoiseq
 import numpy as np
 
 
+
+def rc_dna(seq):
+    """
+    Reverse complement the DNA sequence
+    >>> assert rc_seq("TATCG") == "CGATA"
+    >>> assert rc_seq("tatcg") == "cgata"
+    """
+    rc_hash = {
+        "A": "T",
+        "T": "A",
+        "C": "G",
+        "G": "C",
+        "N": "N"
+
+    }
+    return "".join([rc_hash[s.upper()] for s in seq[::-1]])
+
 ########################################################################################
 # Classes
 ########################################################################################
@@ -14,30 +31,32 @@ class SequenceParser():
     def __init__(self, fasta_path):
         self.fasta_extractor = FastaStringExtractor(fasta_path) 
 
-    def extract_seq_centered(self, chrom, midpoint, seq_len, onehot=True):
-
+    def extract_seq_centered(self, chrom, midpoint, strand, seq_len, onehot=True):
+        assert strand in ['+', '-'], 'bad strand!'
         # get coordinates for tss
-        target_interval = kipoiseq.Interval(chrom, midpoint, midpoint + 1).resize(seq_len)
+        target_interval = kipoiseq.Interval(chrom, midpoint-1, midpoint).resize(seq_len)
 
-        # get seequence from reference genome
+        # get sequence from reference genome
         seq = self.fasta_extractor.extract(target_interval)
-
+        if strand == '-':
+            seq = rc_dna(seq)
         if onehot:
             return one_hot_encode(seq)
         else:
             return seq
 
-    def extract_seq_interval(self, chrom, start, end, seq_len=None, onehot=True):
-
+    def extract_seq_interval(self, chrom, start, end, strand, seq_len=None, onehot=True):
+        assert strand in ['+', '-'], 'bad strand!'
         # get coordinates for tss
         target_interval = kipoiseq.Interval(chrom, start, end)
 
         if seq_len:
             target_interval = target_interval.resize(seq_len)
 
-        # get seequence from reference genome
+        # get sequence from reference genome
         seq = self.fasta_extractor.extract(target_interval)
-
+        if strand == '-':
+            seq = rc_dna(seq)
         if onehot:
             return one_hot_encode(seq)
         else:

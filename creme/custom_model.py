@@ -101,7 +101,7 @@ class Enformer(ModelBase):
         track_index : int
             Enformer index of prediciton track for a given head.
     """
-    def __init__(self, track_index=None, head='human'):
+    def __init__(self, track_index=None, bin_index=None, head='human'):
 
         # path to enformer on tensorflow-hub
         tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
@@ -109,9 +109,13 @@ class Enformer(ModelBase):
         self.model = hub.load(tfhub_url).model
         self.head = head
         self.track_index = track_index
+        self.bin_index = bin_index
         self.seq_length = 196608
         self.pseudo_pad = 196608
-
+        if type(self.bin_index)==int:
+            self.bin_index = [self.bin_index]
+        if type(self.track_index)==int:
+            self.track_index = [self.track_index]
 
 
     def predict(self, x):
@@ -125,6 +129,8 @@ class Enformer(ModelBase):
         if x.shape[1] == self.pseudo_pad:
             x = np.pad(x, ((0, 0), (self.pseudo_pad // 2, self.pseudo_pad // 2), (0, 0)), 'constant')
         preds = self.model.predict_on_batch(x)[self.head].numpy()
+        if self.bin_index:
+            preds = preds[:, self.bin_index, :]
         if self.track_index:
             preds = preds[..., self.track_index]
         return preds
