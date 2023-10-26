@@ -45,7 +45,7 @@ def main():
     if os.path.isfile(tss_csv_path):
         tss_df = pd.read_csv(tss_csv_path, index_col=None)
     else:
-        gencode_annotations = pr.read_gtf(f'{data_dir}/gencode.v43lift37.basic.annotation.gtf')
+        gencode_annotations = pr.read_gtf(f'{data_dir}/gencode.v44.basic.annotation.gtf')
         tss_df = gencode_annotations.df.query('Feature=="transcript" & gene_type == "protein_coding"')
         print(tss_df.shape)
 
