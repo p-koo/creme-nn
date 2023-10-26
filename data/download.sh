@@ -1,15 +1,16 @@
 #!/bin/bash
 
-if ! test -f ./hg19.fa; then
-  wget https://www.dropbox.com/s/mojkzvlmsw2bk6b/hg19.fa
+if ! test -f ./GRCh38.primary_assembly.genome.fa; then
+  wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_44/GRCh38.primary_assembly.genome.fa.gz
+  gunzip GRCh38.primary_assembly.genome.fa.gz
 fi
 # wget hg19.fa
 
 
-if ! test -f ./gencode.v43lift37.basic.annotation.gtf; then
+if ! test -f ./gencode.v44.basic.annotation.gtf; then
   # wget gencode
-  wget https://www.dropbox.com/s/1j8imw5eykjyzvm/gencode.v43lift37.basic.annotation.gtf.gz
-  gunzip gencode.v43lift37.basic.annotation.gtf.gz
+  wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_44/gencode.v44.basic.annotation.gtf.gz
+  gunzip gencode.v44.basic.annotation.gtf.gz
 fi
 
 if ! test -f ./enformer_targets_human.txt; then
