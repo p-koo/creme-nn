@@ -47,12 +47,13 @@ def main():
     else:
         gencode_annotations = pr.read_gtf(f'{data_dir}/gencode.v44.basic.annotation.gtf')
         tss_df = gencode_annotations.df.query('Feature=="transcript" & gene_type == "protein_coding"')
+        tss_df.drop_duplicates(subset=['Chromosome', 'Start', 'Strand'])
         print(tss_df.shape)
 
         assert len(tss_df['Strand'].unique()) == 2, 'bad strand'
         tss_positions = [row['Start'] if row['Strand']=='+' else row['End'] for _, row in tss_df.iterrows()]
         tss_df['start'] = tss_positions
-        tss_df = tss_df[['Chromosome', 'start', 'gene_name', 'gene_id', 'Strand']]
+        tss_df = tss_df[['Chromosome', 'Start', 'gene_name', 'gene_id', 'Strand']]
         tss_df.to_csv(tss_csv_path, index=False)
     tss_df = tss_df.sample(frac = 1)
 
@@ -60,12 +61,13 @@ def main():
     N = tss_df.shape[0]
     print(N)
     for j, (i, row) in tqdm(enumerate(tss_df.iterrows()), total=N):
-        result_path = f'{results_dir}/{i}.npy'
+        chrom, start = row[:2]
+        strand = row['Strand']
+        result_path = f'{results_dir}/{utils.get_summary(row)}.npy'
         print(result_path)
         assert j < N, 'bad index'
         if not os.path.isfile(result_path):
-            chrom, start = row[:2]
-            strand = row['Strand']
+
             sequence_one_hot = seq_parser.extract_seq_centered(chrom, start, strand, seq_len)
             wt_pred = np.squeeze(model.predict(sequence_one_hot))
             np.save(result_path, wt_pred)

@@ -39,7 +39,7 @@ def main():
     result_dir = '../results'
     test_results_dir = utils.make_dir(f'{result_dir}/context_dependence_test')
 
-    fasta_path = f'{data_dir}/hg19.fa'
+    fasta_path = f'{data_dir}/GRCh38.primary_assembly.genome.fa'
     seq_parser = utils.SequenceParser(fasta_path)
 
     tss_df = pd.concat(pd.read_csv(f, index_col='Unnamed: 0') for f in glob.glob(f'{result_dir}/{model_name}*selected_tss.csv'))

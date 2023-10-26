@@ -137,7 +137,7 @@ def make_dir(dir_path):
     return dir_path
 
 def get_summary(row):
-    return f"{row['gene_name']}_{row['Chromosome']}_{row['start']}"
+    return f"{row['gene_name']}_{row['Chromosome']}_{row['Start']}_{row['Strand']}"
 
 def plot_cdf(x, bins=1000):
     # getting data of the histogram
