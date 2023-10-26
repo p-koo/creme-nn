@@ -36,10 +36,11 @@ def main():
     data_dir = '../data/'
     results_dir = utils.make_dir('../results/')
 
-    fasta_path = f'{data_dir}/hg19.fa'
+    fasta_path = f'{data_dir}/GRCh38.primary_assembly.genome.fa'
 
     tss_csv_path = f'{results_dir}/tss_positions.csv'
-    results_dir = utils.make_dir(f'{results_dir}/{model_name}_gencode_tss_predictions/')
+    results_dir = utils.make_dir(f'{results_dir}/gencode_tss_predictions/')
+    results_dir = utils.make_dir(f'{results_dir}/{model_name}/')
 
     if os.path.isfile(tss_csv_path):
         tss_df = pd.read_csv(tss_csv_path, index_col=None)
