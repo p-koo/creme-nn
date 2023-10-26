@@ -34,7 +34,7 @@ class SequenceParser():
     def extract_seq_centered(self, chrom, midpoint, strand, seq_len, onehot=True):
         assert strand in ['+', '-'], 'bad strand!'
         # get coordinates for tss
-        target_interval = kipoiseq.Interval(chrom, midpoint-1, midpoint).resize(seq_len)
+        target_interval = kipoiseq.Interval(chrom, midpoint, midpoint+1).resize(seq_len)
 
         # get sequence from reference genome
         seq = self.fasta_extractor.extract(target_interval)
