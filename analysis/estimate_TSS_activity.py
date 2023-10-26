@@ -47,7 +47,7 @@ def main():
     else:
         gencode_annotations = pr.read_gtf(f'{data_dir}/gencode.v44.basic.annotation.gtf')
         tss_df = gencode_annotations.df.query('Feature=="transcript" & gene_type == "protein_coding"')
-        tss_df.drop_duplicates(subset=['Chromosome', 'Start', 'Strand'])
+        tss_df = tss_df.drop_duplicates(subset=['Chromosome', 'Start', 'Strand'])
         print(tss_df.shape)
 
         assert len(tss_df['Strand'].unique()) == 2, 'bad strand'
