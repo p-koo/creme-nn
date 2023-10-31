@@ -12,7 +12,7 @@ from tqdm import tqdm
 def main():
     tss_df = pd.read_csv('../results/tss_positions.csv')
     cell_lines = [4824, 5110, 5111]
-    bin_index = [446, 447, 448, 449]
+    bin_index = [447, 448]
     print(f'Using bins {bin_index}')
     model_name = 'enformer'
     result_dir = f'../results/gencode_tss_predictions/{model_name}'
@@ -23,7 +23,7 @@ def main():
     N = tss_df.shape[0]
     all_tss = np.empty((N, len(cell_lines)))
     for i, row in tqdm(tss_df.iterrows(), total=N):
-        pred = np.load(f'{result_dir}/{i}.npy')[:, cell_lines]
+        pred = np.load(f'{result_dir}/{utils.get_summary(row)}.npy')[:, cell_lines]
         all_tss[i] = pred[bin_index].mean(axis=0)
 
     np.save(f'../results/{model_name}_summary_cage.npy', all_tss)

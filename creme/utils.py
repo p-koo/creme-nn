@@ -1,6 +1,7 @@
 import os
 import pyfaidx
 import kipoiseq
+import pickle
 import numpy as np
 
 
@@ -109,26 +110,17 @@ def one_hot_encode(sequence):
     return kipoiseq.transforms.functional.one_hot_dna(sequence).astype(np.float32)
 
 
-def set_tile_range(L, window, stride):
+def set_tile_range(L, tile_size):
     """Create tile coordinates for input sequence."""
 
     # get center tile
-    midpoint = int(L/2)
-    center_start = midpoint - window//2
-    center_end = center_start + window
-    center_tile = [center_start, center_end]
 
-    # get other tiles 
-    other_tiles = []
-    start = np.mod(center_start, window)
-    for i in np.arange(start, center_start, window):
-        other_tiles.append([i, i+window])
-    for i in np.arange(center_end, L, window):
-        if i + window < L:
-            other_tiles.append([i, i+window])
+    tss_coordinate = L // 2
+    downstream = sorted(list(range(tss_coordinate + tile_size // 2, L, tile_size)))
+    upstream = sorted(list(range(tss_coordinate - tile_size // 2, 0, -tile_size)))
 
-    return center_tile, other_tiles 
-
+    perturb_range = upstream + downstream
+    return perturb_range
 
 def make_dir(dir_path):
     """ Make directory if doesn't exist."""
@@ -153,3 +145,15 @@ def plot_cdf(x, bins=1000):
     # plotting PDF and CDF
 
     return cdf
+
+def clean_cell_name(t):
+     return t.split(':')[-1].split(' ENCODE')[0].strip()
+
+def save_pickle(result_path, x):
+    with open(result_path, 'wb') as handle:
+        pickle.dump(x, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+def read_pickle(result_path):
+    with open(result_path, 'rb') as handle:
+        context_res = pickle.load(handle)
+    return context_res

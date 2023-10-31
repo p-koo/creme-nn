@@ -36,13 +36,13 @@ def main():
         sys.exit(1)
 
     data_dir = '../data/'
-    result_dir = '../results'
+    result_dir = f'../results/'
     test_results_dir = utils.make_dir(f'{result_dir}/context_dependence_test')
 
     fasta_path = f'{data_dir}/GRCh38.primary_assembly.genome.fa'
     seq_parser = utils.SequenceParser(fasta_path)
 
-    tss_df = pd.concat(pd.read_csv(f, index_col='Unnamed: 0') for f in glob.glob(f'{result_dir}/{model_name}*selected_tss.csv'))
+    tss_df = pd.concat(pd.read_csv(f, index_col='Unnamed: 0') for f in glob.glob(f'{result_dir}/gencode_tss_predictions/{model_name}/*selected_tss.csv'))
     tss_df = tss_df.iloc[:, :-3].drop_duplicates()
     model_results_dir = utils.make_dir(f'{test_results_dir}/{model_name}/')
 
@@ -51,9 +51,9 @@ def main():
     half_window_size = 5000 // 2
     N_shuffles = 10
     for i, row in tqdm(tss_df.iterrows(), total=tss_df.shape[0]):
-        result_path = f"{model_results_dir}/{row['gene_name']}_{row['Chromosome']}_{row['start']}.pickle"
+        result_path = f"{model_results_dir}/{utils.get_summary(row)}.pickle"
         if not os.path.isfile(result_path):
-            x = seq_parser.extract_seq_centered(row['Chromosome'], row['start'], row['Strand'], model.seq_length)
+            x = seq_parser.extract_seq_centered(row['Chromosome'], row['Start'], row['Strand'], model.seq_length)
 
             pred_wt, pred_mut, pred_std = creme.context_dependence_test(model, x,
                                                                         [seq_halflen - half_window_size, seq_halflen + half_window_size],

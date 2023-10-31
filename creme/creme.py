@@ -55,7 +55,7 @@ def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):
 # TSS Context Swap Test
 ############################################################################################
 
-def context_swap_test(model, x_source, x_targets, tile_pos, mean=True):
+def context_swap_test(model, x_source, x_targets, l_targets, tile_pos):
     """
     This test places a source sequence pattern bounded by start and end in a 
     target sequence context -- in line with a global importance analysis. 
@@ -82,26 +82,23 @@ def context_swap_test(model, x_source, x_targets, tile_pos, mean=True):
         x_targets = np.expand_dims(x_targets, axis=0)
 
     # get wild-type prediction
-    pred_wt = model.predict(x_source[np.newaxis])
+    
 
     start, end = tile_pos
 
     # loop through target sequences
-    pred_mut = []
-    for x_target in x_targets:
+    pred_mut = {}
+    for label, x_target in zip(l_targets, x_targets):
         x_mut = np.copy(x_target)
 
         # place source pattern in target sequence
         x_mut[start:end,:] = x_source[start:end,:]
 
         # predict mutant sequence
-        pred_mut.append(model.predict(x_mut[np.newaxis]))
-    pred_mut = np.concatenate(pred_mut, axis=0)
+        pred_mut[label] = model.predict(x_mut[np.newaxis])
 
-    if mean:
-        return pred_wt[0], np.mean(pred_mut, axis=0)
-    else:
-        return pred_wt, pred_mut 
+
+    return pred_mut
 
 
 
@@ -149,7 +146,7 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True):
     # get wild-type prediction
     pred_wt = model.predict(x[np.newaxis])
 
-    # loop over shuffle posinate list
+    # loop over shuffle positions list
     pred_mut = []
     for pos in tiles:
         start, end = pos
@@ -168,9 +165,9 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True):
     pred_mut = np.array(pred_mut)
 
     if mean:
-        return pred_wt[0], np.mean(pred_mut, axis=1)
+        return pred_wt, np.mean(pred_mut, axis=1), np.std(pred_mut, axis=1)
     else:
-        return pred_wt, pred_mut 
+        return pred_wt, pred_mut
 
 
 
