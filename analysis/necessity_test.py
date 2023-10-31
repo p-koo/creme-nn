@@ -44,7 +44,7 @@ def main():
     
     conext_df = pd.concat([pd.read_csv(f'../results/context_dependence_test/{model_name}/{cell_line}_context.csv') for cell_line in cell_lines]).drop_duplicates('path')
 
-
+    conext_df = conext_df.sample(frac = 1)
     # get coordinates of central tss
     cre_tiles = [[i, i+perturb_window] for i in utils.set_tile_range(model.seq_length, perturb_window)]
     # load enformer model
