@@ -57,7 +57,7 @@ def main():
     for i, row in tqdm(conext_df.iterrows(), total=len(conext_df)):
         seq_id = row['path'].split('/')[-1].split('.')[0]
         result_path = f'{result_dir_model}/{seq_id}.pickle'
-
+        print(result_path)
         if not os.path.isfile(result_path):
             chrom, start, strand = seq_id.split('_')[1:]
             # get seq from reference genome and convert to one-hot
