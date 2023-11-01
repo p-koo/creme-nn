@@ -1,5 +1,6 @@
 import numpy as np
 import shuffle
+from tqdm import tqdm
 
 ############################################################################################
 # TSS Context Dependence Test
@@ -153,7 +154,7 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True):
 
         # loop over number of shuffles
         pred_shuffle = []
-        for n in range(num_shuffle):
+        for n in tqdm(range(num_shuffle)):
             x_mut = np.copy(x)
 
             # shuffle tile
@@ -210,8 +211,8 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
     for pos in tiles:
         start, end = pos
 
-        pred_shuffle = []
-        pred_shuffle2 = []
+        pred_mut_shuffle = []
+        pred_control_shuffle = []
         for n in range(num_shuffle):
             x_mut = shuffle.dinuc_shuffle(x)
             
@@ -219,23 +220,23 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
             x_mut[tss_tile[0]:tss_tile[1],:] = x[tss_tile[0]:tss_tile[1],:] 
 
             # predict shuffled context with just TSS
-            pred_shuffle2.append(model.predict(x_mut[np.newaxis])[0])
+            pred_control_shuffle.append(model.predict(x_mut[np.newaxis])[0])
 
             # embed tile of interest in 
             x_mut[start:end,:] = x[start:end,:]
 
             # predict mutated sequence
-            pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
+            pred_mut_shuffle.append(model.predict(x_mut[np.newaxis])[0])
 
         # store results
-        pred_mut.append(pred_shuffle)
-        pred_control.append(pred_shuffle2)
+        pred_mut.append(pred_mut_shuffle)
+        pred_control.append(pred_control_shuffle)
 
     pred_mut = np.array(pred_mut)
     pred_control = np.array(pred_control)
 
     if mean:
-        return pred_wt[0], np.mean(pred_mut, axis=1), np.mean(pred_control, axis=1)
+        return pred_wt[0], np.mean(pred_mut, axis=1), np.std(pred_mut, axis=1), np.mean(pred_control, axis=1), np.std(pred_control, axis=1)
     else:
         return pred_wt, pred_mut, pred_control 
 
