@@ -36,6 +36,7 @@ def main():
         target_df = pd.read_csv(f'{data_dir}/enformer_targets_human.txt', sep='\t')
         cell_lines = [utils.clean_cell_name(target_df.iloc[t]['description']) for t in track_index]
 
+
     else:
         print('Unkown model')
         sys.exit(1)
@@ -46,10 +47,10 @@ def main():
 
     conext_df = conext_df.sample(frac = 1)
     # get coordinates of central tss
-    cre_tiles = [[i, i+perturb_window] for i in utils.set_tile_range(model.seq_length, perturb_window)]
-    # load enformer model
-    model = custom_model.Enformer(head='human', track_index=track_index)
-
+    tss_tile, cre_tiles = utils.set_tile_range(model.seq_length, perturb_window)
+    tile_df = pd.DataFrame(cre_tiles).T
+    tile_df['tss'] = tss_tile
+    tile_df.to_csv(f'{result_dir_model}/tile_coordinates.csv')
     # set up sequence parser from fasta
     seq_parser = utils.SequenceParser(fasta_path)
 
@@ -64,7 +65,8 @@ def main():
             x = seq_parser.extract_seq_centered(chrom, int(start), strand, model.seq_length, onehot=True)
 
             # perform CRE Necessity Test
-            pred_wt, pred_mut_mean, pred_mut_std, pred_control_mean, pred_control_std = creme.necessity_test(model, x,
+            pred_wt, pred_mut_mean, pred_mut_std, pred_control_mean, pred_control_std = creme.sufficiency_test(model, x,
+                                                                                                               tss_tile,
                                                                                                              cre_tiles,
                                                                                                              num_shuffle,
                                                                                                              mean=True)

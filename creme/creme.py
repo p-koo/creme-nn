@@ -154,7 +154,7 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True):
 
         # loop over number of shuffles
         pred_shuffle = []
-        for n in tqdm(range(num_shuffle)):
+        for n in range(num_shuffle):
             x_mut = np.copy(x)
 
             # shuffle tile

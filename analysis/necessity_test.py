@@ -32,7 +32,8 @@ def main():
     print(f'USING model {model_name}')
     if model_name.lower() == 'enformer':
         track_index = [4824, 5110, 5111]
-        model = custom_model.Enformer(track_index=track_index)
+        bin_index = [447, 448]
+        model = custom_model.Enformer(track_index=track_index, bin_index=bin_index)
         target_df = pd.read_csv(f'{data_dir}/enformer_targets_human.txt', sep='\t')
         cell_lines = [utils.clean_cell_name(target_df.iloc[t]['description']) for t in track_index]
 
@@ -45,11 +46,12 @@ def main():
     conext_df = pd.concat([pd.read_csv(f'../results/context_dependence_test/{model_name}/{cell_line}_context.csv') for cell_line in cell_lines]).drop_duplicates('path')
 
     conext_df = conext_df.sample(frac = 1)
-    # get coordinates of central tss
-    cre_tiles = [[i, i+perturb_window] for i in utils.set_tile_range(model.seq_length, perturb_window)]
-    # load enformer model
-    model = custom_model.Enformer(head='human', track_index=track_index)
 
+    # get coordinates of central tss
+    tss_tile, cre_tiles = utils.set_tile_range(model.seq_length, perturb_window)
+    tile_df = pd.DataFrame(cre_tiles).T
+    tile_df['tss'] = tss_tile
+    tile_df.to_csv(f'{result_dir_model}/tile_coordinates.csv')
     # set up sequence parser from fasta
     seq_parser = utils.SequenceParser(fasta_path)
 

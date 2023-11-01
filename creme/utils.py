@@ -110,17 +110,26 @@ def one_hot_encode(sequence):
     return kipoiseq.transforms.functional.one_hot_dna(sequence).astype(np.float32)
 
 
-def set_tile_range(L, tile_size):
+
+def set_tile_range(L, window):
     """Create tile coordinates for input sequence."""
 
     # get center tile
+    midpoint = int(L/2)
+    center_start = midpoint - window//2
+    center_end = center_start + window
+    center_tile = [center_start, center_end]
 
-    tss_coordinate = L // 2
-    downstream = sorted(list(range(tss_coordinate + tile_size // 2, L, tile_size)))
-    upstream = sorted(list(range(tss_coordinate - tile_size // 2, 0, -tile_size)))
+    # get other tiles
+    other_tiles = []
+    start = np.mod(center_start, window)
+    for i in np.arange(start, center_start, window):
+        other_tiles.append([i, i+window])
+    for i in np.arange(center_end, L, window):
+        if i + window < L:
+            other_tiles.append([i, i+window])
 
-    perturb_range = upstream + downstream
-    return perturb_range
+    return center_tile, other_tiles
 
 def make_dir(dir_path):
     """ Make directory if doesn't exist."""
