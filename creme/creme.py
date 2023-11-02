@@ -246,7 +246,7 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
 # TSS-CRE Distance Test
 ############################################################################################
 
-def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=True):
+def distance_test(model, x, tile_fixed_coord, tile_var_coord, test_positions, num_shuffle, mean=True):
     """
     This test maps out the distance dependence of tile1 (anchored) and tile 2 (variable). 
     Tiles are placed in dinuc shuffled background contexts, in line with global importance analysis. 
@@ -257,12 +257,12 @@ def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=Tru
             A keras model.
         x : np.array
             Single one-hot sequence shape (L, A).
-        tile1 : list
+        tile_fixed : list
             List with start index and end index of tile that is anchored (i.e. [start, end]).
-        tile2 : list
+        tile_var : list
             List with start index and end index of tile that is to be tested at avilable_tiles.
-        available_tiles : list
-            List with start index and end index of positions to test tile2.
+        test_positions : list
+            List with start index of positions to test tile_var.
         num_shuffle : int
             Number of shuffles to apply and average over.
         mean : bool
@@ -275,25 +275,25 @@ def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=Tru
     """
 
     # crop pattern of interest
-    x_tile1 = x[tile1[0]:tile1[1],:]  # fixed tile
-    x_tile2 = x[tile2[0]:tile2[1],:]  # variable position tile
+    x_tile_fixed = x[tile_fixed_coord[0]:tile_fixed_coord[1],:]  # fixed tile
+    x_tile_var = x[tile_var_coord[0]:tile_var_coord[1],:]  # variable position tile
 
     # get sufficiency of tiles in original positions
     pred_control = []
     for n in range(num_shuffle):
         # shuffle sequence and place tiles in respective positions
         x_mut = shuffle.dinuc_shuffle(x)
-        x_mut[tile1[0]:tile1[1],:] = x_tile1
-        x_mut[tile2[0]:tile2[1],:] = x_tile2
+        x_mut[tile_fixed_coord[0]:tile_fixed_coord[1],:] = x_tile_fixed
+        x_mut[tile_var_coord[0]:tile_var_coord[1],:] = x_tile_var
 
         # predict mutant sequence
         pred_control.append(model.predict(x_mut[np.newaxis])[0])
     pred_control = np.array(pred_control)
 
-    # loop over embedding tile2 in avilable position list
+    # loop over embedding tile_var in available position list
     pred_mut = []
-    for pos in available_tiles:
-        start, end = pos
+    tile_len = tile_var_coord[1] - tile_var_coord[0]
+    for start in tqdm(test_positions):
 
         # loop over number of shuffles
         pred_shuffle = []
@@ -303,10 +303,10 @@ def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=Tru
             x_mut = shuffle.dinuc_shuffle(x)
 
             # place tile 1 in original location
-            x_mut[tile1[0]:tile1[1],:] = x_tile1
+            x_mut[tile_fixed_coord[0]:tile_fixed_coord[1],:] = x_tile_fixed
 
             # place tile 2 in new position
-            x_mut[start:end,:] = x_tile2
+            x_mut[start:start+tile_len,:] = x_tile_var
 
             # predict mutant sequence
             pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
@@ -314,7 +314,7 @@ def distance_test(model, x, tile1, tile2, available_tiles, num_shuffle, mean=Tru
     pred_mut = np.array(pred_mut)
 
     if mean:
-        return np.mean(pred_control, axis=0), np.mean(pred_mut, axis=1)
+        return np.mean(pred_control, axis=0), np.std(pred_control, axis=0), np.mean(pred_mut, axis=1), np.std(pred_mut, axis=1)
     else:
         return pred_control, pred_mut 
 
@@ -363,7 +363,7 @@ def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_sh
     pred_per_round = []
     for i in range(num_rounds):
 
-        # loop over shuffle posinate list
+        # loop over shuffle position list
         pred_mut = []
         for pos in available_tiles:
             start, end = pos
@@ -386,7 +386,7 @@ def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_sh
             pred_mut.append(pred_shuffle)
         pred_mut = np.array(pred_mut)
         
-        # average predictions acrros shuffles
+        # average predictions across shuffles
         pred_mut = np.mean(pred_mut, axis=1)
 
         # reduce predictions to scalar
