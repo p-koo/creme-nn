@@ -121,7 +121,7 @@ def generate_tile_shuffles(x, tile_set, num_shuffle):
             seq_mut[n] = x_mut
     return seq_mut
 
-def necessity_test(model, x, tiles, num_shuffle, mean=True):
+def necessity_test(model, x, tiles, num_shuffle, mean=True, return_seqs=False):
     """
     This test systematically measures how tile shuffles affects model predictions. 
 
@@ -149,26 +149,32 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True):
 
     # loop over shuffle positions list
     pred_mut = []
-    for pos in tiles:
+    all_muts = np.empty((len(tiles), num_shuffle, x.shape[-2], x.shape[-1]))
+    for tile_i, pos in tqdm(enumerate(tiles), total=len(tiles)):
         start, end = pos
 
         # loop over number of shuffles
         pred_shuffle = []
+
         for n in range(num_shuffle):
             x_mut = np.copy(x)
 
             # shuffle tile
             x_mut[start:end,:] = shuffle.dinuc_shuffle(x_mut[start:end,:])
-
+            all_muts[tile_i, n, :, :] = x_mut
             # predict mutated sequence
             pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
         pred_mut.append(pred_shuffle)
     pred_mut = np.array(pred_mut)
 
+
     if mean:
-        return pred_wt, np.mean(pred_mut, axis=1), np.std(pred_mut, axis=1)
+        test_res = [pred_wt, np.mean(pred_mut, axis=1), np.std(pred_mut, axis=1)]
     else:
-        return pred_wt, pred_mut
+        test_res = [pred_wt, pred_mut]
+    if return_seqs:
+        test_res.append(all_muts)
+    return test_res
 
 
 
@@ -257,9 +263,9 @@ def distance_test(model, x, tile_fixed_coord, tile_var_coord, test_positions, nu
             A keras model.
         x : np.array
             Single one-hot sequence shape (L, A).
-        tile_fixed : list
+        tile_fixed_coord : list
             List with start index and end index of tile that is anchored (i.e. [start, end]).
-        tile_var : list
+        tile_var_coord : list
             List with start index and end index of tile that is to be tested at avilable_tiles.
         test_positions : list
             List with start index of positions to test tile_var.
@@ -324,7 +330,12 @@ def distance_test(model, x, tile_fixed_coord, tile_var_coord, test_positions, nu
 # CRE Higher-order Interaction Test
 ############################################################################################
 
-def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_shuffle, num_rounds=10, optimization=np.argmax, reduce_fun=np.mean):
+
+
+
+
+
+def higher_order_interaction_test(model, x, cre_tiles_to_test, optimization, num_shuffle=10, num_rounds=None):
     """
     This test performs a greedy search to identify which tile sets lead to optimal changes
     in model predictions. In each round, a new tile is identified, given the previous sets 
@@ -356,55 +367,34 @@ def higher_order_interaction_test(model, x, fixed_tiles, available_tiles, num_sh
         list : list of fixed tiles from each round.
     """
 
-    # get wild-type prediction
-    pred_wt = model.predict(x[np.newaxis])
+    result_summary = {}
+    if not num_rounds:
+        num_rounds = len(cre_tiles_to_test)
 
-    # loop through each greedy search round
-    pred_per_round = []
-    for i in range(num_rounds):
+    for iteration_i in tqdm(range(num_rounds)):
+        result_summary[iteration_i] = {}
+        # run one sweep of tile shuffles and keep shuffled seqs
+        pred_wt, pred_mut, all_muts = necessity_test(model, x, cre_tiles_to_test, num_shuffle, False, True)
 
-        # loop over shuffle position list
-        pred_mut = []
-        for pos in available_tiles:
-            start, end = pos
+        # get per tile predictions (average across bins)
+        per_tile_preds = pred_mut[..., 0].mean(-1)  # [tile number, shuffle n]
 
-            # loop over number of shuffles
-            pred_shuffle = []
-            for n in range(num_shuffle):
-                x_mut = np.copy(x)
+        result_summary[iteration_i]['initial_pred'] = pred_wt.mean() # keep track of initial seq prediction
+        result_summary[iteration_i]['preds'] = per_tile_preds  # save all tile preds for comparing to hypothetical model
+        per_tile_mean = per_tile_preds.mean(axis=-1) # average across shuffles
 
-                # shuffle all tiles from previous round
-                for pos2 in fixed_tiles:
-                    start2, end2 = pos2
-                    x_mut[start2:end2,:] = shuffle.dinuc_shuffle(x_mut[start2:end2,:])
+        # find optimal tile
+        selected_tile_i = optimization(per_tile_mean)  # find best tile index
+        best_tile_preds = per_tile_preds[selected_tile_i, :] # all shuffle outputs for best tile
+        keep_shuffled = cre_tiles_to_test[selected_tile_i] # tile coords of the best tile
+        result_summary[iteration_i]['selected_tile'] = keep_shuffled # keep record
+        cre_tiles_to_test.remove(keep_shuffled) # remove this for next iteration
 
-                # shuffle candidate tile
-                x_mut[start:end,:] = shuffle.dinuc_shuffle(x_mut[start:end,:])
-
-                # get model prediction
-                pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
-            pred_mut.append(pred_shuffle)
-        pred_mut = np.array(pred_mut)
-        
-        # average predictions across shuffles
-        pred_mut = np.mean(pred_mut, axis=1)
-
-        # reduce predictions to scalar
-        pred_mut = reduce_fun(pred_mut)
-
-        # find largest effect size
-        max_index = optimization(pred_mut)
-        pred_per_round.append(pred_mut[max_index])
-
-        # add coordinates to fixed_tiles
-        fixed_tiles.append(available_tiles[max_index])
-
-        # update available positions 
-        remove_tss_tile(available_tiles, max_index)
-
-    return pred_wt[0], np.array(pred_per_round), fixed_tiles 
-
-
+        selected_mean_pred = per_tile_mean[selected_tile_i] # select the best tile prediction for trace
+        result_summary[iteration_i]['selected_mean_pred'] = selected_mean_pred
+        # update seq for next iteration selecting sequence yielding the closest prediction to mean
+        x = all_muts[selected_tile_i, np.argmin(np.abs(best_tile_preds - selected_mean_pred)), :, :]
+    return result_summary
 
 ############################################################################################
 # CRE Multiplicity Test
