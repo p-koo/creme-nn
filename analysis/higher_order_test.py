@@ -9,7 +9,7 @@ import sys, os, h5py
 import kipoiseq
 from tqdm import tqdm
 import json
-
+import copy
 sys.path.append('../creme')
 import creme
 import custom_model
@@ -73,7 +73,7 @@ def main():
             x = seq_parser.extract_seq_centered(chrom, int(start), strand, model.seq_length, onehot=True)
 
             # perform CRE Higher-order Interaction Test
-            result_summary = creme.higher_order_interaction_test(model, x, cre_tiles, optimization, num_shuffle,
+            result_summary = creme.higher_order_interaction_test(model, x, copy.copy(cre_tiles), optimization, num_shuffle,
                                                                  num_rounds)
 
             utils.save_pickle(result_path, result_summary)
