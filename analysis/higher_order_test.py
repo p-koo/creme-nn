@@ -52,7 +52,7 @@ def main():
         print('Unkown model')
         sys.exit(1)
 
-    result_dir_cell = f'{result_dir_model}/{cell_line}'
+    result_dir_cell = util.make_dir(f'{result_dir_model}/{cell_line}')
 
     context_df = pd.read_csv(f'../results/context_dependence_test/{model_name}/{cell_line}_context.csv')
 
