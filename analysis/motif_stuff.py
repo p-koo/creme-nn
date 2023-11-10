@@ -22,7 +22,7 @@ data_dir = '../data/'
 model = custom_model.Enformer(track_index=track_index, bin_index=bin_index)
 target_df = pd.read_csv(f'{data_dir}/enformer_targets_human.txt', sep='\t')
 cell_lines = [utils.clean_cell_name(target_df.iloc[t]['description']) for t in track_index]
-model = custom_model.Enformer(track_index=track_index, bin_index=bin_index)
+
 cell_channel = np.argwhere(np.array(cell_lines) == 'K562').flatten()[0]
 model_name = 'enformer'
 
@@ -43,16 +43,16 @@ tile_size = cre_tile_coords[0][1] - cre_tile_coords[0][0]
 minitile_size = 500
 step_size = minitile_size
 cre_df = cre_df.sample(frac=1)
-minitile_effects = {}
+
 tile_effects = {}
 outdir = utils.make_dir('../results/motifs/')
 
 for row_i, (_, row) in enumerate(cre_df.iterrows()):
-    result_path = f'{outdir}/{row["seq_id"]}'
+    result_path = f'{outdir}/{row["seq_id"]}.pickle'
     print(result_path)
     if not os.path.isfile(result_path):
 
-        minitile_effects[row['seq_id']] = []
+        minitile_effects['minitiles'] = []
 
         for minitile_size in [25, 50, 100, 200, 250, 500, 1000]:
 
@@ -76,6 +76,7 @@ for row_i, (_, row) in enumerate(cre_df.iterrows()):
             normalized_mini_effects = minitile_add_res.min(axis=0)[:, :, 0].mean(axis=-1) / pred_wt[0, :,
                                                                                             cell_channel].mean()
             normalized_mini_effects = np.repeat(np.array(normalized_mini_effects).flatten(), minitile_size // 25)
-            minitile_effects[row['seq_id']].append(normalized_mini_effects)
-            minitile_effects[f"{row['seq_id']}_control"] = row['Normalized shuffle effect']
+            minitile_effects['minitiles'].append(normalized_mini_effects)
+            minitile_effects["control"] = row['Normalized shuffle effect']
+        minitile_effects['minitiles'] = np.array(minitile_effects['minitiles'])
         utils.save_pickle(result_path, minitile_effects)
