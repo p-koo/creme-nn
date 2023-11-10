@@ -45,7 +45,7 @@ step_size = minitile_size
 cre_df = cre_df.sample(frac=1)
 minitile_effects = {}
 tile_effects = {}
-outdir = '../results/motifs/'
+outdir = utils.make_dir('../results/motifs/')
 
 for row_i, (_, row) in enumerate(cre_df.iterrows()):
     result_path = f'{outdir}/{row["seq_id"]}'
