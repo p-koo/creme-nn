@@ -58,7 +58,7 @@ def main():
         result_path = f'{result_dir_model}/{row["seq_id"]}_{tile_start}_{tile_end}.pickle'
         print(result_path)
         if not os.path.isfile(result_path):
-            # get seequence from reference genome and convert to one-hot
+            # get sequence from reference genome and convert to one-hot
             chrom, start, strand = row['seq_id'].split('_')[1:]
             x = seq_parser.extract_seq_centered(chrom, int(start), strand, model.seq_length, onehot=True)
 
