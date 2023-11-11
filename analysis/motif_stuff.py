@@ -50,8 +50,9 @@ outdir = utils.make_dir('../results/motifs/')
 for row_i, (_, row) in enumerate(cre_df.iterrows()):
     result_path = f'{outdir}/{row["seq_id"]}.pickle'
     print(result_path)
-    if not os.path.isfile(result_path):
 
+    if not os.path.isfile(result_path):
+        minitile_effects = {}
         minitile_effects['minitiles'] = []
 
         for minitile_size in [25, 50, 100, 200, 250, 500, 1000]:
