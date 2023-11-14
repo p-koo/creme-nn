@@ -24,9 +24,17 @@ def main():
         model = custom_model.Enformer()
     elif model_name.lower() == 'borzoi':
         target_df = pd.read_csv('../data/borzoi_targets_human.txt', sep='\t')
-        cage_rna_tracks = [i for i, t in enumerate(target_df['description']) if 'CAGE' in t or 'RNA' in t]
+        cage_tracks = [i for i, t in enumerate(target_df['description']) if
+                       ('CAGE' in t) and (t.split(':')[-1].strip() in ['K562 ENCODE, biol_',
+                                                                       'GM12878 ENCODE, biol_',
+                                                                       'PC-3'])]
+
+        rna_tracks = [i for i, t in enumerate(target_df['description']) if
+                      ('RNA' in t) and (t.split(':')[-1].strip() in ['K562',
+                                                                     'GM12878',
+                                                                     'PC-3'])]
         target_df.iloc[cage_rna_tracks].to_csv('../data/borzoi_cage_rna_tracks.csv')
-        model = custom_model.Borzoi('../data/borzoi/*/*', cage_rna_tracks, True, [8174, 8175, 8176, 8177])
+        model = custom_model.Borzoi('../data/borzoi/*/*', cage_tracks, rna_tracks, True)
 
     else:
         print('Unkown model')
@@ -52,7 +60,7 @@ def main():
 
         assert len(tss_df['Strand'].unique()) == 2, 'bad strand'
         tss_positions = [row['Start'] if row['Strand']=='+' else row['End'] for _, row in tss_df.iterrows()]
-        tss_df['start'] = tss_positions
+        tss_df['Start'] = tss_positions
         tss_df = tss_df[['Chromosome', 'Start', 'gene_name', 'gene_id', 'Strand']]
         tss_df.to_csv(tss_csv_path, index=False)
     tss_df = tss_df.sample(frac = 1)

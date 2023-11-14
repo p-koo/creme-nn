@@ -29,12 +29,13 @@ def main():
     np.save(f'../results/{model_name}_summary_cage.npy', all_tss)
 
     for i in range(len(cell_lines)):
+        print(f'{result_dir}/{cell_lines[i]}_{column_names[i]}_selected_tss.csv')
         cell_line_df = tss_df.copy()
         cell_line_df[column_names[i]] = all_tss[:, i]
 
         max_tss_set = cell_line_df.sort_values(column_names[i], ascending=False).drop_duplicates(['gene_name'])
 
-        max_tss_set = max_tss_set.sort_values(column_names[i]).iloc[-5000:]
+        # max_tss_set = max_tss_set.sort_values(column_names[i]).iloc[-5000:]
 
         max_tss_set.to_csv(f'{result_dir}/{cell_lines[i]}_{column_names[i]}_selected_tss.csv')
 

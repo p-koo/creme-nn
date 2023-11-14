@@ -48,7 +48,7 @@ tile_effects = {}
 outdir = utils.make_dir('../results/motifs/')
 
 for row_i, (_, row) in enumerate(cre_df.iterrows()):
-    result_path = f'{outdir}/{row["seq_id"]}.pickle'
+    result_path = f'{outdir}/{row["tile_start"]}_{row["seq_id"]}.pickle'
     print(result_path)
 
     if not os.path.isfile(result_path):
@@ -74,8 +74,8 @@ for row_i, (_, row) in enumerate(cre_df.iterrows()):
                     x[minitile_start:minitile_start + minitile_size] = minitile_seq
                     mut_plus_minitile_pred = model.predict(x)[0]
                     minitile_add_res[i, j, ...] = mut_plus_minitile_pred
-            normalized_mini_effects = minitile_add_res.min(axis=0)[:, :, 0].mean(axis=-1) / pred_wt[0, :,
-                                                                                            cell_channel].mean()
+            wt = pred_wt[0, :, cell_channel].mean()
+            normalized_mini_effects = (wt - minitile_add_res.min(axis=0)[:, :, 0].mean(axis=-1)) / wt
             normalized_mini_effects = np.repeat(np.array(normalized_mini_effects).flatten(), minitile_size // 25)
             minitile_effects['minitiles'].append(normalized_mini_effects)
             minitile_effects["control"] = row['Normalized shuffle effect']
