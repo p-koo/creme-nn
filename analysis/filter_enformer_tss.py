@@ -35,7 +35,7 @@ def main():
 
         max_tss_set = cell_line_df.sort_values(column_names[i], ascending=False).drop_duplicates(['gene_name'])
 
-        # max_tss_set = max_tss_set.sort_values(column_names[i]).iloc[-5000:]
+        max_tss_set = max_tss_set.sort_values(column_names[i]).iloc[-10000:]
 
         max_tss_set.to_csv(f'{result_dir}/{cell_lines[i]}_{column_names[i]}_selected_tss.csv')
 

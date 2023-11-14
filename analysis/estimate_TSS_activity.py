@@ -1,3 +1,5 @@
+import glob
+
 import pandas as pd
 import seaborn as sns
 import numpy as np
@@ -11,7 +13,7 @@ sys.path.append('../creme')
 import creme
 import custom_model
 import utils
-
+import gene as bgene
 
 
 def main():
@@ -33,8 +35,8 @@ def main():
                       ('RNA' in t) and (t.split(':')[-1].strip() in ['K562',
                                                                      'GM12878',
                                                                      'PC-3'])]
-        target_df.iloc[cage_rna_tracks].to_csv('../data/borzoi_cage_rna_tracks.csv')
-        model = custom_model.Borzoi('../data/borzoi/*/*', cage_tracks, rna_tracks, True)
+        target_df.iloc[cage_tracks+rna_tracks].to_csv('../data/borzoi_cage_rna_tracks.csv')
+        model = custom_model.Borzoi('../data/borzoi/*/*', cage_tracks, rna_tracks, aggregate=True)
 
     else:
         print('Unkown model')
@@ -43,7 +45,7 @@ def main():
     seq_len = model.seq_length # change for other models
     data_dir = '../data/'
     results_dir = utils.make_dir('../results/')
-
+    transcriptome = bgene.Transcriptome('../data/gencode.v44.basic.annotation.gtf')
     fasta_path = f'{data_dir}/GRCh38.primary_assembly.genome.fa'
 
     tss_csv_path = f'{results_dir}/tss_positions.csv'
@@ -71,14 +73,24 @@ def main():
     for j, (i, row) in tqdm(enumerate(tss_df.iterrows()), total=N):
         chrom, start = row[:2]
         strand = row['Strand']
-        result_path = f'{results_dir}/{utils.get_summary(row)}.npy'
-        print(result_path)
+        result_path_prefix = f'{results_dir}/{utils.get_summary(row)}'
+        print(result_path_prefix)
         assert j < N, 'bad index'
-        if not os.path.isfile(result_path):
+        if len(glob.glob(f'{result_path_prefix}*')) == 0: # if result does not exist
 
             sequence_one_hot = seq_parser.extract_seq_centered(chrom, start, strand, seq_len)
-            wt_pred = np.squeeze(model.predict(sequence_one_hot))
-            np.save(result_path, wt_pred)
+            if model_name == 'enformer':
+                wt_pred = np.squeeze(model.predict(sequence_one_hot))
+                np.save(f'{result_path_prefix}.npy', wt_pred)
+            elif model_name == 'borzoi':
+                cage_bins = np.arange(model.target_lengths // 2-4, model.target_lengths // 2+4, 1)
+                gene_keys = [gene_key for gene_key in transcriptome.genes.keys() if row['gene_id'] in gene_key]
+                gene = transcriptome.genes[gene_keys[0]]
+                wt_pred = model.predict_cage_rna(sequence_one_hot, gene, start, cage_bins=cage_bins, return_exons=True,
+                                                 return_all=False)
+
+                utils.save_pickle(f'{result_path_prefix}.pickle', wt_pred)
+
 
 
 if __name__ == '__main__':
