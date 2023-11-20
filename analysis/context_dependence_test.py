@@ -17,8 +17,6 @@ import glob
 
 
 
-
-
 def main():
 
     model_name = sys.argv[1]
@@ -54,10 +52,10 @@ def main():
         result_path = f"{model_results_dir}/{utils.get_summary(row)}.pickle"
         if not os.path.isfile(result_path):
             x = seq_parser.extract_seq_centered(row['Chromosome'], row['Start'], row['Strand'], model.seq_length)
-
             pred_wt, pred_mut, pred_std = creme.context_dependence_test(model, x,
                                                                         [seq_halflen - half_window_size, seq_halflen + half_window_size],
                                                                         N_shuffles)
+
 
             with open(result_path, 'wb') as handle:
                 pickle.dump({'wt': pred_wt, 'mut': pred_mut, 'std': pred_std},

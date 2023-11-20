@@ -1,6 +1,6 @@
 import os
 import sys
-
+import pandas as pd
 import pyfaidx
 import kipoiseq
 import pickle
@@ -169,3 +169,32 @@ def read_pickle(result_path):
     with open(result_path, 'rb') as handle:
         context_res = pickle.load(handle)
     return context_res
+
+
+def map_indeces_to_labels_borzoi(track_labels, assay, target_df_path, remove_idx={}):
+    target_df = pd.read_csv(target_df_path, sep='\t')
+
+    tracks = []
+    for j, row in target_df.iterrows():
+        cell_line = row['description'].split(':')[-1].strip()
+        if assay in row['description'] and cell_line in track_labels:
+            strand = row['identifier'][-1]
+            if strand not in '+-':
+                strand = 'none'
+            tracks.append([cell_line, strand, j])
+
+    track_groups = {}
+    for i, (cell_line, strand, j) in enumerate(tracks):
+
+        if cell_line not in track_groups.keys():
+            track_groups[cell_line] = {}
+            track_groups[cell_line]['idx'] = []
+            track_groups[cell_line]['strand'] = []
+            track_groups[cell_line]['original_track_idx'] = []
+        track_groups[cell_line]['idx'].append(i)
+        track_groups[cell_line]['strand'].append(strand)
+        track_groups[cell_line]['original_track_idx'].append(j)
+    # for k, v in remove_idx.items():
+    #     for v_i in v:
+    #         track_groups[k]['idx']
+    return track_groups
