@@ -35,7 +35,7 @@ class Borzoi(ModelBase):
         track_index : int
             Enformer index of prediciton track for a given head.
     """
-    def __init__(self, model_path, cage_tracks, rna_tracks, aggregate, params_file='../data/borzoi_params_pred.json',
+    def __init__(self, model_path, track_index=None, bin_index=None, cage_tracks=None, rna_tracks=None, aggregate=False, params_file='../data/borzoi_params_pred.json',
                  targets_file='../data/borzoi_targets_human.txt'):
 
         # Read model parameters
@@ -45,7 +45,8 @@ class Borzoi(ModelBase):
             params_model['norm_type'] = 'batch' # makes compatible with 2.11 tf and doesn't change output
         self.seq_length = params_model['seq_length']
         self.models = []
-
+        self.track_index = track_index
+        self.bin_index = bin_index
         self.aggregate = aggregate
 
         targets_df = pd.read_csv(targets_file, index_col=0, sep='\t')
@@ -67,6 +68,22 @@ class Borzoi(ModelBase):
         self.rna_tracks = rna_tracks
         self.cage_tracks = cage_tracks
 
+
+    def predict(self, x):
+        if len(x.shape) == 2:
+            x = x[np.newaxis]
+        preds = []
+        for j, m in enumerate(self.models):
+            preds.append(m(x)[:, None, ...].astype("float16"))
+        preds = np.concatenate(preds, axis=1)
+
+        if self.bin_index:
+            preds = preds[:, :, self.bin_index, :]
+        if self.track_index:
+            preds = preds[..., self.track_index]
+        if self.aggregate:
+            preds = preds.mean(axis=1)
+        return preds
 
     def predict_cage_rna(self, x, gene, center_pos, cage_bins=None, return_exons=True, return_all=False):
         """Get full predictions from borzoi in batches."""

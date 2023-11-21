@@ -68,6 +68,7 @@ def main():
         result_path = f'{result_dir_cell}/{seq_id}.pickle'
         print(result_path)
         if not os.path.isfile(result_path):
+
             chrom, start, strand = seq_id.split('_')[1:]
             # get seq from reference genome and convert to one-hot
             x = seq_parser.extract_seq_centered(chrom, int(start), strand, model.seq_length, onehot=True)
