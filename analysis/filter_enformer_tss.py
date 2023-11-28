@@ -50,9 +50,9 @@ def main():
             all_tss[i] = pred[bin_index].mean(axis=0)
         elif model_name == 'borzoi':
             pred = utils.read_pickle(f'{result_dir}/{utils.get_summary(row)}.pickle')['cage'][0].mean(axis=1)
-            for cell_line, v in cell_line_info.items():
+            for j, (cell_line, v) in enumerate(cell_line_info.items()):
                 indeces = v['output']
-                all_tss[i] = pred[indeces].mean() # average across same cell line tracks
+                all_tss[i,j] = pred[indeces].mean() # average across same cell line tracks
 
 
 

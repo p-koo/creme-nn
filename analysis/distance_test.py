@@ -22,12 +22,18 @@ import glob
 
 def main():
 
-    model_name = sys.argv[1]
+    if len(sys.argv) == 3:
+        model_name = sys.argv[1]
+        set_seed = bool(sys.argv[2])
+    else:
+        model_name = sys.argv[1]
+        set_seed = False
+
     perturb_window = 5000
     num_shuffle = 10
     data_dir = '../data/'
     fasta_path = f'{data_dir}/GRCh38.primary_assembly.genome.fa'
-    result_dir = utils.make_dir(f'../results/distance_test')
+    result_dir = utils.make_dir(f'../results/distance_test_{set_seed}')
     result_dir_model = utils.make_dir(f'{result_dir}/{model_name}/')
     print(f'USING model {model_name}')
     if model_name.lower() == 'enformer':
@@ -64,7 +70,8 @@ def main():
 
             # perform TSS-CRE distance dependence Test
             mean_control, std_control, mean_mut, std_mut = creme.distance_test(model, x, tss_tile, [tile_start, tile_end],
-                                                                               cre_tiles_starts, num_shuffle, mean=True)
+                                                                               cre_tiles_starts, num_shuffle, mean=True,
+                                                                               seed=set_seed)
 
             # store predictions
             utils.save_pickle(result_path, {"mean_control": mean_control, "std_control": std_control,

@@ -34,7 +34,10 @@ def dinuc_shuffle(seq, num_shufs=None, rng=None, seed=None):
         raise ValueError("Expected string or one-hot encoded array")
 
     if not rng:
-        rng = np.random.RandomState()
+        if seed:
+            rng = np.random.RandomState(seed)
+        else:
+            rng = np.random.RandomState()
 
     # Get the set of all characters, and a mapping of which positions have which
     # characters; use `tokens`, which are integer representations of the

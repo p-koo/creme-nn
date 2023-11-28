@@ -252,7 +252,7 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
 # TSS-CRE Distance Test
 ############################################################################################
 
-def distance_test(model, x, tile_fixed_coord, tile_var_coord, test_positions, num_shuffle, mean=True):
+def distance_test(model, x, tile_fixed_coord, tile_var_coord, test_positions, num_shuffle, mean=True, seed=False):
     """
     This test maps out the distance dependence of tile1 (anchored) and tile 2 (variable). 
     Tiles are placed in dinuc shuffled background contexts, in line with global importance analysis. 
@@ -281,14 +281,17 @@ def distance_test(model, x, tile_fixed_coord, tile_var_coord, test_positions, nu
     """
 
     # crop pattern of interest
-    x_tile_fixed = x[tile_fixed_coord[0]:tile_fixed_coord[1],:]  # fixed tile
-    x_tile_var = x[tile_var_coord[0]:tile_var_coord[1],:]  # variable position tile
+    x_tile_fixed = x[tile_fixed_coord[0]:tile_fixed_coord[1],:]  # fixed tile sequence
+    x_tile_var = x[tile_var_coord[0]:tile_var_coord[1],:]  # variable position tile sequence
 
     # get sufficiency of tiles in original positions
     pred_control = []
     for n in range(num_shuffle):
         # shuffle sequence and place tiles in respective positions
-        x_mut = shuffle.dinuc_shuffle(x)
+        if seed:
+            x_mut = shuffle.dinuc_shuffle(x, seed=n)
+        else:
+            x_mut = shuffle.dinuc_shuffle(x)
         x_mut[tile_fixed_coord[0]:tile_fixed_coord[1],:] = x_tile_fixed
         x_mut[tile_var_coord[0]:tile_var_coord[1],:] = x_tile_var
 
@@ -306,7 +309,10 @@ def distance_test(model, x, tile_fixed_coord, tile_var_coord, test_positions, nu
         for n in range(num_shuffle):
 
             # shuffle sequence
-            x_mut = shuffle.dinuc_shuffle(x)
+            if seed:
+                x_mut = shuffle.dinuc_shuffle(x, seed=n)
+            else:
+                x_mut = shuffle.dinuc_shuffle(x)
 
             # place tile 1 in original location
             x_mut[tile_fixed_coord[0]:tile_fixed_coord[1],:] = x_tile_fixed
@@ -501,12 +507,11 @@ def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, num_
 ########################################################################################
 
 
-def context_effect_on_tss(pred_wt, pred_mut, bin_index):
+def context_effect_on_tss(pred_wt, pred_mut):
     """Normalization based on difference between the effect size of the mutation and wt divided by wt"""
-    if len(pred_mut.shape) == 1:
-        return (pred_wt[bin_index] - pred_mut[bin_index]) / pred_wt[bin_index]
-    else:
-        return (pred_wt[bin_index] - pred_mut[:,bin_index])/pred_wt[bin_index]
+
+    return (pred_wt - pred_mut) / pred_wt
+
 
 
 def fold_change_over_control(pred_wt, pred_mut, bin_index):
