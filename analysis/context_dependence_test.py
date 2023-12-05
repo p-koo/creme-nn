@@ -40,19 +40,21 @@ def main():
 
     data_dir = '../data/'
     result_dir = f'../results/'
-    test_results_dir = utils.make_dir(f'{result_dir}/context_dependence_test')
+    N_shuffles = 100
+    test_results_dir = utils.make_dir(f'{result_dir}/context_dependence_test_{N_shuffles}')
 
     fasta_path = f'{data_dir}/GRCh38.primary_assembly.genome.fa'
     seq_parser = utils.SequenceParser(fasta_path)
 
     tss_df = pd.concat(pd.read_csv(f, index_col='Unnamed: 0') for f in glob.glob(f'{result_dir}/gencode_tss_predictions/{model_name}/*selected_tss.csv'))
     tss_df = tss_df.iloc[:, :-3].drop_duplicates()
+    tss_df = tss_df.iloc[:tss_df.shape[0]//2]
     model_results_dir = utils.make_dir(f'{test_results_dir}/{model_name}/')
 
     tss_df = tss_df.sample(frac=1)
     seq_halflen = model.seq_length // 2
     half_window_size = 5000 // 2
-    N_shuffles = 10
+
     for i, row in tqdm(tss_df.iterrows(), total=tss_df.shape[0]):
         result_path = f"{model_results_dir}/{utils.get_summary(row)}.pickle"
         if not os.path.isfile(result_path):
