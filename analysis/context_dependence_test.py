@@ -48,7 +48,6 @@ def main():
 
     tss_df = pd.concat(pd.read_csv(f, index_col='Unnamed: 0') for f in glob.glob(f'{result_dir}/gencode_tss_predictions/{model_name}/*selected_tss.csv'))
     tss_df = tss_df.iloc[:, :-3].drop_duplicates()
-    tss_df = tss_df.iloc[:tss_df.shape[0]//2]
     model_results_dir = utils.make_dir(f'{test_results_dir}/{model_name}/')
 
     tss_df = tss_df.sample(frac=1)
