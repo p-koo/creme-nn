@@ -43,7 +43,7 @@ def main():
 
 
     
-    conext_df = pd.concat([pd.read_csv(f'../results/context_dependence_test/{model_name}/{cell_line}_context.csv') for cell_line in cell_lines]).drop_duplicates('path')
+    conext_df = pd.concat([pd.read_csv(f'../results/context_dependence_test_100/{model_name}/{cell_line}_context.csv') for cell_line in cell_lines]).drop_duplicates('path')
 
     conext_df = conext_df.sample(frac = 1)
     # get coordinates of central tss
