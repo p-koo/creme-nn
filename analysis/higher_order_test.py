@@ -54,7 +54,7 @@ def main():
 
     result_dir_cell = utils.make_dir(f'{result_dir_model}/{cell_line}')
 
-    context_df = pd.read_csv(f'../results/context_dependence_test/{model_name}/{cell_line}_context.csv')
+    context_df = pd.read_csv(f'../results/context_dependence_test_100/{model_name}/{cell_line}_context.csv')
 
     context_df = context_df.sample(frac=1)
 
