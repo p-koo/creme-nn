@@ -195,6 +195,7 @@ class Enformer(ModelBase):
         self.bin_index = bin_index
         self.seq_length = 196608
         self.pseudo_pad = 196608
+        self.target_length = 896
         if type(self.bin_index)==int:
             self.bin_index = [self.bin_index]
         if type(self.track_index)==int:

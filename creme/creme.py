@@ -56,7 +56,7 @@ def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):
 # TSS Context Swap Test
 ############################################################################################
 
-def context_swap_test(model, x_source, x_targets, l_targets, tile_pos):
+def context_swap_test(model, x_source, x_target, tile_pos):
     """
     This test places a source sequence pattern bounded by start and end in a 
     target sequence context -- in line with a global importance analysis. 
@@ -79,24 +79,24 @@ def context_swap_test(model, x_source, x_targets, l_targets, tile_pos):
         np.array : prediction of mutant sequences.
     """
     
-    if len(x_targets.shape) == 2:
-        x_targets = np.expand_dims(x_targets, axis=0)
-
+    if len(x_target.shape) == 2:
+        x_target = np.expand_dims(x_target, axis=0)
+    if len(x_source.shape) == 2:
+        x_source = np.expand_dims(x_source, axis=0)
     # get wild-type prediction
     
 
     start, end = tile_pos
 
     # loop through target sequences
-    pred_mut = {}
-    for label, x_target in zip(l_targets, x_targets):
-        x_mut = np.copy(x_target)
 
-        # place source pattern in target sequence
-        x_mut[start:end,:] = x_source[start:end,:]
+    x_mut = np.copy(x_target)
 
-        # predict mutant sequence
-        pred_mut[label] = model.predict(x_mut[np.newaxis])
+    # place source pattern in target sequence
+    x_mut[:,start:end,:] = x_source[:,start:end,:]
+
+    # predict mutant sequence
+    pred_mut = model.predict(x_mut)
 
 
     return pred_mut
@@ -182,7 +182,7 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True, return_seqs=False):
 # CRE Sufficiency Test
 ############################################################################################
 
-def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
+def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, tile_seq=None, mean=True):
     """
     This test measures if a region of the sequence is sufficient for model predictions. 
 
@@ -228,8 +228,11 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, mean=True):
             # predict shuffled context with just TSS
             pred_control_shuffle.append(model.predict(x_mut[np.newaxis])[0])
 
-            # embed tile of interest in 
-            x_mut[start:end,:] = x[start:end,:]
+            # embed tile of interest in
+            if tile_seq:
+                x_mut[start:end, :] = tile_seq
+            else:
+                x_mut[start:end,:] = x[start:end,:]
 
             # predict mutated sequence
             pred_mut_shuffle.append(model.predict(x_mut[np.newaxis])[0])
@@ -405,100 +408,56 @@ def higher_order_interaction_test(model, x, cre_tiles_to_test, optimization, num
 ############################################################################################
 # CRE Multiplicity Test
 ############################################################################################
-
-def multiplicity_test(model, x, tile1, tile2, available_tiles, num_shuffle, num_rounds=10, optimization=np.argmax, reduce_fun=np.mean):
-    """
-    This test measures the extrapolation behavior when adding tile2 in progressively more 
-    locations. In each round, a new tile is identified, given the previous sets 
-    of tiles. Effect size is measured by placing tiles in dinuc shuffled sequences.
-
-    Parameters
-    ----------
-        model : keras.Model 
-            A keras model.
-        x : np.array
-            Single one-hot sequence shape (L, A).
-        tile1 : list
-            List with start index and end index of tile that is anchored (i.e. [start, end]).
-        tile2 : list
-            List with start index and end index of tile that is to be tested at avilable_tiles.
-        available_tiles : list
-            List with available tiles, each with a list that consists of start index and end index.
-        num_shuffle : int
-            Number of shuffles to apply and average over.
-        num_rounds : int
-            Number of rounds to perform greedy search.
-        optimization : np.argmax or np.argmin
-            Function that identifies tile index for each round of greedy search.
-        reduce_fun : np.mean
-            Function to reduce (multivariate) predictions to a scalar.
-
-    Returns
-    -------
-        np.array : prediction of wild type sequence.
-        np.array : prediction of mutant sequences in each round.
-        list : list of tile positions from each optimization round.
+def multiplicity_test(model, x, tss_tile_coord, cre_tile_coord, cre_tile_seq, test_coords, num_shuffle, num_copies,
+                      optimization):
     """
 
-    # crop pattern of interest
-    x_tile1 = x[tile1[0]:tile1[1],:]  # fixed tile
-    x_tile2 = x[tile2[0]:tile2[1],:]  # variable position tile
+    :param model:
+    :param x:
+    :param tss_tile_coord:
+    :param cre_tile_coord:
+    :param cre_tile_seq:
+    :param test_coords:
+    :param num_shuffle:
+    :param num_copies:
+    :return:
+    """
+    tile_positions = test_coords.copy()
+    max_per_iter = []
+    best_tiles = []
 
-    # get sufficiency of tiles in original positions
-    pred_control = []
-    for n in range(num_shuffle):
-        # shuffle sequence and place tiles in respective positions
-        x_mut = shuffle.dinuc_shuffle(x)
-        x_mut[tile1[0]:tile1[1],:] = x_tile1
-        x_mut[tile2[0]:tile2[1],:] = x_tile2
+    for _ in tqdm(range(num_copies)):
+        # loop over number of shuffles
+        normalized_preds = np.empty((num_shuffle, len(tile_positions)))
+        for n in range(num_shuffle):
+            x_mut = shuffle.dinuc_shuffle(x)  # destroy all
+            # embed fixed tiles (TSS + fixed CREs)
+            x_mut[tss_tile_coord[0]:tss_tile_coord[1], :] = x[tss_tile_coord[0]:tss_tile_coord[1], :]  # add TSS
+            x_mut_control = x_mut.copy()
+            x_mut_control[cre_tile_coord[0]: cre_tile_coord[1]] = cre_tile_seq
+            for fixed_tile in best_tiles:
+                x_mut[fixed_tile[0]:fixed_tile[1], :] = x[fixed_tile[0]:fixed_tile[1],
+                                                        :]  # use original sequence for fixed tiles
 
-        # predict mutant sequence
-        pred_control.append(model.predict(x_mut[np.newaxis])[0])
-    pred_control = np.array(pred_control)
+            # predict shuffled context with just TSS + fixed CRE tiles
+            pred_control = model.predict(x_mut_control).mean()
 
-    # loop over multiplicity rounds (greedy search)
-    pred_per_round = []
-    max_positions = []
-    for i in range(num_rounds):
+            # systematically test CRE effect at different positions
+            for t, (start, end) in enumerate(tile_positions):
+                x_mut_pos = x_mut.copy()
+                x_mut_pos[start:end, :] = cre_tile_seq
 
-        # loop over available positions
-        pred_mut = []
-        for pos in available_tiles:
-            start, end = pos
+                # predict mutated sequence
+                pred_mut = model.predict(x_mut_pos).mean()
+                normalized_preds[n, t] = pred_mut / pred_control
+        normalized_preds_mean = normalized_preds.mean(axis=0)
 
-            # loop over number of shuffles
-            pred_shuffle = []
-            for n in range(num_shuffle):
-
-                # shuffle sequence
-                x_mut = shuffle.dinuc_shuffle(x)
-
-                # place tile 1 in original location
-                x_mut[tile1[0]:tile1[1]] = x_tile1
-
-                # place tile 2 in all positions found in previous rounds
-                for max_pos in max_positions:
-                    x_mut[max_pos[0]:max_pos[1]] = x_tile2
-
-                # get model predictions
-                pred_shuffle.append(model.predict(x_mut[np.newaxis])[0])
-            pred_mut.append(pred_shuffle)
-
-        # average predictions acrros shuffles
-        pred_mut = np.mean(np.array(pred_mut), axis=1)
-
-        # reduce predictions to scalar
-        pred_mut = reduce_fun(pred_mut)
-
-        # find largest effect size
-        max_index = optimization(pred_mut)
-        max_positions.append(available_tiles[max_index])
-        pred_per_round.append(pred_mut[max_index])
-
-        # update available positions 
-        remove_tss_tile(available_tiles, max_index)
-
-    return pred_control, np.array(pred_per_round), max_positions 
+        best_position_index = optimization(normalized_preds_mean)  # select based on mean
+        best_position = tile_positions[best_position_index]
+        tile_positions.remove(best_position)  # remove from test positions
+        best_tiles.append(best_position)  # put in bag of best positions
+        max_per_iter.append(normalized_preds[:, best_position_index])  # save all shuffle runs, not mean
+    return {'max_per_iter': max_per_iter, 'best_tiles': best_tiles}
 
 
 
