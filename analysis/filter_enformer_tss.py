@@ -57,12 +57,13 @@ def main():
 
 
     np.save(f'../results/{model_name}_summary_cage.npy', all_tss)
+    output_dir = utils.make_dir(f"{utils.make_dir(f'../results/summary_csvs/')}/{model_name}/")
 
     for i in range(len(cell_lines)):
         if model_name == 'enformer':
-            save_path = f'{result_dir}/{cell_lines[i]}_{column_names[i]}_selected_tss.csv'
+            save_path = f'{output_dir}/{cell_lines[i]}_{column_names[i]}_selected_genes.csv'
         elif model_name == 'borzoi':
-            save_path = f'{result_dir}/{cell_line_info[cell_lines[i]]["target"]}_{cell_lines[i]}_selected_tss.csv'
+            save_path = f'{output_dir}/{cell_line_info[cell_lines[i]]["target"]}_{cell_lines[i]}_selected_genes.csv'
         print(save_path)
         cell_line_df = tss_df.copy()
         cell_line_df[column_names[i]] = all_tss[:, i]
