@@ -28,6 +28,7 @@ def main():
     fasta_path = f'{data_dir}/GRCh38.primary_assembly.genome.fa'
     result_dir = utils.make_dir(f'../results/multiplicity_test/')
     result_dir_model = utils.make_dir(f'{result_dir}/{model_name}/')
+    csv_dir = f'../results/summary_csvs/{model_name}/'
 
     print(f'USING model {model_name}')
     if model_name.lower() == 'enformer':
@@ -45,8 +46,8 @@ def main():
 
     result_dir_cell = utils.make_dir(f'{result_dir_model}/{cell_line}')
 
-    sufficient_cre_df = pd.read_csv(f'../results/sufficiency_test/{model_name}_selected_cres.csv')
-    sufficient_cre_df = sufficient_cre_df[sufficient_cre_df['cell_line']==cell_line]
+    sufficient_cre_df = pd.read_csv(f'{csv_dir}/sufficient_CREs.csv')
+    sufficient_cre_df = sufficient_cre_df[sufficient_cre_df['cell_line'] == cell_line]
     sufficient_cre_df = sufficient_cre_df.sample(frac=1)
 
     # set up sequence parser from fasta
