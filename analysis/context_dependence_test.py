@@ -88,7 +88,7 @@ def main():
         for _, row in selected_tss.iterrows():
             path = f'{model_results_dir}/{utils.get_summary(row)}.pickle'
             summary_per_cell['path'].append(path)
-            summary_per_cell['seq_id'].append({utils.get_summary(row)})
+            summary_per_cell['seq_id'].append(utils.get_summary(row))
             with open(path, 'rb') as handle:
                 context_res = pickle.load(handle)
             delta = creme.context_effect_on_tss(context_res['wt'][bin_index, i].mean(),
