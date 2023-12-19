@@ -35,6 +35,7 @@ def main():
     fasta_path = f'{data_dir}/GRCh38.primary_assembly.genome.fa'
     result_dir = utils.make_dir(f'../results/distance_test_{set_seed}')
     result_dir_model = utils.make_dir(f'{result_dir}/{model_name}/')
+    csv_dir = f'../results/summary_csvs/{model_name}/'
     print(f'USING model {model_name}')
     if model_name.lower() == 'enformer':
         track_index = [4824, 5110, 5111]
@@ -49,8 +50,8 @@ def main():
 
 
     # load CRE dataframe (with all CRE positions)
-    cre_df = pd.read_csv(f'../results/sufficiency_test/{model_name}_selected_cres.csv')
-    tile_coords = pd.read_csv(f'../results/sufficiency_test/{model_name}/tile_coordinates.csv', index_col='Unnamed: 0').T
+    cre_df = pd.read_csv(f'{csv_dir}/sufficient_CREs.csv')
+    tile_coords = pd.read_csv(f'{csv_dir}/sufficiency_test_tile_coordinates.csv', index_col='Unnamed: 0').T
     tss_tile = tile_coords.loc['tss'].T.values
     cre_tile_coords = tile_coords.loc[[t for t in tile_coords.index if 'tss' not in t]]
     cre_tiles_starts = cre_tile_coords[0].values
