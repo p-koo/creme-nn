@@ -37,6 +37,8 @@ def main():
     fasta_path = f'{data_dir}/GRCh38.primary_assembly.genome.fa'
     result_dir = utils.make_dir(f'../results/higher_order_test_{optimization_name}')
     result_dir_model = utils.make_dir(f'{result_dir}/{model_name}/')
+    csv_dir = f'../results/summary_csvs/{model_name}/'
+
 
     print(f'USING model {model_name}')
     if model_name.lower() == 'enformer':
@@ -54,7 +56,7 @@ def main():
 
     result_dir_cell = utils.make_dir(f'{result_dir_model}/{cell_line}')
 
-    context_df = pd.read_csv(f'../results/context_dependence_test_100/{model_name}/{cell_line}_context.csv')
+    context_df = pd.read_csv(f'{csv_dir}/{cell_line}_selected_contexts.csv')
 
     context_df = context_df.sample(frac=1)
 

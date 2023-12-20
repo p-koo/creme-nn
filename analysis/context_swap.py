@@ -21,6 +21,8 @@ def main():
     model_name = sys.argv[1]
     data_dir = '../data/'
     result_dir = f'../results/'
+    csv_dir = f'../results/summary_csvs/{model_name}/'
+
     print(f'USING model {model_name}')
     if model_name.lower() == 'enformer':
         track_index = [4824, 5110, 5111]
@@ -44,7 +46,8 @@ def main():
     results_dir = utils.make_dir(f'{result_dir}/context_swap_test/')
     test_results_dir = utils.make_dir(f'{results_dir}/{model_name}/')
 
-    dfs = {cell_line: pd.read_csv(f'../results/context_dependence_test_100/{model_name}/{cell_line}_context.csv') for
+
+    dfs = {cell_line: pd.read_csv(f'{csv_dir}/{cell_line}_selected_contexts.csv') for
            cell_line in cell_lines}
 
     for cell, df in dfs.items():
