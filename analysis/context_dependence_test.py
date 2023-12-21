@@ -24,7 +24,7 @@ def main():
     threshold_enh, threshold_neu, threshold_sil = 0.95, 0.05, -0.3
     half_window_size = 5000 // 2
     max_sample_size = 200 # max number of each context type to choose
-
+    model_name_for_source = 'enformer' # read results from enformer for both models
 
     print(f'USING model {model_name}')
     if model_name.lower() == 'enformer':
@@ -38,6 +38,7 @@ def main():
                ('CAGE' in t) and (t.split(':')[-1].strip() in ['K562 ENCODE, biol_',
                                                                'GM12878 ENCODE, biol_',
                                                                'PC-3'])]
+        print('Loading Borzoi(s)')
         model = custom_model.Borzoi('../data/borzoi/*/*', track_index=track_index, aggregate=True)
         model.bin_index = list(np.arange(model.target_lengths // 2 - 4, model.target_lengths // 2 + 4, 1))
 
@@ -49,8 +50,9 @@ def main():
     # genome path
     fasta_path = f'../data/GRCh38.primary_assembly.genome.fa'
     result_dir = f'../results/' # base dir for results
-    csv_dir = f'{result_dir}/summary_csvs/{model_name}' # dir with all summary csvs
-    model_results_dir = f"{utils.make_dir(f'{result_dir}/context_dependence_test_{N_shuffles}')}/{model_name}" # output of this test
+    csv_dir = f'{result_dir}/summary_csvs/{model_name_for_source}' # dir with all summary csvs
+    model_results_dir = utils.make_dir(f"{utils.make_dir(f'{result_dir}/context_dependence_test_{N_shuffles}')}/{model_name}") # output of this test
+    print(model_results_dir)
     selected_gene_csvs = glob.glob(f'{csv_dir}/*selected_genes.csv')
 
 
