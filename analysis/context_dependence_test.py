@@ -20,7 +20,7 @@ import glob
 def main():
 
     model_name = sys.argv[1]
-    N_shuffles = 100
+    N_shuffles = sys.argv[2]
     threshold_enh, threshold_neu, threshold_sil = 0.95, 0.05, -0.3
     half_window_size = 5000 // 2
     max_sample_size = 200 # max number of each context type to choose
