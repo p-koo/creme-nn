@@ -16,68 +16,104 @@ import kipoiseq
 import os
 
 
-track_index = [5111]
-bin_index = [447, 448]
-data_dir = '../data/'
-model = custom_model.Enformer(track_index=track_index, bin_index=bin_index)
-target_df = pd.read_csv(f'{data_dir}/enformer_targets_human.txt', sep='\t')
-cell_lines = [utils.clean_cell_name(target_df.iloc[t]['description']) for t in track_index]
 
-cell_channel = np.argwhere(np.array(cell_lines) == 'K562').flatten()[0]
+shuffle_num = 10
+minitile_size = 50
+enhancer_definition = 0.3
+threshold = 0.75
+N_batch = 5
+
+
 model_name = 'enformer'
-
-shuffle_num = 5
-
 seq_parser = utils.SequenceParser('../data/GRCh38.primary_assembly.genome.fa')
+csv_dir = f'../results/summary_csvs/{model_name}/'
+suff_cre_df = pd.read_csv(f'{csv_dir}/sufficient_CREs.csv')
+cre_df_all_cells = suff_cre_df[suff_cre_df['tile class']=='Enhancer']
 
-cre_df = pd.read_csv(f'../results/necessity_test/{model_name}_selected_cres.csv')
-cre_df = cre_df[cre_df['tile class']=='Enhancer']
-cre_df = cre_df[cre_df['cell_line']=='K562']
-
-tile_coords = pd.read_csv(f'../results/sufficiency_test/{model_name}/tile_coordinates.csv', index_col='Unnamed: 0').T
+tile_coords = pd.read_csv(f'{csv_dir}/sufficiency_test_tile_coordinates.csv', index_col='Unnamed: 0').T
 tss_tile = tile_coords.loc['tss'].T.values
 cre_tile_coords = tile_coords.loc[[t for t in tile_coords.index if 'tss' not in t]]
-
 tile_size = cre_tile_coords[0][1] - cre_tile_coords[0][0]
 
-minitile_size = 500
-step_size = minitile_size
-cre_df = cre_df.sample(frac=1)
 
-tile_effects = {}
-outdir = utils.make_dir('../results/motifs/')
+track_indeces = [4824, 5110, 5111]
+data_dir = '../data/'
+target_df = pd.read_csv(f'{data_dir}/enformer_targets_human.txt', sep='\t')
+cell_lines = [utils.clean_cell_name(target_df.iloc[t]['description']) for t in track_indeces]
 
-for row_i, (_, row) in enumerate(cre_df.iterrows()):
-    result_path = f'{outdir}/{row["tile_start"]}_{row["seq_id"]}.pickle'
-    print(result_path)
+bin_index = [447, 448]
 
-    if not os.path.isfile(result_path):
-        minitile_effects = {}
-        minitile_effects['minitiles'] = []
+minitile_dir = utils.make_dir(f'../results/motifs_{minitile_size}_batch_{N_batch}_shuffle_{shuffle_num}_thresh_{threshold}')
 
-        for minitile_size in [25, 50, 100, 200, 250, 500, 1000]:
 
+
+
+
+for track_index, cell_line in zip(track_indeces, cell_lines):
+    print('!!!!!!!!!')
+    print(track_index, cell_line)
+    model = custom_model.Enformer(track_index=track_index, bin_index=bin_index)
+
+    cre_df = cre_df_all_cells[cre_df_all_cells['cell_line']==cell_line]
+    cre_df = cre_df.sample(frac=1)
+
+    outdir = utils.make_dir(f'{minitile_dir}/{cell_line}')
+
+    for i, row in tqdm(cre_df.iterrows(), total=cre_df.shape[0]):
+        result_path = f"{outdir}/{row['seq_id']}.pickle"
+        print(result_path)
+        if not os.path.isfile(result_path):
+            per_seq_results = []
             chrom, tss_site, strand = row['seq_id'].split('_')[1:]
-            wt_seq = seq_parser.extract_seq_centered(chrom, int(tss_site), strand, model.seq_length)
-            tile_index = np.argwhere(np.array(cre_tile_coords) == [row['tile_start'], row['tile_end']])[0][0]
-            pred_wt, pred_mut, std_mut, tile_mut_seqs = creme.necessity_test(model, wt_seq,
-                                                                             [[row['tile_start'], row['tile_end']]],
-                                                                             shuffle_num, mean=True, return_seqs=True)
-            minitile_starts = list(range(row['tile_start'], row['tile_end'] - minitile_size + 1, minitile_size))
-            number_of_tiles = len(minitile_starts)
-            minitile_add_res = np.empty((shuffle_num, number_of_tiles, len(bin_index), len(track_index)))
+            wt_seq = seq_parser.extract_seq_centered(chrom, int(tss_site), strand, model.seq_length)  # get seq
 
-            for i, tile_removed_seq in enumerate(np.squeeze(tile_mut_seqs)):
-                for j, minitile_start in tqdm(enumerate(minitile_starts), total=number_of_tiles):
-                    x = tile_removed_seq.copy()
-                    minitile_seq = wt_seq[minitile_start:minitile_start + minitile_size].copy()
-                    x[minitile_start:minitile_start + minitile_size] = minitile_seq
-                    mut_plus_minitile_pred = model.predict(x)[0]
-                    minitile_add_res[i, j, ...] = mut_plus_minitile_pred
-            wt = pred_wt[0, :, cell_channel].mean()
-            normalized_mini_effects = (wt - minitile_add_res.min(axis=0)[:, :, 0].mean(axis=-1)) / wt
-            normalized_mini_effects = np.repeat(np.array(normalized_mini_effects).flatten(), minitile_size // 25)
-            minitile_effects['minitiles'].append(normalized_mini_effects)
-            minitile_effects["control"] = row['Normalized shuffle effect']
-        minitile_effects['minitiles'] = np.array(minitile_effects['minitiles'])
-        utils.save_pickle(result_path, minitile_effects)
+            pred_wt, pred_mut, pred_control, control_sequences = creme.sufficiency_test(model, wt_seq, tss_tile,
+                                                                                        [[row['tile_start'],
+                                                                                          row['tile_end']]],
+                                                                                        shuffle_num, mean=False,
+                                                                                        return_seqs=True)
+            wt = pred_wt.mean()
+            mut = pred_mut.mean()
+            control = pred_control.mean()
+            result_summary = {'wt': wt, 'mut': mut, 'control': control}
+            if (mut - control) / wt > enhancer_definition:
+
+                minitile_starts = list(
+                    range(row['tile_start'], row['tile_end'] - minitile_size + 1, minitile_size // 2))
+                number_of_tiles = len(minitile_starts)
+                score = 1  # start with no minitile removed
+                removed_tiles = np.array([])  # none selected at start
+                new_selected_tiles = []
+                remaining_to_test = minitile_starts.copy()  # start with full list of minitile starts
+                pruned_seqs = control_sequences.copy()  # 10 shuffled versions with just TSS
+                pruned_seqs[:, row['tile_start']:row['tile_end'], :] = (
+                wt_seq[row['tile_start']:row['tile_end']]).copy()  # start with intact CRE
+                while score > threshold:
+                    print(score)
+                    results = []  # [len = number of remaining tiles to test]
+
+                    # remove one minitile at a time
+                    for j, minitile_start in tqdm(enumerate(remaining_to_test), total=len(remaining_to_test)):
+                        minitile_end = minitile_start + minitile_size
+                        # "remove" minitile by putting back shuffled version
+                        seq_extra_minitile_shuffled = pruned_seqs.copy()
+                        # use the control sequence to shuffle minitile
+                        seq_extra_minitile_shuffled[:, minitile_start: minitile_end, :] = control_sequences[:,
+                                                                                          minitile_start: minitile_end,
+                                                                                          :].copy()
+                        results.append(model.predict(seq_extra_minitile_shuffled).mean())
+
+                    new_selected_tiles = np.array(remaining_to_test)[np.argsort(results)[-N_batch:]]  # choose N useless
+                    removed_tiles = np.concatenate([removed_tiles, new_selected_tiles])  # add to santa's bad list
+
+                    # prune the list and sequences to test based on this iteration
+                    for removed_tile in new_selected_tiles:
+                        remaining_to_test.remove(removed_tile)
+                        pruned_seqs[:, removed_tile:removed_tile + minitile_size, :] = (
+                        control_sequences[:, removed_tile:removed_tile + minitile_size, :]).copy()
+
+                    # compute new score
+                    score = model.predict(pruned_seqs).mean() / mut
+                    per_seq_results.append(score)
+                result_summary['fraction_explained'] = per_seq_results
+            utils.save_pickle(result_path, result_summary)

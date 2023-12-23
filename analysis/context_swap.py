@@ -66,7 +66,7 @@ def main():
 
                 result_path = f'{cell_line_dir}/src_{src_seq_info}_dest_{dest_seq_info}.pickle'
 
-                if not os.path.isdir(result_path):
+                if not os.path.isfile(result_path):
                     pred_mut = creme.context_swap_test(model, src_seq, dest_seq, tss_tile)
                     utils.save_pickle(result_path, pred_mut)
 
