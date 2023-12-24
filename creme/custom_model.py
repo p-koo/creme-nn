@@ -202,7 +202,7 @@ class Enformer(ModelBase):
             self.track_index = [self.track_index]
 
 
-    def predict(self, x):
+    def predict(self, x, batch_size=1):
         """Get full predictions from enformer in batches."""
 
         # check to make sure shape is correct
@@ -212,7 +212,23 @@ class Enformer(ModelBase):
         # get predictions
         if x.shape[1] == self.pseudo_pad:
             x = np.pad(x, ((0, 0), (self.pseudo_pad // 2, self.pseudo_pad // 2), (0, 0)), 'constant')
-        preds = self.model.predict_on_batch(x)[self.head].numpy()
+        N = x.shape[0]
+        print(N, x.shape)
+
+        # get predictions
+        if batch_size < N:
+            print('~~~~~~~~~')
+            preds = []
+            i = 0
+            for batch in batch_np(x, batch_size):
+                preds.append(self.model.predict_on_batch(batch)[self.head].numpy())
+                i += batch.shape[0]
+            preds = np.concatenate(preds)
+            print(preds.shape)
+        else:
+            preds = self.model.predict_on_batch(x)[self.head].numpy()
+            print(preds.shape)
+
         if self.bin_index:
             preds = preds[:, self.bin_index, :]
         if self.track_index:
