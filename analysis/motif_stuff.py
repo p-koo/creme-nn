@@ -17,8 +17,8 @@ import os
 
 
 def main():
-    minitile_size = sys.argv[1]
-    N_batch = sys.argv[2]
+    minitile_size = int(sys.argv[1])
+    N_batch = int(sys.argv[2])
 
     shuffle_num = 10
 
