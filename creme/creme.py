@@ -182,7 +182,7 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True, return_seqs=False):
 # CRE Sufficiency Test
 ############################################################################################
 
-def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, tile_seq=None, mean=True):
+def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, tile_seq=None, mean=True, return_seqs=False):
     """
     This test measures if a region of the sequence is sufficient for model predictions. 
 
@@ -219,12 +219,13 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, tile_seq=None, mean
 
         pred_mut_shuffle = []
         pred_control_shuffle = []
+        sequences = np.empty((num_shuffle, model.seq_length, 4))
         for n in range(num_shuffle):
             x_mut = shuffle.dinuc_shuffle(x)
             
             # embed tss tile
             x_mut[tss_tile[0]:tss_tile[1],:] = x[tss_tile[0]:tss_tile[1],:] 
-
+            sequences[n] = x_mut.copy()
             # predict shuffled context with just TSS
             pred_control_shuffle.append(model.predict(x_mut[np.newaxis])[0])
 
@@ -245,10 +246,12 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, tile_seq=None, mean
     pred_control = np.array(pred_control)
 
     if mean:
-        return pred_wt[0], np.mean(pred_mut, axis=1), np.std(pred_mut, axis=1), np.mean(pred_control, axis=1), np.std(pred_control, axis=1)
+        test_res = [pred_wt[0], np.mean(pred_mut, axis=1), np.std(pred_mut, axis=1), np.mean(pred_control, axis=1), np.std(pred_control, axis=1)]
     else:
-        return pred_wt, pred_mut, pred_control 
-
+        test_res = [pred_wt, pred_mut, pred_control]
+    if return_seqs:
+        test_res.append(sequences)
+    return test_res
 
 
 ############################################################################################
