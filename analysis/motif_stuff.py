@@ -119,6 +119,8 @@ def main():
                         score = model.predict(pruned_seqs).mean() / mut
                         per_seq_results.append(score)
                     result_summary['fraction_explained'] = per_seq_results
+                    result_summary['removed_tiles'] = removed_tiles
+                    result_summary['remaining_to_test'] = remaining_to_test
                 utils.save_pickle(result_path, result_summary)
 
 if __name__ == "__main__":
