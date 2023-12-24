@@ -120,3 +120,6 @@ def main():
                         per_seq_results.append(score)
                     result_summary['fraction_explained'] = per_seq_results
                 utils.save_pickle(result_path, result_summary)
+
+if __name__ == "__main__":
+    main()
