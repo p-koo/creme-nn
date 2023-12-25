@@ -121,7 +121,8 @@ def main():
                     result_summary['fraction_explained'] = per_seq_results
                     result_summary['removed_tiles'] = removed_tiles
                     result_summary['remaining_to_test'] = remaining_to_test
-                utils.save_pickle(result_path, result_summary)
+                if not os.path.isfile(result_path):
+                    utils.save_pickle(result_path, result_summary)
 
 if __name__ == "__main__":
     main()
