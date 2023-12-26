@@ -42,7 +42,15 @@ def main():
         model = custom_model.Enformer(track_index=track_index)
         target_df = pd.read_csv(f'{data_dir}/enformer_targets_human.txt', sep='\t')
         cell_lines = [utils.clean_cell_name(target_df.iloc[t]['description']) for t in track_index]
-
+    elif model_name.lower() == 'borzoi':
+        target_df = pd.read_csv('../data/borzoi_targets_human.txt', sep='\t')
+        track_index = [i for i, t in enumerate(target_df['description']) if
+               ('CAGE' in t) and (t.split(':')[-1].strip() in ['K562 ENCODE, biol_',
+                                                               'GM12878 ENCODE, biol_',
+                                                               'PC-3'])]
+        print('Loading Borzoi(s)')
+        model = custom_model.Borzoi('../data/borzoi/*/*', track_index=track_index, aggregate=True)
+        model.bin_index = list(np.arange(model.target_lengths // 2 - 4, model.target_lengths // 2 + 4, 1))
 
     else:
         print('Unkown model')

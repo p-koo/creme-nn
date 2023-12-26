@@ -32,12 +32,24 @@ def main():
 
         track_index = [4824, 5110, 5111]
         model = custom_model.Enformer(track_index=track_index)
+        target_df = pd.read_csv(f'../data/enformer_targets_human.txt', sep='\t')
+        cell_line_info = {i: [t, utils.clean_cell_name(target_df.iloc[t]['description'])] for i, t in
+                      enumerate(track_index)}
+
     elif model_name.lower() == 'borzoi':
         target_df = pd.read_csv('../data/borzoi_targets_human.txt', sep='\t')
+        cell_lines_for_search = ['K562 ENCODE, biol_', 'GM12878 ENCODE, biol_', 'PC-3']
         track_index = [i for i, t in enumerate(target_df['description']) if
-               ('CAGE' in t) and (t.split(':')[-1].strip() in ['K562 ENCODE, biol_',
-                                                               'GM12878 ENCODE, biol_',
-                                                               'PC-3'])]
+               ('CAGE' in t) and (t.split(':')[-1].strip() in cell_lines_for_search)]
+        cell_line_info = {}
+        for target_cell_line in cell_lines_for_search:
+            cell_line_info[target_cell_line] = {}
+            targets = [i for i, t in enumerate(target_df['description']) if
+                       ('CAGE' in t) and (t.split(':')[-1].strip() == target_cell_line)]
+
+            cell_line_info[target_cell_line]['output'] = [np.argwhere(np.array(track_index) == t).flatten()[0] for t in
+                                                          targets]
+            cell_line_info[target_cell_line]['target'] = '&'.join([str(t) for t in targets])
         print('Loading Borzoi(s)')
         model = custom_model.Borzoi('../data/borzoi/*/*', track_index=track_index, aggregate=True)
         model.bin_index = list(np.arange(model.target_lengths // 2 - 4, model.target_lengths // 2 + 4, 1))
@@ -78,13 +90,16 @@ def main():
 
     ####### SUMMARIZE RESULTS
 
-    target_df = pd.read_csv(f'../data/enformer_targets_human.txt', sep='\t')
-    cell_lines = {i: [t, utils.clean_cell_name(target_df.iloc[t]['description'])] for i, t in enumerate(track_index)}
 
     summary_combined = []
-    for i, (cell_index, cell_name) in cell_lines.items():
+    for i, (cell_index, cell_name) in cell_line_info.items():
         print(f'Processing results from {cell_name}')
-        selected_tss = pd.read_csv(f'{csv_dir}/{cell_index}_{cell_name}_selected_genes.csv')
+        if model_name == 'enformer':
+            selected_tss = pd.read_csv(f'{csv_dir}/{cell_index}_{cell_name}_selected_genes.csv')
+        elif model_name == 'borzoi':
+            cell_name = i.split()[0]
+            print(f'{csv_dir.replace("borzoi", "enformer")}/*_{cell_name}_selected_genes.csv')
+            selected_tss = pd.read_csv(glob.glob(f'{csv_dir.replace("borzoi", "enformer")}/*_{cell_name}_selected_genes.csv')[0])
 
         summary_per_cell = {k: [] for k in ['delta_mean', 'path', 'wt', 'std', 'mean_mut', 'seq_id']}
         for _, row in selected_tss.iterrows():
