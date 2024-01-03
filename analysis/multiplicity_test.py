@@ -76,7 +76,11 @@ def main():
                                                      sufficient_tile_seq, cre_tiles.copy(), num_shuffle, num_iters,
                                                      optimization)
 
-            utils.save_pickle(result_path, result_summary)
+            if not os.path.isfile(result_path):
+
+                utils.save_pickle(result_path, result_summary)
+            else:
+                print('File already exists!')
 
 
 if __name__ == '__main__':

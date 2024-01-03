@@ -162,6 +162,7 @@ def clean_cell_name(t):
      return t.split(':')[-1].split(' ENCODE')[0].strip()
 
 def save_pickle(result_path, x):
+    assert not os.path.isfile(result_path), 'File already exists!'
     with open(result_path, 'wb') as handle:
         pickle.dump(x, handle, protocol=pickle.HIGHEST_PROTOCOL)
 

@@ -96,7 +96,7 @@ def main():
                         results = []  # [len = number of remaining tiles to test]
 
                         # remove one minitile at a time
-                        for j, minitile_start in tqdm(enumerate(remaining_to_test), total=len(remaining_to_test)):
+                        for j, minitile_start in enumerate(remaining_to_test):
                             minitile_end = minitile_start + minitile_size
                             # "remove" minitile by putting back shuffled version
                             seq_extra_minitile_shuffled = pruned_seqs.copy()
@@ -121,8 +121,12 @@ def main():
                     result_summary['fraction_explained'] = per_seq_results
                     result_summary['removed_tiles'] = removed_tiles
                     result_summary['remaining_to_test'] = remaining_to_test
+
                 if not os.path.isfile(result_path):
+
                     utils.save_pickle(result_path, result_summary)
+                else:
+                    print('File already exists!')
 
 if __name__ == "__main__":
     main()

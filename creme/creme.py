@@ -425,42 +425,39 @@ def multiplicity_test(model, x, tss_tile_coord, cre_tile_coord, cre_tile_seq, te
     :param num_copies:
     :return:
     """
-    tile_positions = test_coords.copy()
-    max_per_iter = []
-    best_tiles = []
+    shuffled_seqs = shuffle.dinuc_shuffle(x, num_shuffle)  # destroy all
+    shuffled_seqs[:, tss_tile_coord[0]:tss_tile_coord[1], :] = x[tss_tile_coord[0]:tss_tile_coord[1], :].copy()
 
+    only_tss_pred = model.predict(shuffled_seqs).mean()
+
+    tss_and_cre = shuffled_seqs.copy()
+    tss_and_cre[:, cre_tile_coord[0]: cre_tile_coord[1]] = cre_tile_seq
+
+    tss_and_cre_pred = model.predict(tss_and_cre).mean()
+
+    tile_positions_to_test = test_coords.copy()
+    current_seq_version = shuffled_seqs.copy()
+    all_mutants = []
+    best_tss_signal = []
+    selected_tile_order = []
     for _ in tqdm(range(num_copies)):
-        # loop over number of shuffles
-        normalized_preds = np.empty((num_shuffle, len(tile_positions)))
-        for n in range(num_shuffle):
-            x_mut = shuffle.dinuc_shuffle(x)  # destroy all
-            # embed fixed tiles (TSS + fixed CREs)
-            x_mut[tss_tile_coord[0]:tss_tile_coord[1], :] = x[tss_tile_coord[0]:tss_tile_coord[1], :]  # add TSS
-            x_mut_control = x_mut.copy()
-            x_mut_control[cre_tile_coord[0]: cre_tile_coord[1]] = cre_tile_seq
-            for fixed_tile in best_tiles:
-                x_mut[fixed_tile[0]:fixed_tile[1], :] = x[fixed_tile[0]:fixed_tile[1],
-                                                        :]  # use original sequence for fixed tiles
-
-            # predict shuffled context with just TSS + fixed CRE tiles
-            pred_control = model.predict(x_mut_control).mean()
-
-            # systematically test CRE effect at different positions
-            for t, (start, end) in enumerate(tile_positions):
-                x_mut_pos = x_mut.copy()
-                x_mut_pos[start:end, :] = cre_tile_seq
-
-                # predict mutated sequence
-                pred_mut = model.predict(x_mut_pos).mean()
-                normalized_preds[n, t] = pred_mut / pred_control
-        normalized_preds_mean = normalized_preds.mean(axis=0)
-
-        best_position_index = optimization(normalized_preds_mean)  # select based on mean
-        best_position = tile_positions[best_position_index]
-        tile_positions.remove(best_position)  # remove from test positions
-        best_tiles.append(best_position)  # put in bag of best positions
-        max_per_iter.append(normalized_preds[:, best_position_index])  # save all shuffle runs, not mean
-    return {'max_per_iter': max_per_iter, 'best_tiles': best_tiles}
+        test_seqs = np.empty((num_shuffle, len(tile_positions_to_test), model.seq_length, 4))
+        mutant_preds = np.empty((num_shuffle, len(tile_positions_to_test)))
+        for s, shuffled_seq in enumerate(current_seq_version):
+            for t, (tile_start, tile_end) in enumerate(tile_positions_to_test):
+                test_seq = shuffled_seq.copy()
+                test_seq[tile_start: tile_end] = cre_tile_seq.copy()
+                mutant_preds[s, t] = model.predict(test_seq).mean()
+                test_seqs[s, t, ...] = test_seq.copy()
+        best_index = optimization(mutant_preds.mean(axis=0))
+        selected_tile = tile_positions_to_test[best_index]
+        best_tss_signal.append(mutant_preds.mean(axis=0)[best_index])
+        tile_positions_to_test.remove(selected_tile)
+        selected_tile_order.append(selected_tile)
+        all_mutants.append(mutant_preds)
+        current_seq_version = test_seqs[:, best_index, ...].copy()
+    return {'only_tss_pred': only_tss_pred, 'tss_and_cre_pred': tss_and_cre_pred, 'best_tss_signal': best_tss_signal,
+            'selected_tile_order': selected_tile_order, 'all_mutants': all_mutants}
 
 
 
