@@ -238,7 +238,13 @@ class Enformer(ModelBase):
 
         # check to make sure shape is correct
         if len(x.shape) == 2:
+            print('Add axis')
             x = x[np.newaxis]
+        assert x.shape[1] == self.pseudo_pad + self.seq_length, 'Bad seq length'
+            # print('Add pads')
+            # print(type(x))
+            # x = self.pad_seq(x)
+            # x = np.pad(x, ((0, 0), (self.pseudo_pad // 2, self.pseudo_pad // 2), (0, 0)), 'constant')
 
         # calculate saliency maps
         target_mask_mass = tf.reduce_sum(target_mask)
@@ -256,6 +262,7 @@ class Enformer(ModelBase):
             return tf.reduce_sum(input_grad, axis=-1)
         else:
             return input_grad
+
 
 
 

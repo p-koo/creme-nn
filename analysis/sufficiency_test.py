@@ -38,29 +38,42 @@ def main():
         model = custom_model.Enformer(track_index=track_index)
         target_df = pd.read_csv(f'{data_dir}/enformer_targets_human.txt', sep='\t')
         cell_lines = [utils.clean_cell_name(target_df.iloc[t]['description']) for t in track_index]
+
+        context_dfs_per_cell = {cell_line: pd.read_csv(f'{csv_dir}/{cell_line}_selected_contexts.csv')
+                                for cell_line in cell_lines}
+        model_seq_length = model.seq_length
     elif model_name == 'borzoi':
         target_df = pd.read_csv('../data/borzoi_targets_human.txt', sep='\t')
+        cell_lines_for_search = ['K562 ENCODE, biol_', 'GM12878 ENCODE, biol_', 'PC-3']
         track_index = [i for i, t in enumerate(target_df['description']) if
-                       ('CAGE' in t) and (t.split(':')[-1].strip() in ['K562 ENCODE, biol_',
-                                                                       'GM12878 ENCODE, biol_',
-                                                                       'PC-3'])]
-        cell_lines = ['K562', 'GM12878', 'PC-3']
+                       ('CAGE' in t) and (t.split(':')[-1].strip() in cell_lines_for_search)]
+        cell_line_info = {}
+        for target_cell_line in cell_lines_for_search:
+            cell_line_info[target_cell_line] = {}
+            targets = [i for i, t in enumerate(target_df['description']) if
+                       ('CAGE' in t) and (t.split(':')[-1].strip() == target_cell_line)]
+
+            cell_line_info[target_cell_line]['output'] = [np.argwhere(np.array(track_index) == t).flatten()[0] for t in
+                                                          targets]
+            cell_line_info[target_cell_line]['target'] = '&'.join([str(t) for t in targets])
         print('Loading Borzoi(s)')
         model = custom_model.Borzoi('../data/borzoi/*/*', track_index=track_index, aggregate=True)
         model.bin_index = list(np.arange(model.target_lengths // 2 - 4, model.target_lengths // 2 + 4, 1))
 
+        context_dfs_per_cell = {cell_line.split()[0]: pd.read_csv(f'{csv_dir.replace("borzoi", "enformer")}/{cell_line.split()[0]}_selected_contexts.csv')
+                                for cell_line in cell_lines_for_search}
+        model_seq_length = 196608
     else:
         print('Unkown model')
         sys.exit(1)
 
-    context_dfs_per_cell = {cell_line: pd.read_csv(f'{csv_dir}/{cell_line}_selected_contexts.csv')
-                            for cell_line in cell_lines}
+
     
     context_df = pd.concat(context_dfs_per_cell.values()).drop_duplicates('path')
 
     context_df = context_df.sample(frac=1)
     # get coordinates of central tss
-    tss_tile, cre_tiles = utils.set_tile_range(model.seq_length, perturb_window)
+    tss_tile, cre_tiles = utils.set_tile_range(model_seq_length, perturb_window)
     tile_df = pd.DataFrame(cre_tiles).T
     tile_df['tss'] = tss_tile
     tile_df.to_csv(f'{csv_dir}/sufficiency_test_tile_coordinates.csv')
