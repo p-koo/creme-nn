@@ -17,13 +17,17 @@ import os
 
 
 def main():
-    minitile_size = int(sys.argv[1])
-    N_batch = int(sys.argv[2])
+    scales = [int(i) for i in sys.argv[1].split(',')]
+    thresholds = [float(i) for i in sys.argv[2].split(',')]
+    N_batch = int(sys.argv[3])
+
+    print("Optimizing for: ")
+    for s, t in zip(scales, thresholds):
+        print(f'{s} at threshold {t}')
 
     shuffle_num = 10
-
+    frac = 1
     enhancer_definition = 0.3
-    threshold = 0.75
 
 
 
@@ -46,8 +50,8 @@ def main():
 
     bin_index = [447, 448]
 
-    minitile_dir = utils.make_dir(f'../results/motifs_{minitile_size}_batch_{N_batch}_shuffle_{shuffle_num}_thresh_{threshold}')
-
+    minitile_dir = utils.make_dir(f'../results/motifs_{sys.argv[1]}_batch_{N_batch}_shuffle_{shuffle_num}_thresh_{sys.argv[2]}')
+    print(f'Results will be saved in {minitile_dir}')
 
 
 
@@ -69,59 +73,22 @@ def main():
                 per_seq_results = []
                 chrom, tss_site, strand = row['seq_id'].split('_')[1:]
                 wt_seq = seq_parser.extract_seq_centered(chrom, int(tss_site), strand, model.seq_length)  # get seq
-
+                whole_tile_start, whole_tile_end = [row['tile_start'], row['tile_end']]
                 pred_wt, pred_mut, pred_control, control_sequences = creme.sufficiency_test(model, wt_seq, tss_tile,
-                                                                                            [[row['tile_start'],
-                                                                                              row['tile_end']]],
+                                                                                            [[whole_tile_start,
+                                                                                              whole_tile_end]],
                                                                                             shuffle_num, mean=False,
                                                                                             return_seqs=True)
                 wt = pred_wt.mean()
                 mut = pred_mut.mean()
                 control = pred_control.mean()
-                result_summary = {'wt': wt, 'mut': mut, 'control': control}
+                min_results = {'wt': wt, 'mut': mut, 'control': control}
                 if (mut - control) / wt > enhancer_definition:
 
-                    minitile_starts = list(
-                        range(row['tile_start'], row['tile_end'] - minitile_size + 1, minitile_size // 2))
-                    number_of_tiles = len(minitile_starts)
-                    score = 1  # start with no minitile removed
-                    removed_tiles = np.array([])  # none selected at start
-                    new_selected_tiles = []
-                    remaining_to_test = minitile_starts.copy()  # start with full list of minitile starts
-                    pruned_seqs = control_sequences.copy()  # 10 shuffled versions with just TSS
-                    pruned_seqs[:, row['tile_start']:row['tile_end'], :] = (
-                    wt_seq[row['tile_start']:row['tile_end']]).copy()  # start with intact CRE
-                    while score > threshold:
-                        print(score)
-                        results = []  # [len = number of remaining tiles to test]
+                    opt_results = creme.prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whole_tile_end,
+                                         scales, thresholds, frac, N_batch)
 
-                        # remove one minitile at a time
-                        for j, minitile_start in enumerate(remaining_to_test):
-                            minitile_end = minitile_start + minitile_size
-                            # "remove" minitile by putting back shuffled version
-                            seq_extra_minitile_shuffled = pruned_seqs.copy()
-                            # use the control sequence to shuffle minitile
-                            seq_extra_minitile_shuffled[:, minitile_start: minitile_end, :] = control_sequences[:,
-                                                                                              minitile_start: minitile_end,
-                                                                                              :].copy()
-                            results.append(model.predict(seq_extra_minitile_shuffled).mean())
-
-                        new_selected_tiles = np.array(remaining_to_test)[np.argsort(results)[-N_batch:]]  # choose N useless
-                        removed_tiles = np.concatenate([removed_tiles, new_selected_tiles])  # add to santa's bad list
-
-                        # prune the list and sequences to test based on this iteration
-                        for removed_tile in new_selected_tiles:
-                            remaining_to_test.remove(removed_tile)
-                            pruned_seqs[:, removed_tile:removed_tile + minitile_size, :] = (
-                            control_sequences[:, removed_tile:removed_tile + minitile_size, :]).copy()
-
-                        # compute new score
-                        score = model.predict(pruned_seqs).mean() / mut
-                        per_seq_results.append(score)
-                    result_summary['fraction_explained'] = per_seq_results
-                    result_summary['removed_tiles'] = removed_tiles
-                    result_summary['remaining_to_test'] = remaining_to_test
-
+                    result_summary = min_results.update(opt_results)
                 if not os.path.isfile(result_path):
 
                     utils.save_pickle(result_path, result_summary)

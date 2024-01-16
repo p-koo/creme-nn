@@ -2,6 +2,7 @@ import numpy as np
 import shuffle
 from tqdm import tqdm
 
+
 ############################################################################################
 # TSS Context Dependence Test
 ############################################################################################
@@ -459,6 +460,82 @@ def multiplicity_test(model, x, tss_tile_coord, cre_tile_coord, cre_tile_seq, te
     return {'only_tss_pred': only_tss_pred, 'tss_and_cre_pred': tss_and_cre_pred, 'best_tss_signal': best_tss_signal,
             'selected_tile_order': selected_tile_order, 'all_mutants': all_mutants}
 
+########################################################################################
+# Pruning function
+########################################################################################
+
+
+
+def prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whole_tile_end, scales, thresholds, frac,
+                   N_batch):
+    remove_tiles = []
+
+    # save what to put back from wt sequence in form of coordinates
+    insert_coords = [[whole_tile_start, whole_tile_end]]
+    pruned_seqs = control_sequences.copy()
+    bps = np.zeros((whole_tile_end - whole_tile_start))
+    result_summary = {}
+
+    for (window, threshold) in zip(scales, thresholds):
+        result_summary[window] = {'scores': [], 'bps': []}
+        print(f"Tile size = {window}, threshold = {threshold}")
+
+        step = int(window * frac)
+        test_coords = []
+
+        for insert_coord in insert_coords:
+            pruned_seqs[:, insert_coord[0]: insert_coord[1], :] = wt_seq[insert_coord[0]: insert_coord[1]].copy()
+            bps[insert_coord[0] - whole_tile_start: insert_coord[1] - whole_tile_start] = 1  # count added bps
+            test_coords += [[s, s + window] for s in list(range(insert_coord[0], insert_coord[1] - step + 1, step))]
+
+        score = model.predict(pruned_seqs).mean() / mut
+        print(f"Starting score: {score}")
+
+        test_coords = np.array(test_coords)
+        print(len(test_coords))
+
+        final_check_seq = pruned_seqs.copy()
+        all_removed_tiles = np.array([[], []]).T
+
+        print("Starting optimization...")
+
+        while score > threshold and len(test_coords):
+
+            print(f'score = {score}')
+
+            pruned_seqs = final_check_seq.copy()  # save removed seq tiles
+            new_test_coords = []
+            for test_coord in test_coords:
+                if test_coord not in all_removed_tiles:
+                    new_test_coords.append(test_coord)
+            test_coords = new_test_coords
+            print(f"Number of tiles to test: {len(test_coords)}")
+            results = []
+            for test_coord in test_coords:
+                # remove subtile
+                test_seqs = pruned_seqs.copy()  # don't change pruned_seqs yet
+                test_seqs[:, test_coord[0]: test_coord[1], :] = control_sequences[:, test_coord[0]: test_coord[1],
+                                                                :].copy()
+                results.append(model.predict(test_seqs).mean())
+
+            remove_tiles = np.array(test_coords)[np.argsort(results)[-N_batch:]]  # choose N useless
+            all_removed_tiles = np.concatenate([all_removed_tiles, remove_tiles])  # add to santa's bad list
+
+            # final check
+            final_check_seq = pruned_seqs.copy()
+            for tile in remove_tiles:
+                final_check_seq[:, tile[0]: tile[1], :] = control_sequences[:, tile[0]: tile[1],
+                                                          :].copy()  # prune out selected tiles
+                bps[tile[0] - whole_tile_start: tile[1] - whole_tile_start] = 0
+
+            score = model.predict(final_check_seq).mean() / mut
+            print(f"Number of tiles at the end of while loop: {len(test_coords)}, score = {score}")
+            result_summary[window]['scores'].append(score)
+            result_summary[window]['bps'].append(bps.sum())
+
+        insert_coords = test_coords.copy()
+        result_summary[window]['insert_coords'] = insert_coords
+    return result_summary
 
 
 ########################################################################################
