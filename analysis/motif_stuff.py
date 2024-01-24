@@ -19,15 +19,17 @@ import os
 def main():
     scales = [int(i) for i in sys.argv[1].split(',')]
     thresholds = [float(i) for i in sys.argv[2].split(',')]
-    N_batch = int(sys.argv[3])
+    N_batches = [int(i) for i in sys.argv[3].split(',')]
+    cre_type = sys.argv[4]
 
-    print("Optimizing for: ")
+    print(f"Optimizing for {cre_type} ")
     for s, t in zip(scales, thresholds):
         print(f'{s} at threshold {t}')
 
     shuffle_num = 10
     frac = 1
     enhancer_definition = 0.3
+    silencer_definition = -0.3
 
 
 
@@ -35,7 +37,7 @@ def main():
     seq_parser = utils.SequenceParser('../data/GRCh38.primary_assembly.genome.fa')
     csv_dir = f'../results/summary_csvs/{model_name}/'
     suff_cre_df = pd.read_csv(f'{csv_dir}/sufficient_CREs.csv')
-    cre_df_all_cells = suff_cre_df[suff_cre_df['tile class']=='Enhancer']
+    cre_df_all_cells = suff_cre_df[suff_cre_df['tile class']==cre_type.capitalize()]
 
     tile_coords = pd.read_csv(f'{csv_dir}/sufficiency_test_tile_coordinates.csv', index_col='Unnamed: 0').T
     tss_tile = tile_coords.loc['tss'].T.values
@@ -50,7 +52,7 @@ def main():
 
     bin_index = [447, 448]
 
-    minitile_dir = utils.make_dir(f'../results/motifs_{sys.argv[1]}_batch_{N_batch}_shuffle_{shuffle_num}_thresh_{sys.argv[2]}')
+    minitile_dir = utils.make_dir(f'../results/{cre_type}_motifs_{sys.argv[1]}_batch_{sys.argv[3]}_shuffle_{shuffle_num}_thresh_{sys.argv[2]}')
     print(f'Results will be saved in {minitile_dir}')
 
 
@@ -82,18 +84,26 @@ def main():
                 wt = pred_wt.mean()
                 mut = pred_mut.mean()
                 control = pred_control.mean()
-                min_results = {'wt': wt, 'mut': mut, 'control': control}
-                if (mut - control) / wt > enhancer_definition:
+                result_summary = {'wt': wt, 'mut': mut, 'control': control}
+                if cre_type == 'enhancer':
+                    condition = (mut - control) / wt > enhancer_definition
+                elif cre_type == 'silencer':
+                    condition = (mut - control) / control < silencer_definition
+
+                if condition:
 
                     opt_results = creme.prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whole_tile_end,
-                                         scales, thresholds, frac, N_batch)
+                                         scales, thresholds, frac, N_batches, cre_type)
 
-                    result_summary = min_results.update(opt_results)
+                    result_summary.update(opt_results)
+                    result_summary['control_sequences'] = control_sequences
+
                 if not os.path.isfile(result_path):
 
                     utils.save_pickle(result_path, result_summary)
                 else:
                     print('File already exists!')
+
 
 if __name__ == "__main__":
     main()

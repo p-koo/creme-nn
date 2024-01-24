@@ -171,31 +171,47 @@ def read_pickle(result_path):
         context_res = pickle.load(handle)
     return context_res
 
+def get_borzoi_targets(target_df, cell_lines):
+    cage_tracks = [i for i, t in enumerate(target_df['description']) if
+                   ('CAGE' in t) and (t.split(':')[-1].strip() in cell_lines)]
 
-def map_indeces_to_labels_borzoi(track_labels, assay, target_df_path, remove_idx={}):
-    target_df = pd.read_csv(target_df_path, sep='\t')
+    cell_line_info = {}
+    for target_cell_line in cell_lines:
+        cell_line_info[target_cell_line] = {}
+        targets = [i for i, t in enumerate(target_df['description']) if
+                   ('CAGE' in t) and (t.split(':')[-1].strip() == target_cell_line)]
 
-    tracks = []
-    for j, row in target_df.iterrows():
-        cell_line = row['description'].split(':')[-1].strip()
-        if assay in row['description'] and cell_line in track_labels:
-            strand = row['identifier'][-1]
-            if strand not in '+-':
-                strand = 'none'
-            tracks.append([cell_line, strand, j])
+        cell_line_info[target_cell_line]['output'] = [np.argwhere(np.array(cage_tracks) == t).flatten()[0] for t in
+                                                      targets]
+        cell_line_info[target_cell_line]['target'] = '&'.join([str(t) for t in targets])
 
-    track_groups = {}
-    for i, (cell_line, strand, j) in enumerate(tracks):
+    return cell_line_info
 
-        if cell_line not in track_groups.keys():
-            track_groups[cell_line] = {}
-            track_groups[cell_line]['idx'] = []
-            track_groups[cell_line]['strand'] = []
-            track_groups[cell_line]['original_track_idx'] = []
-        track_groups[cell_line]['idx'].append(i)
-        track_groups[cell_line]['strand'].append(strand)
-        track_groups[cell_line]['original_track_idx'].append(j)
-    # for k, v in remove_idx.items():
-    #     for v_i in v:
-    #         track_groups[k]['idx']
-    return track_groups
+# def map_indeces_to_labels_borzoi(track_labels, assay, target_df_path, remove_idx={}):
+#     target_df = pd.read_csv(target_df_path, sep='\t')
+#
+#     tracks = []
+#     for j, row in target_df.iterrows():
+#         cell_line = row['description'].split(':')[-1].strip()
+#         if assay in row['description'] and cell_line in track_labels:
+#             strand = row['identifier'][-1]
+#             if strand not in '+-':
+#                 strand = 'none'
+#             tracks.append([cell_line, strand, j])
+#
+#     track_groups = {}
+#     for i, (cell_line, strand, j) in enumerate(tracks):
+#
+#         if cell_line not in track_groups.keys():
+#             track_groups[cell_line] = {}
+#             track_groups[cell_line]['idx'] = []
+#             track_groups[cell_line]['strand'] = []
+#             track_groups[cell_line]['original_track_idx'] = []
+#         track_groups[cell_line]['idx'].append(i)
+#         track_groups[cell_line]['strand'].append(strand)
+#         track_groups[cell_line]['original_track_idx'].append(j)
+#     # for k, v in remove_idx.items():
+#     #     for v_i in v:
+#     #         track_groups[k]['idx']
+#     return track_groups
+

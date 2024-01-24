@@ -1,6 +1,7 @@
 import numpy as np
 import shuffle
 from tqdm import tqdm
+import operator
 
 
 ############################################################################################
@@ -467,7 +468,7 @@ def multiplicity_test(model, x, tss_tile_coord, cre_tile_coord, cre_tile_seq, te
 
 
 def prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whole_tile_end, scales, thresholds, frac,
-                   N_batch):
+                   N_batches, cre_type='enhancer'):
     remove_tiles = []
 
     # save what to put back from wt sequence in form of coordinates
@@ -476,7 +477,7 @@ def prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whol
     bps = np.zeros((whole_tile_end - whole_tile_start))
     result_summary = {}
 
-    for (window, threshold) in zip(scales, thresholds):
+    for (window, threshold, N_batch) in zip(scales, thresholds, N_batches):
         result_summary[window] = {'scores': [], 'bps': []}
         print(f"Tile size = {window}, threshold = {threshold}")
 
@@ -499,7 +500,13 @@ def prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whol
 
         print("Starting optimization...")
 
-        while score > threshold and len(test_coords):
+        if cre_type == 'enhancer':
+            comp = operator.gt
+        elif cre_type == 'silencer':
+            comp = operator.lt
+
+
+        while comp(score, threshold) and len(test_coords):
 
             print(f'score = {score}')
 
@@ -518,7 +525,11 @@ def prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whol
                                                                 :].copy()
                 results.append(model.predict(test_seqs).mean())
 
-            remove_tiles = np.array(test_coords)[np.argsort(results)[-N_batch:]]  # choose N useless
+            if cre_type == 'enhancer': # prune out silencers, ie. tiles that when shuffled lead to higher pred
+                remove_tiles = np.array(test_coords)[np.argsort(results)[-N_batch:]]  # choose N useless
+            elif cre_type == 'silencer': # remove enhancers = tiles the shuffling of which leads to drop in TSS
+                remove_tiles = np.array(test_coords)[np.argsort(results)[:N_batch]]  # choose N useless
+
             all_removed_tiles = np.concatenate([all_removed_tiles, remove_tiles])  # add to santa's bad list
 
             # final check
@@ -529,10 +540,11 @@ def prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whol
                 bps[tile[0] - whole_tile_start: tile[1] - whole_tile_start] = 0
 
             score = model.predict(final_check_seq).mean() / mut
-            print(f"Number of tiles at the end of while loop: {len(test_coords)}, score = {score}")
+            print(f"Number of tiles at the end of iteration: {len(test_coords)}, score = {score}, bps = {bps.sum()}")
             result_summary[window]['scores'].append(score)
             result_summary[window]['bps'].append(bps.sum())
-
+            
+        result_summary[window]['all_removed_tiles'] = all_removed_tiles
         insert_coords = test_coords.copy()
         result_summary[window]['insert_coords'] = insert_coords
     return result_summary
