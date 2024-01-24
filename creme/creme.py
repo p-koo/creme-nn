@@ -8,7 +8,7 @@ import operator
 # TSS Context Dependence Test
 ############################################################################################
 
-def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):
+def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True, drop_wt=False):
     """
     This test places a sequence pattern bounded by start and end in shuffled 
     background contexts -- in line with a global importance analysis. 
@@ -33,7 +33,10 @@ def context_dependence_test(model, x, tile_pos, num_shuffle, mean=True):
     """
 
     # get wild-type prediction
-    pred_wt = model.predict(x[np.newaxis])
+    if drop_wt:
+        pred_wt = [None]
+    else:
+        pred_wt = model.predict(x[np.newaxis])
 
     # crop pattern of interest
     start, end = tile_pos
