@@ -61,6 +61,7 @@ def main():
         tss_positions = [row['Start'] if row['Strand']=='+' else row['End'] for _, row in tss_df.iterrows()]
         tss_df['Start'] = tss_positions
         tss_df = tss_df[['Chromosome', 'Start', 'gene_name', 'gene_id', 'Strand']]
+
         tss_df.to_csv(tss_csv_path, index=False)
     tss_df = tss_df.sample(frac = 1)
 

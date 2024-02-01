@@ -23,8 +23,9 @@ import glob
 def main():
 
     model_name = sys.argv[1]
+    num_shuffle = int(sys.argv[2])
     perturb_window = 5000
-    num_shuffle = 10
+
     data_dir = '../data/'
     fasta_path = f'{data_dir}/GRCh38.primary_assembly.genome.fa'
     result_dir_model = utils.make_dir(f"{utils.make_dir(f'../results/sufficiency_test')}/{model_name}/")
@@ -41,7 +42,8 @@ def main():
 
         context_dfs_per_cell = {cell_line: pd.read_csv(f'{csv_dir}/{cell_line}_selected_contexts.csv')
                                 for cell_line in cell_lines}
-        model_seq_length = model.seq_length
+        context_df = pd.concat(context_dfs_per_cell.values()).drop_duplicates('path')
+
     elif model_name == 'borzoi':
         target_df = pd.read_csv('../data/borzoi_targets_human.txt', sep='\t')
         cell_lines_for_search = ['K562 ENCODE, biol_', 'GM12878 ENCODE, biol_', 'PC-3']
@@ -60,20 +62,21 @@ def main():
         model = custom_model.Borzoi('../data/borzoi/*/*', track_index=track_index, aggregate=True)
         model.bin_index = list(np.arange(model.target_lengths // 2 - 4, model.target_lengths // 2 + 4, 1))
 
-        context_dfs_per_cell = {cell_line.split()[0]: pd.read_csv(f'{csv_dir.replace("borzoi", "enformer")}/{cell_line.split()[0]}_selected_contexts.csv')
+        context_dfs_per_cell = {cell_line.split()[0]: pd.read_csv(f'{csv_dir}/{cell_line.split()[0]}_selected_contexts.csv')
                                 for cell_line in cell_lines_for_search}
-        model_seq_length = 196608
+        context_df = pd.concat(context_dfs_per_cell.values()).drop_duplicates('path')
+        print(context_df.shape)
+
     else:
         print('Unkown model')
         sys.exit(1)
 
 
     
-    context_df = pd.concat(context_dfs_per_cell.values()).drop_duplicates('path')
 
     context_df = context_df.sample(frac=1)
     # get coordinates of central tss
-    tss_tile, cre_tiles = utils.set_tile_range(model_seq_length, perturb_window)
+    tss_tile, cre_tiles = utils.set_tile_range(model.seq_length, perturb_window)
     tile_df = pd.DataFrame(cre_tiles).T
     tile_df['tss'] = tss_tile
     tile_df.to_csv(f'{csv_dir}/sufficiency_test_tile_coordinates.csv')
@@ -96,58 +99,62 @@ def main():
                                                                                                              cre_tiles,
                                                                                                              num_shuffle,
                                                                                                              mean=True)
-            utils.save_pickle(result_path, {'wt': pred_wt, 'mut': pred_mut_mean, 'mut_std': pred_mut_std,
-                                            'control': pred_control_mean, 'control_std': pred_control_std})
+            result_dict = {'wt': pred_wt, 'mut': pred_mut_mean, 'mut_std': pred_mut_std,
+                                            'control': pred_control_mean, 'control_std': pred_control_std}
 
 
-    ######## SUMMARIZE RESULTS
+            if not os.path.isfile(result_path):
+                utils.save_pickle(result_path, result_dict)
 
-    tile_df = pd.DataFrame(cre_tiles)
-    result_summary = []
-    for c, cell_line in enumerate(cell_lines):
-        cell_line_context = context_dfs_per_cell[cell_line]
-        print(c, cell_line)
-        for _, row in cell_line_context.iterrows():
-            res_path = f'{result_dir_model}/{row["seq_id"]}.pickle'
-            res = utils.read_pickle(res_path)
-            res['wt'] = res['wt'][bin_index, c].mean(axis=0)
-            res['mut'] = res['mut'][:, bin_index, c].mean(axis=1)
-            res['control'] = res['control'][:, bin_index, c].mean(axis=1)
-            # one_seq = pd.DataFrame((res['mut'] - res['control']) / res['wt'])
-            one_seq = pd.DataFrame((res['mut']-res['control']) / res['wt'])
+    if model_name == 'enformer':
+        ######## SUMMARIZE RESULTS
 
-            one_seq.columns = ['(MUT - CONTROL) / WT']
-            one_seq['(MUT - CONTROL) / CONTROL'] = (res['mut']-res['control']) / res['control']
-            one_seq['seq_id'] = row['seq_id']
-            one_seq['control'] = res['control']
-            one_seq['wt'] = res['wt']
-            one_seq['mut'] = res['mut']
-            one_seq['tile_start'] = tile_df[0].values
-            one_seq['tile_end'] = tile_df[1].values
-            one_seq['context'] = row['context']
-            one_seq['cell_line'] = cell_line
-            result_summary.append(one_seq)
-    result_summary = pd.concat(result_summary)
-    result_summary.to_csv(f'{csv_dir}/sufficiency_test.csv')
+        tile_df = pd.DataFrame(cre_tiles)
+        result_summary = []
+        for c, cell_line in enumerate(cell_lines):
+            cell_line_context = context_dfs_per_cell[cell_line]
+            print(c, cell_line)
+            for _, row in cell_line_context.iterrows():
+                res_path = f'{result_dir_model}/{row["seq_id"]}.pickle'
+                res = utils.read_pickle(res_path)
+                res['wt'] = res['wt'][bin_index, c].mean(axis=0)
+                res['mut'] = res['mut'][:, bin_index, c].mean(axis=1)
+                res['control'] = res['control'][:, bin_index, c].mean(axis=1)
+                # one_seq = pd.DataFrame((res['mut'] - res['control']) / res['wt'])
+                one_seq = pd.DataFrame((res['mut']-res['control']) / res['wt'])
 
-    ########### SELECT SUFFICIENT CRES
+                one_seq.columns = ['(MUT - CONTROL) / WT']
+                one_seq['(MUT - CONTROL) / CONTROL'] = (res['mut']-res['control']) / res['control']
+                one_seq['seq_id'] = row['seq_id']
+                one_seq['control'] = res['control']
+                one_seq['wt'] = res['wt']
+                one_seq['mut'] = res['mut']
+                one_seq['tile_start'] = tile_df[0].values
+                one_seq['tile_end'] = tile_df[1].values
+                one_seq['context'] = row['context']
+                one_seq['cell_line'] = cell_line
+                result_summary.append(one_seq)
+        result_summary = pd.concat(result_summary)
+        result_summary.to_csv(f'{csv_dir}/sufficiency_test.csv')
 
-    selected_cres = []
-    for cell, df in result_summary.groupby('cell_line'):
-        enh_cont_df = (df[df['context'] == 'enhancing']).copy()  # only select enhancing CREs in enhancing contexts
-        sil_cont_df = (df[df['context'] == 'silencing']).copy()  # only select silencing CREs in silencing contexts
-        enh_cont_df['Normalized CRE effect'] = enh_cont_df[
-            '(MUT - CONTROL) / WT']  # different norm for tiles from enh vs sil
-        sil_cont_df['Normalized CRE effect'] = sil_cont_df['(MUT - CONTROL) / CONTROL']
+        ########### SELECT SUFFICIENT CRES
 
-        enh_cres = (enh_cont_df[(enh_cont_df['Normalized CRE effect'] > 0.3)]).copy()
-        enh_cres['tile class'] = 'Enhancer'
-        selected_cres.append(enh_cres)
-        sil_cres = (sil_cont_df[(sil_cont_df['Normalized CRE effect'] < -0.3)]).copy()
-        sil_cres['tile class'] = 'Silencer'
-        selected_cres.append(sil_cres)
-    selected_cres = pd.concat(selected_cres)
-    selected_cres.to_csv(f'{csv_dir}/sufficient_CREs.csv')
+        selected_cres = []
+        for cell, df in result_summary.groupby('cell_line'):
+            enh_cont_df = (df[df['context'] == 'enhancing']).copy()  # only select enhancing CREs in enhancing contexts
+            sil_cont_df = (df[df['context'] == 'silencing']).copy()  # only select silencing CREs in silencing contexts
+            enh_cont_df['Normalized CRE effect'] = enh_cont_df[
+                '(MUT - CONTROL) / WT']  # different norm for tiles from enh vs sil
+            sil_cont_df['Normalized CRE effect'] = sil_cont_df['(MUT - CONTROL) / CONTROL']
+
+            enh_cres = (enh_cont_df[(enh_cont_df['Normalized CRE effect'] > 0.3)]).copy()
+            enh_cres['tile class'] = 'Enhancer'
+            selected_cres.append(enh_cres)
+            sil_cres = (sil_cont_df[(sil_cont_df['Normalized CRE effect'] < -0.3)]).copy()
+            sil_cres['tile class'] = 'Silencer'
+            selected_cres.append(sil_cres)
+        selected_cres = pd.concat(selected_cres)
+        selected_cres.to_csv(f'{csv_dir}/sufficient_CREs.csv')
 
 if __name__ == '__main__':
     main()

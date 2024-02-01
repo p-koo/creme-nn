@@ -1,601 +1,283 @@
-,delta mean,delta std,path,wt,context,cell line
-2896,0.7803,0.1531,../results/context_dependence_test_10/borzoi/TBX18_chr6_84763453_-.pickle,0.7114,enhancing,"K562 ENCODE, biol_"
-3181,0.7554,0.10693,../results/context_dependence_test_10/borzoi/EML3_chr11_62612775_-.pickle,5.598,enhancing,"K562 ENCODE, biol_"
-8667,0.8525,0.09357,../results/context_dependence_test_10/borzoi/EMP3_chr19_48325580_+.pickle,6.77,enhancing,"K562 ENCODE, biol_"
-8288,0.925,0.02797,../results/context_dependence_test_10/borzoi/MYL4_chr17_47209347_+.pickle,2.945,enhancing,"K562 ENCODE, biol_"
-6527,0.741,0.2114,../results/context_dependence_test_10/borzoi/INTS14_chr15_65611242_-.pickle,11.1,enhancing,"K562 ENCODE, biol_"
-8362,0.8364,0.1092,../results/context_dependence_test_10/borzoi/SUMO3_chr21_44818051_-.pickle,10.66,enhancing,"K562 ENCODE, biol_"
-1934,0.7197,0.0704,../results/context_dependence_test_10/borzoi/HOMER1_chr5_79514134_-.pickle,3.469,enhancing,"K562 ENCODE, biol_"
-934,0.766,0.1197,../results/context_dependence_test_10/borzoi/TBXAS1_chr7_139778247_+.pickle,1.844,enhancing,"K562 ENCODE, biol_"
-5676,0.7554,0.10724,../results/context_dependence_test_10/borzoi/ACAD8_chr11_134253567_+.pickle,6.785,enhancing,"K562 ENCODE, biol_"
-6241,0.748,0.03183,../results/context_dependence_test_10/borzoi/GRAP2_chr22_39946816_+.pickle,1.046,enhancing,"K562 ENCODE, biol_"
-5249,0.747,0.09686,../results/context_dependence_test_10/borzoi/SOCS2_chr12_93570979_+.pickle,5.62,enhancing,"K562 ENCODE, biol_"
-9078,0.804,0.0872,../results/context_dependence_test_10/borzoi/EIF4EBP1_chr8_38030533_+.pickle,6.477,enhancing,"K562 ENCODE, biol_"
-2959,0.741,0.1118,../results/context_dependence_test_10/borzoi/NAXD_chr13_110615544_+.pickle,6.906,enhancing,"K562 ENCODE, biol_"
-532,0.706,0.0656,../results/context_dependence_test_10/borzoi/GABBR1_chr6_29633135_-.pickle,2.594,enhancing,"K562 ENCODE, biol_"
-3817,0.763,0.1565,../results/context_dependence_test_10/borzoi/DMC1_chr22_38570183_-.pickle,3.01,enhancing,"K562 ENCODE, biol_"
-1423,0.741,0.0917,../results/context_dependence_test_10/borzoi/E2F2_chr1_23531233_-.pickle,3.818,enhancing,"K562 ENCODE, biol_"
-4694,0.8413,0.06714,../results/context_dependence_test_10/borzoi/TOM1L1_chr17_54900805_+.pickle,5.082,enhancing,"K562 ENCODE, biol_"
-3203,0.774,0.1043,../results/context_dependence_test_10/borzoi/NFE2L3_chr7_26152197_+.pickle,4.703,enhancing,"K562 ENCODE, biol_"
-6063,0.8193,0.1562,../results/context_dependence_test_10/borzoi/MORN2_chr2_38876010_+.pickle,12.42,enhancing,"K562 ENCODE, biol_"
-291,0.75,0.12415,../results/context_dependence_test_10/borzoi/PARP14_chr3_122680838_+.pickle,4.35,enhancing,"K562 ENCODE, biol_"
-233,0.743,0.1632,../results/context_dependence_test_10/borzoi/GTF2IRD2B_chr7_75092572_+.pickle,1.49,enhancing,"K562 ENCODE, biol_"
-8084,0.866,0.0698,../results/context_dependence_test_10/borzoi/FKBP4_chr12_2794969_+.pickle,10.3,enhancing,"K562 ENCODE, biol_"
-555,0.869,0.0741,../results/context_dependence_test_10/borzoi/ENSG00000284461_chr7_66628957_+.pickle,3.727,enhancing,"K562 ENCODE, biol_"
-917,0.7627,0.07245,../results/context_dependence_test_10/borzoi/BCL7A_chr12_122021883_+.pickle,5.605,enhancing,"K562 ENCODE, biol_"
-640,0.7773,0.1021,../results/context_dependence_test_10/borzoi/SANBR_chr2_61065870_+.pickle,5.92,enhancing,"K562 ENCODE, biol_"
-3666,0.7925,0.06354,../results/context_dependence_test_10/borzoi/RNF157_chr17_76240493_-.pickle,3.404,enhancing,"K562 ENCODE, biol_"
-6860,0.846,0.1287,../results/context_dependence_test_10/borzoi/DDX31_chr9_132669983_-.pickle,7.695,enhancing,"K562 ENCODE, biol_"
-8322,0.801,0.10236,../results/context_dependence_test_10/borzoi/OXCT1_chr5_41870425_-.pickle,13.09,enhancing,"K562 ENCODE, biol_"
-2254,0.8477,0.0664,../results/context_dependence_test_10/borzoi/ADORA2B_chr17_15945129_+.pickle,3.057,enhancing,"K562 ENCODE, biol_"
-4190,0.874,0.0891,../results/context_dependence_test_10/borzoi/TMEM242_chr6_157323601_-.pickle,4.176,enhancing,"K562 ENCODE, biol_"
-3702,0.86,0.1318,../results/context_dependence_test_10/borzoi/PMVK_chr1_154936719_-.pickle,4.52,enhancing,"K562 ENCODE, biol_"
-340,0.748,0.1523,../results/context_dependence_test_10/borzoi/FUCA1_chr1_23868290_-.pickle,4.13,enhancing,"K562 ENCODE, biol_"
-6198,0.7085,0.0469,../results/context_dependence_test_10/borzoi/LRRC61_chr7_150323262_+.pickle,8.68,enhancing,"K562 ENCODE, biol_"
-5047,0.8096,0.0887,../results/context_dependence_test_10/borzoi/MARCHF3_chr5_127030558_-.pickle,4.793,enhancing,"K562 ENCODE, biol_"
-4323,0.734,0.08734,../results/context_dependence_test_10/borzoi/MYBL2_chr20_43667018_+.pickle,8.914,enhancing,"K562 ENCODE, biol_"
-9416,0.8984,0.0936,../results/context_dependence_test_10/borzoi/PRDX2_chr19_12801800_-.pickle,12.086,enhancing,"K562 ENCODE, biol_"
-500,0.7505,0.09674,../results/context_dependence_test_10/borzoi/LGR4_chr11_27472775_-.pickle,4.164,enhancing,"K562 ENCODE, biol_"
-4252,0.803,0.04428,../results/context_dependence_test_10/borzoi/ATP11A_chr13_112690037_+.pickle,5.594,enhancing,"K562 ENCODE, biol_"
-53,0.706,0.1025,../results/context_dependence_test_10/borzoi/MATCAP2_chr7_36367269_-.pickle,3.365,enhancing,"K562 ENCODE, biol_"
-5295,0.876,0.06757,../results/context_dependence_test_10/borzoi/PPT2_chr6_32154140_+.pickle,5.32,enhancing,"K562 ENCODE, biol_"
-1345,0.787,0.10876,../results/context_dependence_test_10/borzoi/THPO_chr3_184378207_-.pickle,0.585,enhancing,"K562 ENCODE, biol_"
-2249,0.723,0.10474,../results/context_dependence_test_10/borzoi/PLPPR3_chr19_821952_-.pickle,1.717,enhancing,"K562 ENCODE, biol_"
-1419,0.703,0.1628,../results/context_dependence_test_10/borzoi/SNCA_chr4_89837015_-.pickle,2.45,enhancing,"K562 ENCODE, biol_"
-1898,0.741,0.1206,../results/context_dependence_test_10/borzoi/TLCD1_chr17_28726233_-.pickle,3.469,enhancing,"K562 ENCODE, biol_"
-6610,0.7485,0.1279,../results/context_dependence_test_10/borzoi/GLUL_chr1_182391792_-.pickle,6.324,enhancing,"K562 ENCODE, biol_"
-1488,0.795,0.07513,../results/context_dependence_test_10/borzoi/TRIM58_chr1_247857186_+.pickle,2.98,enhancing,"K562 ENCODE, biol_"
-1667,0.7197,0.0722,../results/context_dependence_test_10/borzoi/WIPF3_chr7_29806507_+.pickle,1.047,enhancing,"K562 ENCODE, biol_"
-3247,0.824,0.1022,../results/context_dependence_test_10/borzoi/HRC_chr19_49155396_-.pickle,0.4639,enhancing,"K562 ENCODE, biol_"
-4600,0.7017,0.1583,../results/context_dependence_test_10/borzoi/GBGT1_chr9_133163919_-.pickle,2.12,enhancing,"K562 ENCODE, biol_"
-1818,0.787,0.0793,../results/context_dependence_test_10/borzoi/SOSTDC1_chr7_16465738_-.pickle,0.719,enhancing,"K562 ENCODE, biol_"
-7443,0.703,0.2292,../results/context_dependence_test_10/borzoi/NPRL3_chr16_138673_-.pickle,9.15,enhancing,"K562 ENCODE, biol_"
-1436,0.7427,0.1044,../results/context_dependence_test_10/borzoi/PVR_chr19_44643819_+.pickle,6.36,enhancing,"K562 ENCODE, biol_"
-439,0.794,0.0934,../results/context_dependence_test_10/borzoi/MORN4_chr10_97633500_-.pickle,3.883,enhancing,"K562 ENCODE, biol_"
-1939,0.8613,0.088,../results/context_dependence_test_10/borzoi/ADTRP_chr6_11778803_-.pickle,0.668,enhancing,"K562 ENCODE, biol_"
-444,0.8433,0.1186,../results/context_dependence_test_10/borzoi/FAM228B_chr2_24123468_+.pickle,2.97,enhancing,"K562 ENCODE, biol_"
-5868,0.7607,0.1719,../results/context_dependence_test_10/borzoi/ACAA2_chr18_49813953_-.pickle,13.55,enhancing,"K562 ENCODE, biol_"
-61,0.786,0.1284,../results/context_dependence_test_10/borzoi/TAP1_chr6_32853816_-.pickle,4.47,enhancing,"K562 ENCODE, biol_"
-2228,0.7847,0.1121,../results/context_dependence_test_10/borzoi/SLC4A1_chr17_44268134_-.pickle,0.4434,enhancing,"K562 ENCODE, biol_"
-3665,0.843,0.05966,../results/context_dependence_test_10/borzoi/EREG_chr4_74365144_+.pickle,1.7,enhancing,"K562 ENCODE, biol_"
-2954,0.7773,0.0868,../results/context_dependence_test_10/borzoi/DALRD3_chr3_49018564_-.pickle,3.582,enhancing,"K562 ENCODE, biol_"
-3928,0.829,0.07556,../results/context_dependence_test_10/borzoi/SMAGP_chr12_51270284_-.pickle,4.457,enhancing,"K562 ENCODE, biol_"
-6369,0.9663,0.01784,../results/context_dependence_test_10/borzoi/GALNT5_chr2_157257704_+.pickle,2.084,enhancing,"K562 ENCODE, biol_"
-5278,0.921,0.04178,../results/context_dependence_test_10/borzoi/PKLR_chr1_155301438_-.pickle,0.889,enhancing,"K562 ENCODE, biol_"
-1265,0.7065,0.103,../results/context_dependence_test_10/borzoi/TEX9_chr15_56365426_+.pickle,3.443,enhancing,"K562 ENCODE, biol_"
-2150,0.8047,0.148,../results/context_dependence_test_10/borzoi/SERPINB9_chr6_2903309_-.pickle,3.352,enhancing,"K562 ENCODE, biol_"
-1472,0.7837,0.2144,../results/context_dependence_test_10/borzoi/ENSG00000285382_chr20_32743523_-.pickle,9.08,enhancing,"K562 ENCODE, biol_"
-3062,0.761,0.1361,../results/context_dependence_test_10/borzoi/RAB31_chr18_9708300_+.pickle,5.77,enhancing,"K562 ENCODE, biol_"
-1975,0.7036,0.1512,../results/context_dependence_test_10/borzoi/LRRC8C_chr1_89633119_+.pickle,4.152,enhancing,"K562 ENCODE, biol_"
-7651,0.7417,0.1528,../results/context_dependence_test_10/borzoi/DDRGK1_chr20_3204682_-.pickle,7.086,enhancing,"K562 ENCODE, biol_"
-8901,0.773,0.2177,../results/context_dependence_test_10/borzoi/PTDSS1_chr8_96261901_+.pickle,5.72,enhancing,"K562 ENCODE, biol_"
-5420,0.871,0.0389,../results/context_dependence_test_10/borzoi/SCG3_chr15_51681502_+.pickle,1.117,enhancing,"K562 ENCODE, biol_"
-5017,0.7173,0.1583,../results/context_dependence_test_10/borzoi/QDPR_chr4_17512086_-.pickle,7.195,enhancing,"K562 ENCODE, biol_"
-3606,0.7397,0.06076,../results/context_dependence_test_10/borzoi/C17orf99_chr17_78146384_+.pickle,1.215,enhancing,"K562 ENCODE, biol_"
-2855,0.706,0.1375,../results/context_dependence_test_10/borzoi/VPS54_chr2_64019428_-.pickle,2.215,enhancing,"K562 ENCODE, biol_"
-3047,0.703,0.1014,../results/context_dependence_test_10/borzoi/ACTR3C_chr7_150323545_-.pickle,4.34,enhancing,"K562 ENCODE, biol_"
-1654,0.7383,0.1181,../results/context_dependence_test_10/borzoi/PAQR8_chr6_52362150_+.pickle,4.992,enhancing,"K562 ENCODE, biol_"
-4064,0.8003,0.0955,../results/context_dependence_test_10/borzoi/MOSPD1_chrX_134915257_-.pickle,7.62,enhancing,"K562 ENCODE, biol_"
-2692,0.7695,0.1092,../results/context_dependence_test_10/borzoi/PLA2G15_chr16_68245303_+.pickle,4.746,enhancing,"K562 ENCODE, biol_"
-22,0.7993,0.1081,../results/context_dependence_test_10/borzoi/FCSK_chr16_70454594_+.pickle,3.139,enhancing,"K562 ENCODE, biol_"
-2060,0.706,0.1354,../results/context_dependence_test_10/borzoi/MLH3_chr14_75051467_-.pickle,5.676,enhancing,"K562 ENCODE, biol_"
-1969,0.8105,0.0644,../results/context_dependence_test_10/borzoi/ENSG00000285085_chr6_32154373_-.pickle,1.975,enhancing,"K562 ENCODE, biol_"
-9181,0.713,0.1765,../results/context_dependence_test_10/borzoi/NME4_chr16_397198_+.pickle,11.49,enhancing,"K562 ENCODE, biol_"
-4975,0.851,0.1131,../results/context_dependence_test_10/borzoi/TCHP_chr12_109900273_+.pickle,4.895,enhancing,"K562 ENCODE, biol_"
-7824,0.7754,0.1195,../results/context_dependence_test_10/borzoi/EIF4G3_chr1_21176836_-.pickle,6.87,enhancing,"K562 ENCODE, biol_"
-8555,0.709,0.10065,../results/context_dependence_test_10/borzoi/PIP4K2A_chr10_22714578_-.pickle,9.2,enhancing,"K562 ENCODE, biol_"
-3539,0.7676,0.1002,../results/context_dependence_test_10/borzoi/VASP_chr19_45507478_+.pickle,9.05,enhancing,"K562 ENCODE, biol_"
-6029,0.7905,0.105,../results/context_dependence_test_10/borzoi/AHNAK_chr11_62546806_-.pickle,8.2,enhancing,"K562 ENCODE, biol_"
-398,0.79,0.1439,../results/context_dependence_test_10/borzoi/CCDC171_chr9_15553042_+.pickle,2.809,enhancing,"K562 ENCODE, biol_"
-2974,0.824,0.11566,../results/context_dependence_test_10/borzoi/GNL1_chr6_30556489_-.pickle,6.7,enhancing,"K562 ENCODE, biol_"
-2340,0.859,0.04584,../results/context_dependence_test_10/borzoi/TJP2_chr9_69174281_+.pickle,3.762,enhancing,"K562 ENCODE, biol_"
-662,0.765,0.1096,../results/context_dependence_test_10/borzoi/FAR2_chr12_29149081_+.pickle,1.498,enhancing,"K562 ENCODE, biol_"
-1150,0.839,0.10944,../results/context_dependence_test_10/borzoi/CREB3L4_chr1_153967901_+.pickle,3.447,enhancing,"K562 ENCODE, biol_"
-5780,0.7227,0.0875,../results/context_dependence_test_10/borzoi/PIEZO1_chr16_88785220_-.pickle,5.582,enhancing,"K562 ENCODE, biol_"
-2245,0.8486,0.0673,../results/context_dependence_test_10/borzoi/TTC26_chr7_139133743_+.pickle,3.24,enhancing,"K562 ENCODE, biol_"
-5768,0.7896,0.08777,../results/context_dependence_test_10/borzoi/SLC35F2_chr11_107858787_-.pickle,5.184,enhancing,"K562 ENCODE, biol_"
-4047,0.753,0.1279,../results/context_dependence_test_10/borzoi/MTMR6_chr13_25287488_-.pickle,10.27,enhancing,"K562 ENCODE, biol_"
-3719,0.7607,0.0897,../results/context_dependence_test_10/borzoi/PGGHG_chr11_289171_+.pickle,3.416,enhancing,"K562 ENCODE, biol_"
-1653,0.724,0.2358,../results/context_dependence_test_10/borzoi/TAF9_chr5_69370013_-.pickle,2.459,enhancing,"K562 ENCODE, biol_"
-422,0.743,0.173,../results/context_dependence_test_10/borzoi/CCDC159_chr19_11346518_+.pickle,3.906,enhancing,"K562 ENCODE, biol_"
-3991,0.8257,0.0927,../results/context_dependence_test_10/borzoi/COMT_chr22_19941787_+.pickle,14.6,enhancing,"K562 ENCODE, biol_"
-361,0.84,0.0702,../results/context_dependence_test_10/borzoi/ENSG00000285043_chr16_30053126_+.pickle,2.264,enhancing,"K562 ENCODE, biol_"
-666,0.813,0.1554,../results/context_dependence_test_10/borzoi/DUSP19_chr2_183078746_+.pickle,2.78,enhancing,"K562 ENCODE, biol_"
-2473,0.777,0.1644,../results/context_dependence_test_10/borzoi/ENSG00000264187_chr17_17237185_-.pickle,1.482,enhancing,"K562 ENCODE, biol_"
-6684,0.7617,0.1184,../results/context_dependence_test_10/borzoi/ICAM1_chr19_10271119_+.pickle,4.027,enhancing,"K562 ENCODE, biol_"
-5691,0.765,0.1327,../results/context_dependence_test_10/borzoi/TGIF1_chr18_3450176_+.pickle,5.652,enhancing,"K562 ENCODE, biol_"
-7488,0.821,0.2039,../results/context_dependence_test_10/borzoi/BPNT1_chr1_220089788_-.pickle,10.42,enhancing,"K562 ENCODE, biol_"
-4943,0.748,0.271,../results/context_dependence_test_10/borzoi/AMBRA1_chr11_46594045_-.pickle,4.84,enhancing,"K562 ENCODE, biol_"
-351,0.7744,0.07965,../results/context_dependence_test_10/borzoi/SULT1A1_chr16_28610044_-.pickle,2.58,enhancing,"K562 ENCODE, biol_"
-1834,0.8867,0.067,../results/context_dependence_test_10/borzoi/BIVM_chr13_102799118_+.pickle,5.11,enhancing,"K562 ENCODE, biol_"
-1177,0.704,0.1501,../results/context_dependence_test_10/borzoi/ENSG00000288646_chr6_53065601_+.pickle,1.941,enhancing,"K562 ENCODE, biol_"
-4438,0.7573,0.2262,../results/context_dependence_test_10/borzoi/MYH7B_chr20_34955867_+.pickle,8.016,enhancing,"K562 ENCODE, biol_"
-5697,0.7344,0.1102,../results/context_dependence_test_10/borzoi/CAMK2G_chr10_73874519_-.pickle,7.34,enhancing,"K562 ENCODE, biol_"
-582,0.8145,0.08496,../results/context_dependence_test_10/borzoi/F2R_chr5_76716125_+.pickle,7.227,enhancing,"K562 ENCODE, biol_"
-2089,0.847,0.0719,../results/context_dependence_test_10/borzoi/SPIRE1_chr18_12658107_-.pickle,6.887,enhancing,"K562 ENCODE, biol_"
-9857,0.822,0.10254,../results/context_dependence_test_10/borzoi/COA1_chr7_43729497_-.pickle,8.85,enhancing,"K562 ENCODE, biol_"
-2631,0.7744,0.0931,../results/context_dependence_test_10/borzoi/SORBS1_chr10_95561392_-.pickle,2.814,enhancing,"K562 ENCODE, biol_"
-8777,0.741,0.152,../results/context_dependence_test_10/borzoi/DRAM2_chr1_111140093_-.pickle,13.7,enhancing,"K562 ENCODE, biol_"
-4938,0.8174,0.0654,../results/context_dependence_test_10/borzoi/PDXDC1_chr16_14975122_+.pickle,9.66,enhancing,"K562 ENCODE, biol_"
-7797,0.719,0.1532,../results/context_dependence_test_10/borzoi/CTBP1_chr4_1249137_-.pickle,11.14,enhancing,"K562 ENCODE, biol_"
-8232,0.717,0.1552,../results/context_dependence_test_10/borzoi/CLSPN_chr1_35769967_-.pickle,6.758,enhancing,"K562 ENCODE, biol_"
-716,0.884,0.06305,../results/context_dependence_test_10/borzoi/KCTD7_chr7_66628942_+.pickle,3.326,enhancing,"K562 ENCODE, biol_"
-594,0.789,0.0871,../results/context_dependence_test_10/borzoi/TP53INP1_chr8_94949366_-.pickle,6.152,enhancing,"K562 ENCODE, biol_"
-234,0.7764,0.1131,../results/context_dependence_test_10/borzoi/CCDC80_chr3_112641143_-.pickle,2.154,enhancing,"K562 ENCODE, biol_"
-8174,0.8354,0.0841,../results/context_dependence_test_10/borzoi/VAMP8_chr2_85577592_+.pickle,3.666,enhancing,"K562 ENCODE, biol_"
-3715,0.9053,0.04767,../results/context_dependence_test_10/borzoi/GCHFR_chr15_40764103_+.pickle,4.777,enhancing,"K562 ENCODE, biol_"
-2626,0.725,0.09814,../results/context_dependence_test_10/borzoi/BCR_chr22_23180508_+.pickle,6.53,enhancing,"K562 ENCODE, biol_"
-3353,0.774,0.08887,../results/context_dependence_test_10/borzoi/TRAPPC9_chr8_140457744_-.pickle,5.598,enhancing,"K562 ENCODE, biol_"
-1212,0.8286,0.0964,../results/context_dependence_test_10/borzoi/INHBE_chr12_57455306_+.pickle,1.4375,enhancing,"K562 ENCODE, biol_"
-3868,0.7734,0.1853,../results/context_dependence_test_10/borzoi/WASF1_chr6_110179670_-.pickle,4.383,enhancing,"K562 ENCODE, biol_"
-7868,0.781,0.1139,../results/context_dependence_test_10/borzoi/KLF1_chr19_12887201_-.pickle,2.982,enhancing,"K562 ENCODE, biol_"
-4224,0.838,0.1302,../results/context_dependence_test_10/borzoi/ICA1_chr7_8262167_-.pickle,3.91,enhancing,"K562 ENCODE, biol_"
-6417,0.7207,0.1876,../results/context_dependence_test_10/borzoi/CENPP_chr9_92325952_+.pickle,5.49,enhancing,"K562 ENCODE, biol_"
-4436,0.8643,0.06714,../results/context_dependence_test_10/borzoi/MBOAT1_chr6_20212469_-.pickle,4.76,enhancing,"K562 ENCODE, biol_"
-8230,0.7915,0.1085,../results/context_dependence_test_10/borzoi/SLC16A1_chr1_112956196_-.pickle,10.19,enhancing,"K562 ENCODE, biol_"
-8241,0.7124,0.2037,../results/context_dependence_test_10/borzoi/GSR_chr8_30727835_-.pickle,12.08,enhancing,"K562 ENCODE, biol_"
-4208,0.9277,0.05542,../results/context_dependence_test_10/borzoi/CPED1_chr7_120988710_+.pickle,3.203,enhancing,"K562 ENCODE, biol_"
-7478,0.7646,0.1201,../results/context_dependence_test_10/borzoi/TFDP2_chr3_142028626_-.pickle,0.4634,enhancing,"K562 ENCODE, biol_"
-6026,0.914,0.0996,../results/context_dependence_test_10/borzoi/CA8_chr8_60281400_-.pickle,3.719,enhancing,"K562 ENCODE, biol_"
-7841,0.7505,0.1622,../results/context_dependence_test_10/borzoi/ITGB3BP_chr1_63523225_-.pickle,10.35,enhancing,"K562 ENCODE, biol_"
-4589,0.7773,0.137,../results/context_dependence_test_10/borzoi/NUDT9_chr4_87422596_+.pickle,8.08,enhancing,"K562 ENCODE, biol_"
-1077,0.8203,0.0961,../results/context_dependence_test_10/borzoi/TBC1D24_chr16_2475050_+.pickle,3.207,enhancing,"K562 ENCODE, biol_"
-2448,0.9463,0.01371,../results/context_dependence_test_10/borzoi/HTR1F_chr3_87792705_+.pickle,1.898,enhancing,"K562 ENCODE, biol_"
-3108,0.9014,0.04373,../results/context_dependence_test_10/borzoi/KISS1R_chr19_917332_+.pickle,1.797,enhancing,"K562 ENCODE, biol_"
-2246,0.7646,0.1191,../results/context_dependence_test_10/borzoi/EIF4ENIF1_chr22_31489824_-.pickle,5.152,enhancing,"K562 ENCODE, biol_"
-3428,0.7197,0.2039,../results/context_dependence_test_10/borzoi/IFI6_chr1_27672178_-.pickle,5.227,enhancing,"K562 ENCODE, biol_"
-4962,0.7285,0.10065,../results/context_dependence_test_10/borzoi/SLC1A4_chr2_64989398_+.pickle,4.664,enhancing,"K562 ENCODE, biol_"
-7127,0.9062,0.0365,../results/context_dependence_test_10/borzoi/FADS1_chr11_61817003_-.pickle,7.332,enhancing,"K562 ENCODE, biol_"
-378,0.8423,0.07446,../results/context_dependence_test_10/borzoi/SHROOM1_chr5_132830647_-.pickle,2.139,enhancing,"K562 ENCODE, biol_"
-470,0.7915,0.1718,../results/context_dependence_test_10/borzoi/CTPS2_chrX_16712669_-.pickle,5.844,enhancing,"K562 ENCODE, biol_"
-4434,0.819,0.0996,../results/context_dependence_test_10/borzoi/ASAH2B_chr10_50739935_+.pickle,3.863,enhancing,"K562 ENCODE, biol_"
-3838,0.8374,0.11285,../results/context_dependence_test_10/borzoi/ZSCAN26_chr6_28267142_+.pickle,4.426,enhancing,"K562 ENCODE, biol_"
-6523,0.762,0.1685,../results/context_dependence_test_10/borzoi/VWDE_chr7_12403865_-.pickle,3.95,enhancing,"K562 ENCODE, biol_"
-3213,0.8755,0.08405,../results/context_dependence_test_10/borzoi/RELN_chr7_103989658_-.pickle,2.227,enhancing,"K562 ENCODE, biol_"
-9792,0.7344,0.11084,../results/context_dependence_test_10/borzoi/TYMS_chr18_657652_+.pickle,12.29,enhancing,"K562 ENCODE, biol_"
-7717,0.7764,0.075,../results/context_dependence_test_10/borzoi/MAN1A1_chr6_119349761_-.pickle,5.336,enhancing,"K562 ENCODE, biol_"
-8128,0.759,0.1366,../results/context_dependence_test_10/borzoi/SRGN_chr10_69088102_+.pickle,6.242,enhancing,"K562 ENCODE, biol_"
-6051,0.757,0.2065,../results/context_dependence_test_10/borzoi/TTC8_chr14_88824655_+.pickle,6.914,enhancing,"K562 ENCODE, biol_"
-1720,0.851,0.06616,../results/context_dependence_test_10/borzoi/RSAD2_chr2_6865635_+.pickle,2.0,enhancing,"K562 ENCODE, biol_"
-8372,0.7856,0.1592,../results/context_dependence_test_10/borzoi/DPH5_chr1_101025792_-.pickle,12.02,enhancing,"K562 ENCODE, biol_"
-709,0.8203,0.0961,../results/context_dependence_test_10/borzoi/APBA2_chr15_28885973_+.pickle,1.799,enhancing,"K562 ENCODE, biol_"
-403,0.8687,0.0832,../results/context_dependence_test_10/borzoi/CRYBB1_chr22_26618027_-.pickle,0.459,enhancing,"K562 ENCODE, biol_"
-2336,0.7803,0.12256,../results/context_dependence_test_10/borzoi/ELOVL7_chr5_60844274_-.pickle,2.256,enhancing,"K562 ENCODE, biol_"
-5285,0.725,0.1578,../results/context_dependence_test_10/borzoi/VPS45_chr1_150067761_+.pickle,8.125,enhancing,"K562 ENCODE, biol_"
-2742,0.8906,0.0678,../results/context_dependence_test_10/borzoi/FUT10_chr8_33473146_-.pickle,5.504,enhancing,"K562 ENCODE, biol_"
-6159,0.847,0.0898,../results/context_dependence_test_10/borzoi/NFIA_chr1_61082560_+.pickle,4.863,enhancing,"K562 ENCODE, biol_"
-172,0.7607,0.1018,../results/context_dependence_test_10/borzoi/TNNI3_chr19_55157732_-.pickle,0.7295,enhancing,"K562 ENCODE, biol_"
-7533,0.87,0.10016,../results/context_dependence_test_10/borzoi/KCNH2_chr7_150955804_-.pickle,3.107,enhancing,"K562 ENCODE, biol_"
-938,0.8447,0.1414,../results/context_dependence_test_10/borzoi/NRIP3_chr11_9004049_-.pickle,2.006,enhancing,"K562 ENCODE, biol_"
-3465,0.835,0.10156,../results/context_dependence_test_10/borzoi/FAIM_chr3_138608770_+.pickle,1.871,enhancing,"K562 ENCODE, biol_"
-3022,0.72,0.1294,../results/context_dependence_test_10/borzoi/RAPGEF2_chr4_159103078_+.pickle,6.81,enhancing,"K562 ENCODE, biol_"
-2368,0.811,0.1219,../results/context_dependence_test_10/borzoi/SYNGR2_chr17_78168580_+.pickle,6.78,enhancing,"K562 ENCODE, biol_"
-7171,0.7563,0.2067,../results/context_dependence_test_10/borzoi/RNF141_chr11_10541190_-.pickle,7.64,enhancing,"K562 ENCODE, biol_"
-7075,0.7637,0.1008,../results/context_dependence_test_10/borzoi/FAH_chr15_80152998_+.pickle,2.154,enhancing,"K562 ENCODE, biol_"
-1324,0.748,0.06128,../results/context_dependence_test_10/borzoi/TMEM62_chr15_43133585_+.pickle,4.32,enhancing,"K562 ENCODE, biol_"
-7342,0.823,0.0823,../results/context_dependence_test_10/borzoi/TMEM109_chr11_60914157_+.pickle,10.08,enhancing,"K562 ENCODE, biol_"
-749,0.79,0.175,../results/context_dependence_test_10/borzoi/ENSG00000258539_chr10_124791727_-.pickle,3.621,enhancing,"K562 ENCODE, biol_"
-7959,0.7812,0.1503,../results/context_dependence_test_10/borzoi/ASCC1_chr10_72215992_-.pickle,15.1,enhancing,"K562 ENCODE, biol_"
-4273,0.843,0.0909,../results/context_dependence_test_10/borzoi/PRPS2_chrX_12791487_+.pickle,8.35,enhancing,"K562 ENCODE, biol_"
-3420,0.805,0.0774,../results/context_dependence_test_10/borzoi/AMOTL1_chr11_94768355_+.pickle,4.49,enhancing,"K562 ENCODE, biol_"
-2539,0.789,0.11993,../results/context_dependence_test_10/borzoi/CILK1_chr6_53061770_-.pickle,4.613,enhancing,"K562 ENCODE, biol_"
-1356,0.906,0.0466,../results/context_dependence_test_10/borzoi/COLGALT2_chr1_184037729_-.pickle,1.984,enhancing,"K562 ENCODE, biol_"
-4291,0.866,0.1114,../results/context_dependence_test_10/borzoi/ALDH1A2_chr15_58065738_-.pickle,4.816,enhancing,"K562 ENCODE, biol_"
-4597,0.788,0.1055,../results/context_dependence_test_10/borzoi/MFSD2B_chr2_24010080_+.pickle,1.892,enhancing,"K562 ENCODE, biol_"
-7543,0.854,0.06464,../results/context_dependence_test_10/borzoi/PRKAR2B_chr7_107044704_+.pickle,5.246,enhancing,"K562 ENCODE, biol_"
-5300,0.708,0.12054,../results/context_dependence_test_10/borzoi/REEP6_chr19_1491180_+.pickle,3.588,enhancing,"K562 ENCODE, biol_"
-3135,0.7646,0.1128,../results/context_dependence_test_10/borzoi/GORAB_chr1_170532130_+.pickle,4.91,enhancing,"K562 ENCODE, biol_"
-7033,0.7905,0.10486,../results/context_dependence_test_10/borzoi/MBLAC2_chr5_90474771_-.pickle,8.38,enhancing,"K562 ENCODE, biol_"
-3030,0.723,0.1788,../results/context_dependence_test_10/borzoi/FNBP1_chr9_130043162_-.pickle,7.543,enhancing,"K562 ENCODE, biol_"
-5555,0.7065,0.1415,../results/context_dependence_test_10/borzoi/RNF130_chr5_180071759_-.pickle,7.645,enhancing,"K562 ENCODE, biol_"
-2577,0.8267,0.05994,../results/context_dependence_test_10/borzoi/PPM1H_chr12_62935150_-.pickle,2.568,enhancing,"K562 ENCODE, biol_"
-1893,0.7275,0.1688,../results/context_dependence_test_10/borzoi/PRSS57_chr19_695452_-.pickle,0.657,enhancing,"K562 ENCODE, biol_"
-5024,0.722,0.1598,../results/context_dependence_test_10/borzoi/PDCD7_chr15_65133808_-.pickle,7.83,enhancing,"K562 ENCODE, biol_"
-3979,0.9136,0.04352,../results/context_dependence_test_10/borzoi/S100A13_chr1_153627505_-.pickle,4.812,enhancing,"K562 ENCODE, biol_"
-6349,0.9165,0.05423,../results/context_dependence_test_10/borzoi/GDF15_chr19_18386157_+.pickle,3.582,enhancing,"K562 ENCODE, biol_"
-3735,0.7812,0.0975,../results/context_dependence_test_10/borzoi/SLC37A4_chr11_119030906_-.pickle,5.016,enhancing,"K562 ENCODE, biol_"
-8543,0.728,0.1287,../results/context_dependence_test_10/borzoi/STAM_chr10_17644150_+.pickle,10.54,enhancing,"K562 ENCODE, biol_"
-4809,0.915,0.04178,../results/context_dependence_test_10/borzoi/MPP1_chrX_154805485_-.pickle,9.67,enhancing,"K562 ENCODE, biol_"
-8661,0.7495,0.0824,../results/context_dependence_test_10/borzoi/TNFRSF1A_chr12_6342076_-.pickle,3.516,enhancing,"K562 ENCODE, biol_"
-5065,0.882,0.08185,../results/context_dependence_test_10/borzoi/CAVIN1_chr17_42423256_-.pickle,5.992,enhancing,"K562 ENCODE, biol_"
-3295,0.7583,0.0935,../results/context_dependence_test_10/borzoi/FAT1_chr4_186723856_-.pickle,2.877,enhancing,"K562 ENCODE, biol_"
-9389,-0.02162,0.7734,../results/context_dependence_test_10/borzoi/CDK4_chr12_57752310_-.pickle,14.87,neutral,"K562 ENCODE, biol_"
-5667,-0.0456,0.625,../results/context_dependence_test_10/borzoi/CMTM6_chr3_32502852_-.pickle,8.52,neutral,"K562 ENCODE, biol_"
-7319,0.002678,0.3525,../results/context_dependence_test_10/borzoi/NAF1_chr4_163166890_-.pickle,10.2,neutral,"K562 ENCODE, biol_"
-8281,0.02492,0.9946,../results/context_dependence_test_10/borzoi/VPS25_chr17_42773448_+.pickle,8.555,neutral,"K562 ENCODE, biol_"
-125,0.03117,0.4902,../results/context_dependence_test_10/borzoi/CD7_chr17_82317577_-.pickle,0.613,neutral,"K562 ENCODE, biol_"
-3322,0.0416,0.3005,../results/context_dependence_test_10/borzoi/ZNF778_chr16_89217702_+.pickle,6.652,neutral,"K562 ENCODE, biol_"
-1656,-0.01374,0.4204,../results/context_dependence_test_10/borzoi/IPMK_chr10_58267894_-.pickle,5.652,neutral,"K562 ENCODE, biol_"
-8141,-0.01692,0.7524,../results/context_dependence_test_10/borzoi/ENSG00000260170_chr15_45587350_+.pickle,11.74,neutral,"K562 ENCODE, biol_"
-580,-0.02556,0.5366,../results/context_dependence_test_10/borzoi/KCTD1_chr18_26548553_-.pickle,2.65,neutral,"K562 ENCODE, biol_"
-7476,0.00505,0.2817,../results/context_dependence_test_10/borzoi/EMSY_chr11_76445017_+.pickle,7.62,neutral,"K562 ENCODE, biol_"
-8337,-0.01654,0.3977,../results/context_dependence_test_10/borzoi/APEH_chr3_49674366_+.pickle,7.438,neutral,"K562 ENCODE, biol_"
-9661,0.002453,0.574,../results/context_dependence_test_10/borzoi/U2SURP_chr3_143001620_+.pickle,10.89,neutral,"K562 ENCODE, biol_"
-2230,0.049,0.8306,../results/context_dependence_test_10/borzoi/STK17A_chr7_43583107_+.pickle,7.375,neutral,"K562 ENCODE, biol_"
-3210,-0.0192,0.287,../results/context_dependence_test_10/borzoi/TOR1B_chr9_129803183_+.pickle,8.56,neutral,"K562 ENCODE, biol_"
-7104,0.03915,0.7974,../results/context_dependence_test_10/borzoi/TRAPPC2L_chr16_88857140_+.pickle,7.06,neutral,"K562 ENCODE, biol_"
-1219,0.00323,0.3289,../results/context_dependence_test_10/borzoi/CCDC152_chr5_42756817_+.pickle,0.1791,neutral,"K562 ENCODE, biol_"
-4838,0.003094,0.3745,../results/context_dependence_test_10/borzoi/ZNF691_chr1_42846627_+.pickle,5.2,neutral,"K562 ENCODE, biol_"
-8457,0.04385,0.3738,../results/context_dependence_test_10/borzoi/AASDHPPT_chr11_106077661_+.pickle,9.516,neutral,"K562 ENCODE, biol_"
-1173,0.01794,0.3137,../results/context_dependence_test_10/borzoi/MAPK7_chr17_19378497_+.pickle,5.24,neutral,"K562 ENCODE, biol_"
-213,-0.0004263,0.2185,../results/context_dependence_test_10/borzoi/RTL5_chrX_72131915_-.pickle,0.791,neutral,"K562 ENCODE, biol_"
-4758,-0.02779,0.768,../results/context_dependence_test_10/borzoi/CLN3_chr16_28491983_-.pickle,7.234,neutral,"K562 ENCODE, biol_"
-84,0.02007,0.4219,../results/context_dependence_test_10/borzoi/OTUD1_chr10_23439074_+.pickle,5.168,neutral,"K562 ENCODE, biol_"
-6177,0.02292,0.657,../results/context_dependence_test_10/borzoi/CBLL1_chr7_107744154_+.pickle,7.008,neutral,"K562 ENCODE, biol_"
-6936,-0.01485,0.2532,../results/context_dependence_test_10/borzoi/PCNX3_chr11_65615775_+.pickle,9.1,neutral,"K562 ENCODE, biol_"
-6311,0.037,0.6523,../results/context_dependence_test_10/borzoi/PEX14_chr1_10474949_+.pickle,6.727,neutral,"K562 ENCODE, biol_"
-9297,-0.01819,0.6226,../results/context_dependence_test_10/borzoi/TFAM_chr10_58385409_+.pickle,9.83,neutral,"K562 ENCODE, biol_"
-7417,-0.04068,0.8525,../results/context_dependence_test_10/borzoi/PIGK_chr1_77219430_-.pickle,8.53,neutral,"K562 ENCODE, biol_"
-8842,-0.02878,0.5293,../results/context_dependence_test_10/borzoi/TPP2_chr13_102596985_+.pickle,11.305,neutral,"K562 ENCODE, biol_"
-4813,0.01012,0.637,../results/context_dependence_test_10/borzoi/PLAGL2_chr20_32207743_-.pickle,8.62,neutral,"K562 ENCODE, biol_"
-3264,-0.02469,0.5645,../results/context_dependence_test_10/borzoi/HINFP_chr11_119121615_+.pickle,6.113,neutral,"K562 ENCODE, biol_"
-2135,-0.00557,0.2527,../results/context_dependence_test_10/borzoi/ZFPM2_chr8_105318437_+.pickle,1.908,neutral,"K562 ENCODE, biol_"
-7200,-0.0418,0.4146,../results/context_dependence_test_10/borzoi/RPAP2_chr1_92299058_+.pickle,12.164,neutral,"K562 ENCODE, biol_"
-5180,0.04742,0.2769,../results/context_dependence_test_10/borzoi/C4orf46_chr4_158671887_-.pickle,6.105,neutral,"K562 ENCODE, biol_"
-8598,-0.006554,0.514,../results/context_dependence_test_10/borzoi/ERVK3-1_chr19_58305376_+.pickle,8.9,neutral,"K562 ENCODE, biol_"
-1141,-0.04306,0.5967,../results/context_dependence_test_10/borzoi/TOMM40_chr19_44891219_+.pickle,8.29,neutral,"K562 ENCODE, biol_"
-8254,-0.02635,0.913,../results/context_dependence_test_10/borzoi/EPN1_chr19_55675244_+.pickle,11.49,neutral,"K562 ENCODE, biol_"
-778,-0.02794,0.571,../results/context_dependence_test_10/borzoi/GDA_chr9_72114594_+.pickle,0.942,neutral,"K562 ENCODE, biol_"
-4430,0.04108,1.003,../results/context_dependence_test_10/borzoi/CBR1_chr21_36069940_+.pickle,7.137,neutral,"K562 ENCODE, biol_"
-2865,0.01382,0.2347,../results/context_dependence_test_10/borzoi/TTF2_chr1_117060325_+.pickle,5.832,neutral,"K562 ENCODE, biol_"
-1323,0.036,0.2935,../results/context_dependence_test_10/borzoi/ZNF543_chr19_57320471_+.pickle,4.035,neutral,"K562 ENCODE, biol_"
-2808,0.03668,0.2119,../results/context_dependence_test_10/borzoi/SCO2_chr22_50525604_-.pickle,5.902,neutral,"K562 ENCODE, biol_"
-8620,0.004795,0.8667,../results/context_dependence_test_10/borzoi/ZMPSTE24_chr1_40258235_+.pickle,7.586,neutral,"K562 ENCODE, biol_"
-4991,0.0446,0.3613,../results/context_dependence_test_10/borzoi/WDCP_chr2_24047361_-.pickle,5.742,neutral,"K562 ENCODE, biol_"
-5383,-0.01375,0.3298,../results/context_dependence_test_10/borzoi/ENSG00000273217_chr5_131796983_-.pickle,6.934,neutral,"K562 ENCODE, biol_"
-8751,0.006252,0.4626,../results/context_dependence_test_10/borzoi/PKN2_chr1_88684272_+.pickle,10.805,neutral,"K562 ENCODE, biol_"
-3603,0.04028,0.4316,../results/context_dependence_test_10/borzoi/CCNL2_chr1_1399335_-.pickle,5.715,neutral,"K562 ENCODE, biol_"
-2991,-0.0211,0.754,../results/context_dependence_test_10/borzoi/PRMT9_chr4_147684163_-.pickle,6.68,neutral,"K562 ENCODE, biol_"
-2355,0.04294,0.2783,../results/context_dependence_test_10/borzoi/WDR5B_chr3_122416062_-.pickle,5.332,neutral,"K562 ENCODE, biol_"
-3187,0.007473,0.458,../results/context_dependence_test_10/borzoi/ABCB9_chr12_122975205_-.pickle,4.516,neutral,"K562 ENCODE, biol_"
-5260,0.04263,0.2438,../results/context_dependence_test_10/borzoi/RCE1_chr11_66843436_+.pickle,7.68,neutral,"K562 ENCODE, biol_"
-9542,-0.02026,0.2131,../results/context_dependence_test_10/borzoi/RPL29_chr3_51995881_-.pickle,13.664,neutral,"K562 ENCODE, biol_"
-2807,0.02605,0.2656,../results/context_dependence_test_10/borzoi/RBM41_chrX_107118804_-.pickle,5.723,neutral,"K562 ENCODE, biol_"
-5509,-0.04626,0.884,../results/context_dependence_test_10/borzoi/CAMLG_chr5_134738512_+.pickle,8.234,neutral,"K562 ENCODE, biol_"
-4613,0.001717,0.6094,../results/context_dependence_test_10/borzoi/GTPBP8_chr3_112990984_+.pickle,7.28,neutral,"K562 ENCODE, biol_"
-6585,-0.01816,0.6343,../results/context_dependence_test_10/borzoi/TMEM259_chr19_1021123_-.pickle,9.56,neutral,"K562 ENCODE, biol_"
-5355,-0.013374,0.5024,../results/context_dependence_test_10/borzoi/TRAPPC8_chr18_31943128_-.pickle,8.25,neutral,"K562 ENCODE, biol_"
-2501,0.0489,0.1575,../results/context_dependence_test_10/borzoi/ICAM2_chr17_64006932_-.pickle,1.074,neutral,"K562 ENCODE, biol_"
-6078,-0.009766,0.2295,../results/context_dependence_test_10/borzoi/TYW1_chr7_66996832_+.pickle,6.9,neutral,"K562 ENCODE, biol_"
-8516,-0.0396,0.502,../results/context_dependence_test_10/borzoi/HADH_chr4_107989853_+.pickle,10.93,neutral,"K562 ENCODE, biol_"
-6352,0.01364,0.547,../results/context_dependence_test_10/borzoi/DMAC2_chr19_41439936_-.pickle,5.3,neutral,"K562 ENCODE, biol_"
-3402,-0.0246,0.5327,../results/context_dependence_test_10/borzoi/ZNF789_chr7_99472889_+.pickle,5.816,neutral,"K562 ENCODE, biol_"
-6533,-0.04517,0.497,../results/context_dependence_test_10/borzoi/KDM5C_chrX_53225224_-.pickle,4.992,neutral,"K562 ENCODE, biol_"
-6626,-0.01932,0.3105,../results/context_dependence_test_10/borzoi/CSTF2T_chr10_51699595_-.pickle,7.094,neutral,"K562 ENCODE, biol_"
-5685,0.01374,0.229,../results/context_dependence_test_10/borzoi/MIEF1_chr22_39502376_+.pickle,8.86,neutral,"K562 ENCODE, biol_"
-8172,0.03906,0.56,../results/context_dependence_test_10/borzoi/HERC3_chr4_88523809_+.pickle,13.4,neutral,"K562 ENCODE, biol_"
-8444,-0.011215,0.8086,../results/context_dependence_test_10/borzoi/S100PBP_chr1_32817441_+.pickle,16.56,neutral,"K562 ENCODE, biol_"
-5736,-0.01247,0.6304,../results/context_dependence_test_10/borzoi/HSD17B12_chr11_43680737_+.pickle,8.88,neutral,"K562 ENCODE, biol_"
-5457,0.00511,0.4072,../results/context_dependence_test_10/borzoi/BLOC1S5_chr6_8064385_-.pickle,7.11,neutral,"K562 ENCODE, biol_"
-7951,-0.0378,0.484,../results/context_dependence_test_10/borzoi/MZT1_chr13_72727629_-.pickle,11.336,neutral,"K562 ENCODE, biol_"
-8591,-0.01631,0.7,../results/context_dependence_test_10/borzoi/TBL2_chr7_73578579_-.pickle,8.1,neutral,"K562 ENCODE, biol_"
-1420,0.005882,0.4897,../results/context_dependence_test_10/borzoi/C7orf25_chr7_42912090_-.pickle,4.266,neutral,"K562 ENCODE, biol_"
-1659,0.02963,0.541,../results/context_dependence_test_10/borzoi/LMF1_chr16_970960_-.pickle,4.992,neutral,"K562 ENCODE, biol_"
-7384,0.0001392,0.2834,../results/context_dependence_test_10/borzoi/CLASRP_chr19_45039045_+.pickle,7.324,neutral,"K562 ENCODE, biol_"
-5228,-0.007687,0.4294,../results/context_dependence_test_10/borzoi/RLF_chr1_40161386_+.pickle,6.16,neutral,"K562 ENCODE, biol_"
-4401,0.0446,0.6597,../results/context_dependence_test_10/borzoi/ECH1_chr19_38831794_-.pickle,7.64,neutral,"K562 ENCODE, biol_"
-7235,0.02008,0.586,../results/context_dependence_test_10/borzoi/PTCD2_chr5_72320366_+.pickle,7.92,neutral,"K562 ENCODE, biol_"
-3365,0.0445,0.511,../results/context_dependence_test_10/borzoi/CIPC_chr14_77098257_+.pickle,5.363,neutral,"K562 ENCODE, biol_"
-3290,0.04797,0.398,../results/context_dependence_test_10/borzoi/BRD9_chr5_892801_-.pickle,17.61,neutral,"K562 ENCODE, biol_"
-4834,-0.03085,0.2612,../results/context_dependence_test_10/borzoi/RIPK3_chr14_24339991_-.pickle,1.055,neutral,"K562 ENCODE, biol_"
-5612,0.04828,0.405,../results/context_dependence_test_10/borzoi/RAPGEF6_chr5_131635212_-.pickle,8.09,neutral,"K562 ENCODE, biol_"
-6171,-0.0174,0.4143,../results/context_dependence_test_10/borzoi/WDR44_chrX_118346142_+.pickle,9.3,neutral,"K562 ENCODE, biol_"
-7748,0.03726,0.448,../results/context_dependence_test_10/borzoi/MED21_chr12_27022557_+.pickle,7.24,neutral,"K562 ENCODE, biol_"
-7924,-0.03146,0.61,../results/context_dependence_test_10/borzoi/RSU1_chr10_16817383_-.pickle,13.14,neutral,"K562 ENCODE, biol_"
-4743,0.000246,0.4084,../results/context_dependence_test_10/borzoi/ZFC3H1_chr12_71663848_-.pickle,8.75,neutral,"K562 ENCODE, biol_"
-9545,0.02768,0.3835,../results/context_dependence_test_10/borzoi/USP15_chr12_62260396_+.pickle,8.45,neutral,"K562 ENCODE, biol_"
-5186,0.01657,0.2379,../results/context_dependence_test_10/borzoi/LEMD3_chr12_65169582_+.pickle,6.742,neutral,"K562 ENCODE, biol_"
-9486,0.03857,1.18,../results/context_dependence_test_10/borzoi/COX7B_chrX_77899467_+.pickle,11.81,neutral,"K562 ENCODE, biol_"
-9114,0.0293,0.5234,../results/context_dependence_test_10/borzoi/RPS27_chr1_153990761_+.pickle,8.98,neutral,"K562 ENCODE, biol_"
-9914,0.02225,0.3079,../results/context_dependence_test_10/borzoi/TPT1_chr13_45341158_-.pickle,17.28,neutral,"K562 ENCODE, biol_"
-2366,0.02834,0.6245,../results/context_dependence_test_10/borzoi/RELB_chr19_45001463_+.pickle,5.273,neutral,"K562 ENCODE, biol_"
-8135,-0.02518,1.07,../results/context_dependence_test_10/borzoi/H3C4_chr6_26197286_-.pickle,8.06,neutral,"K562 ENCODE, biol_"
-4671,-0.04556,0.3066,../results/context_dependence_test_10/borzoi/KAT6A_chr8_42051990_-.pickle,6.82,neutral,"K562 ENCODE, biol_"
-7885,0.01199,0.3594,../results/context_dependence_test_10/borzoi/EPS8_chr12_15882324_-.pickle,11.36,neutral,"K562 ENCODE, biol_"
-6808,0.02348,0.505,../results/context_dependence_test_10/borzoi/CEP20_chr16_15888625_-.pickle,7.566,neutral,"K562 ENCODE, biol_"
-6373,-0.02383,0.6313,../results/context_dependence_test_10/borzoi/RBM42_chr19_35629035_+.pickle,10.53,neutral,"K562 ENCODE, biol_"
-3200,0.03482,0.4016,../results/context_dependence_test_10/borzoi/H3-5_chr12_31792298_-.pickle,3.371,neutral,"K562 ENCODE, biol_"
-7265,0.015526,0.568,../results/context_dependence_test_10/borzoi/GOPC_chr6_117602511_-.pickle,9.09,neutral,"K562 ENCODE, biol_"
-4154,0.00507,0.5205,../results/context_dependence_test_10/borzoi/MCM9_chr6_118935114_-.pickle,9.87,neutral,"K562 ENCODE, biol_"
-4035,0.02649,0.632,../results/context_dependence_test_10/borzoi/SUMF1_chr3_4467264_-.pickle,5.945,neutral,"K562 ENCODE, biol_"
-7083,-0.0409,0.606,../results/context_dependence_test_10/borzoi/METTL17_chr14_20989979_+.pickle,6.902,neutral,"K562 ENCODE, biol_"
-954,0.0382,0.5967,../results/context_dependence_test_10/borzoi/IDH1_chr2_208255071_-.pickle,6.242,neutral,"K562 ENCODE, biol_"
-8557,0.03308,0.5493,../results/context_dependence_test_10/borzoi/ZBTB49_chr4_4290250_+.pickle,13.73,neutral,"K562 ENCODE, biol_"
-9302,0.01584,0.4749,../results/context_dependence_test_10/borzoi/CYC1_chr8_144095075_+.pickle,9.32,neutral,"K562 ENCODE, biol_"
-2274,0.0342,0.4565,../results/context_dependence_test_10/borzoi/OGG1_chr3_9749943_+.pickle,3.82,neutral,"K562 ENCODE, biol_"
-3073,0.037,0.3257,../results/context_dependence_test_10/borzoi/MVK_chr12_109573836_+.pickle,5.76,neutral,"K562 ENCODE, biol_"
-3519,-0.004257,0.2036,../results/context_dependence_test_10/borzoi/NBEAL2_chr3_46987989_+.pickle,1.182,neutral,"K562 ENCODE, biol_"
-9696,-0.01125,0.6797,../results/context_dependence_test_10/borzoi/ENSG00000272162_chr6_10747793_+.pickle,12.25,neutral,"K562 ENCODE, biol_"
-9702,-0.02295,0.7324,../results/context_dependence_test_10/borzoi/SF3B6_chr2_24076326_-.pickle,17.73,neutral,"K562 ENCODE, biol_"
-9240,-0.02156,0.214,../results/context_dependence_test_10/borzoi/DDX56_chr7_44573925_-.pickle,9.82,neutral,"K562 ENCODE, biol_"
-2662,0.0326,0.628,../results/context_dependence_test_10/borzoi/TAF5_chr10_103367975_+.pickle,5.664,neutral,"K562 ENCODE, biol_"
-4729,-0.005737,0.6606,../results/context_dependence_test_10/borzoi/H3-3A_chr1_226062757_+.pickle,7.22,neutral,"K562 ENCODE, biol_"
-780,0.0321,0.428,../results/context_dependence_test_10/borzoi/ZNF180_chr19_44500522_-.pickle,4.273,neutral,"K562 ENCODE, biol_"
-9022,0.03467,0.3704,../results/context_dependence_test_10/borzoi/PRPF38A_chr1_52404601_+.pickle,10.3,neutral,"K562 ENCODE, biol_"
-6575,0.04364,0.583,../results/context_dependence_test_10/borzoi/OSBPL8_chr12_76559809_-.pickle,11.71,neutral,"K562 ENCODE, biol_"
-8836,0.04675,0.6694,../results/context_dependence_test_10/borzoi/DDX54_chr12_113185478_-.pickle,11.516,neutral,"K562 ENCODE, biol_"
-1484,0.01517,0.4712,../results/context_dependence_test_10/borzoi/SUCO_chr1_172533117_+.pickle,8.51,neutral,"K562 ENCODE, biol_"
-3869,-0.04703,0.596,../results/context_dependence_test_10/borzoi/TSPAN31_chr12_57745038_+.pickle,6.734,neutral,"K562 ENCODE, biol_"
-4446,0.00794,0.3477,../results/context_dependence_test_10/borzoi/PRR5_chr22_44677056_+.pickle,1.592,neutral,"K562 ENCODE, biol_"
-2478,0.04312,0.3752,../results/context_dependence_test_10/borzoi/DNAH8_chr6_38722809_+.pickle,0.5825,neutral,"K562 ENCODE, biol_"
-2017,0.02048,0.87,../results/context_dependence_test_10/borzoi/EHD4_chr15_41972557_-.pickle,7.707,neutral,"K562 ENCODE, biol_"
-6036,0.04498,0.673,../results/context_dependence_test_10/borzoi/SETX_chr9_132354986_-.pickle,7.906,neutral,"K562 ENCODE, biol_"
-8805,0.00807,0.392,../results/context_dependence_test_10/borzoi/ARF6_chr14_49893078_+.pickle,13.38,neutral,"K562 ENCODE, biol_"
-7416,-0.03677,0.616,../results/context_dependence_test_10/borzoi/MRPL4_chr19_10252275_+.pickle,10.12,neutral,"K562 ENCODE, biol_"
-1268,-0.02753,0.4192,../results/context_dependence_test_10/borzoi/DNAJB5_chr9_34989803_+.pickle,4.492,neutral,"K562 ENCODE, biol_"
-9377,0.02638,0.526,../results/context_dependence_test_10/borzoi/RPLP1_chr15_69452817_+.pickle,14.38,neutral,"K562 ENCODE, biol_"
-8124,0.01727,0.728,../results/context_dependence_test_10/borzoi/BCKDHA_chr19_41397822_+.pickle,7.027,neutral,"K562 ENCODE, biol_"
-6062,-0.0272,0.6245,../results/context_dependence_test_10/borzoi/CCDC91_chr12_28190445_+.pickle,7.992,neutral,"K562 ENCODE, biol_"
-9035,0.04587,0.702,../results/context_dependence_test_10/borzoi/NUP107_chr12_68686977_+.pickle,9.234,neutral,"K562 ENCODE, biol_"
-224,0.001043,0.6157,../results/context_dependence_test_10/borzoi/KCTD17_chr22_37051741_+.pickle,3.438,neutral,"K562 ENCODE, biol_"
-2498,0.013115,0.3357,../results/context_dependence_test_10/borzoi/ZNF107_chr7_64666133_+.pickle,6.69,neutral,"K562 ENCODE, biol_"
-7786,-0.03525,0.495,../results/context_dependence_test_10/borzoi/RNF26_chr11_119334526_+.pickle,7.152,neutral,"K562 ENCODE, biol_"
-1372,-0.010895,0.3154,../results/context_dependence_test_10/borzoi/ZNF45_chr19_43935282_-.pickle,4.125,neutral,"K562 ENCODE, biol_"
-2647,-0.00891,0.5645,../results/context_dependence_test_10/borzoi/ADNP2_chr18_80109261_+.pickle,4.34,neutral,"K562 ENCODE, biol_"
-9425,-0.03528,0.974,../results/context_dependence_test_10/borzoi/MFAP1_chr15_43824690_-.pickle,12.99,neutral,"K562 ENCODE, biol_"
-3345,0.00941,0.734,../results/context_dependence_test_10/borzoi/ADAT1_chr16_75623300_-.pickle,6.418,neutral,"K562 ENCODE, biol_"
-2965,0.0235,0.7666,../results/context_dependence_test_10/borzoi/ZCCHC4_chr4_25312773_+.pickle,5.395,neutral,"K562 ENCODE, biol_"
-2627,0.0246,0.595,../results/context_dependence_test_10/borzoi/INSIG2_chr2_118088470_+.pickle,9.086,neutral,"K562 ENCODE, biol_"
-6308,0.01001,0.6753,../results/context_dependence_test_10/borzoi/AP1AR_chr4_112231786_+.pickle,7.81,neutral,"K562 ENCODE, biol_"
-3547,0.02457,0.3997,../results/context_dependence_test_10/borzoi/LMTK2_chr7_98106861_+.pickle,5.363,neutral,"K562 ENCODE, biol_"
-6084,0.001724,0.5415,../results/context_dependence_test_10/borzoi/CYB5R4_chr6_83859688_+.pickle,8.89,neutral,"K562 ENCODE, biol_"
-7193,-0.00328,0.623,../results/context_dependence_test_10/borzoi/RNF114_chr20_49936396_+.pickle,7.27,neutral,"K562 ENCODE, biol_"
-6629,0.00655,0.674,../results/context_dependence_test_10/borzoi/CRKL_chr22_20917406_+.pickle,10.05,neutral,"K562 ENCODE, biol_"
-9840,0.02037,0.5674,../results/context_dependence_test_10/borzoi/NDUFA4_chr7_10940153_-.pickle,13.19,neutral,"K562 ENCODE, biol_"
-3099,0.03001,0.244,../results/context_dependence_test_10/borzoi/SNX16_chr8_81842193_-.pickle,2.492,neutral,"K562 ENCODE, biol_"
-6740,-0.02795,0.513,../results/context_dependence_test_10/borzoi/ERCC2_chr19_45370588_-.pickle,4.51,neutral,"K562 ENCODE, biol_"
-9288,0.00949,0.7744,../results/context_dependence_test_10/borzoi/ESD_chr13_46797161_-.pickle,9.18,neutral,"K562 ENCODE, biol_"
-2804,0.0305,0.834,../results/context_dependence_test_10/borzoi/FYB1_chr5_39203027_-.pickle,0.7495,neutral,"K562 ENCODE, biol_"
-20,-0.04892,0.676,../results/context_dependence_test_10/borzoi/CGREF1_chr2_27119030_-.pickle,1.524,neutral,"K562 ENCODE, biol_"
-258,-0.02072,0.624,../results/context_dependence_test_10/borzoi/ENSG00000268173_chr19_18153157_+.pickle,9.52,neutral,"K562 ENCODE, biol_"
-6863,0.00844,0.644,../results/context_dependence_test_10/borzoi/XPO6_chr16_28211965_-.pickle,13.234,neutral,"K562 ENCODE, biol_"
-8148,-0.00978,0.4438,../results/context_dependence_test_10/borzoi/IREB2_chr15_78438215_+.pickle,12.61,neutral,"K562 ENCODE, biol_"
-2983,0.0133,0.507,../results/context_dependence_test_10/borzoi/UNC119B_chr12_120710457_+.pickle,6.46,neutral,"K562 ENCODE, biol_"
-825,0.01947,0.2095,../results/context_dependence_test_10/borzoi/CYP46A1_chr14_99684297_+.pickle,1.007,neutral,"K562 ENCODE, biol_"
-6973,-0.0177,0.5854,../results/context_dependence_test_10/borzoi/MFN1_chr3_179347708_+.pickle,8.17,neutral,"K562 ENCODE, biol_"
-7163,-0.0484,0.807,../results/context_dependence_test_10/borzoi/TPP1_chr11_6619413_-.pickle,6.492,neutral,"K562 ENCODE, biol_"
-2100,0.04688,0.4385,../results/context_dependence_test_10/borzoi/SYK_chr9_90801818_+.pickle,2.54,neutral,"K562 ENCODE, biol_"
-5455,-0.02702,0.5073,../results/context_dependence_test_10/borzoi/KDM5D_chrY_19744761_-.pickle,4.117,neutral,"K562 ENCODE, biol_"
-9793,-0.04654,0.762,../results/context_dependence_test_10/borzoi/SSR1_chr6_7313188_-.pickle,14.02,neutral,"K562 ENCODE, biol_"
-8974,-0.004738,0.3774,../results/context_dependence_test_10/borzoi/HEATR1_chr1_236604504_-.pickle,8.85,neutral,"K562 ENCODE, biol_"
-7873,-0.0342,0.3662,../results/context_dependence_test_10/borzoi/IMP3_chr15_75640224_-.pickle,8.914,neutral,"K562 ENCODE, biol_"
-2533,0.04517,0.652,../results/context_dependence_test_10/borzoi/LMAN2L_chr2_96740064_-.pickle,6.098,neutral,"K562 ENCODE, biol_"
-8697,0.04437,0.535,../results/context_dependence_test_10/borzoi/GRPEL1_chr4_7068064_-.pickle,8.42,neutral,"K562 ENCODE, biol_"
-1149,0.0174,0.2942,../results/context_dependence_test_10/borzoi/GPR146_chr7_1055284_+.pickle,2.004,neutral,"K562 ENCODE, biol_"
-5460,-0.04956,0.5327,../results/context_dependence_test_10/borzoi/NKTR_chr3_42600742_+.pickle,10.02,neutral,"K562 ENCODE, biol_"
-5594,-0.04007,0.2186,../results/context_dependence_test_10/borzoi/TBCC_chr6_42746103_-.pickle,5.82,neutral,"K562 ENCODE, biol_"
-8910,-0.03476,0.177,../results/context_dependence_test_10/borzoi/PPAN-P2RY11_chr19_10106394_+.pickle,9.27,neutral,"K562 ENCODE, biol_"
-1584,-0.03497,0.4248,../results/context_dependence_test_10/borzoi/ZNF233_chr19_44259885_+.pickle,1.16,neutral,"K562 ENCODE, biol_"
-5298,0.01888,0.558,../results/context_dependence_test_10/borzoi/C1GALT1_chr7_7182543_+.pickle,8.1,neutral,"K562 ENCODE, biol_"
-4419,-0.0498,0.3843,../results/context_dependence_test_10/borzoi/RANBP6_chr9_6015624_-.pickle,6.5,neutral,"K562 ENCODE, biol_"
-6053,-0.02957,0.525,../results/context_dependence_test_10/borzoi/DHDDS_chr1_26432328_+.pickle,9.4,neutral,"K562 ENCODE, biol_"
-5846,0.03497,0.1798,../results/context_dependence_test_10/borzoi/CLCN5_chrX_49922614_+.pickle,5.21,neutral,"K562 ENCODE, biol_"
-5343,0.01563,0.3816,../results/context_dependence_test_10/borzoi/RWDD2A_chr6_83193356_+.pickle,10.27,neutral,"K562 ENCODE, biol_"
-5740,0.0487,0.2595,../results/context_dependence_test_10/borzoi/KDM6A_chrX_44873187_+.pickle,7.195,neutral,"K562 ENCODE, biol_"
-8031,0.01314,0.7017,../results/context_dependence_test_10/borzoi/MRPS10_chr6_42217861_-.pickle,7.32,neutral,"K562 ENCODE, biol_"
-4203,0.02856,0.4402,../results/context_dependence_test_10/borzoi/TATDN2_chr3_10248458_+.pickle,7.26,neutral,"K562 ENCODE, biol_"
-9066,0.01004,0.4607,../results/context_dependence_test_10/borzoi/PRPF38B_chr1_108692309_+.pickle,10.52,neutral,"K562 ENCODE, biol_"
-8913,0.04654,0.7935,../results/context_dependence_test_10/borzoi/UBXN4_chr2_135741854_+.pickle,14.3,neutral,"K562 ENCODE, biol_"
-483,-0.03275,0.728,../results/context_dependence_test_10/borzoi/ACP6_chr1_147670524_-.pickle,2.676,neutral,"K562 ENCODE, biol_"
-8794,0.02643,1.364,../results/context_dependence_test_10/borzoi/NIF3L1_chr2_200889368_+.pickle,13.67,neutral,"K562 ENCODE, biol_"
-9646,0.005024,0.3438,../results/context_dependence_test_10/borzoi/HIGD2A_chr5_176388750_+.pickle,11.95,neutral,"K562 ENCODE, biol_"
-2487,0.0444,0.2349,../results/context_dependence_test_10/borzoi/ZNF813_chr19_53467732_+.pickle,3.156,neutral,"K562 ENCODE, biol_"
-3642,0.0434,0.5254,../results/context_dependence_test_10/borzoi/ZNF526_chr19_42220311_+.pickle,5.188,neutral,"K562 ENCODE, biol_"
-8979,0.00783,0.4788,../results/context_dependence_test_10/borzoi/CCDC59_chr12_82358387_-.pickle,8.56,neutral,"K562 ENCODE, biol_"
-6348,-0.0335,0.3914,../results/context_dependence_test_10/borzoi/ENSG00000285542_chr2_44168850_+.pickle,6.457,neutral,"K562 ENCODE, biol_"
-6647,-0.0132,0.7666,../results/context_dependence_test_10/borzoi/MFN2_chr1_11980443_+.pickle,6.996,neutral,"K562 ENCODE, biol_"
-9848,0.02574,0.2944,../results/context_dependence_test_10/borzoi/RBMX_chrX_136880725_-.pickle,10.625,neutral,"K562 ENCODE, biol_"
-2617,-0.01944,0.4277,../results/context_dependence_test_10/borzoi/MSANTD4_chr11_106022240_-.pickle,5.15,neutral,"K562 ENCODE, biol_"
-9870,0.00835,0.6304,../results/context_dependence_test_10/borzoi/TOMM20_chr1_235128837_-.pickle,14.766,neutral,"K562 ENCODE, biol_"
-8766,0.009224,0.623,../results/context_dependence_test_10/borzoi/ESYT1_chr12_56128266_+.pickle,9.09,neutral,"K562 ENCODE, biol_"
-4028,0.0142,0.3499,../results/context_dependence_test_10/borzoi/C19orf25_chr19_1479183_-.pickle,5.492,neutral,"K562 ENCODE, biol_"
-9186,0.04498,0.4585,../results/context_dependence_test_10/borzoi/PRPF8_chr17_1684837_-.pickle,11.836,neutral,"K562 ENCODE, biol_"
-5861,0.02328,0.8984,../results/context_dependence_test_10/borzoi/PAAF1_chr11_73876996_+.pickle,8.586,neutral,"K562 ENCODE, biol_"
-6894,-0.001251,0.771,../results/context_dependence_test_10/borzoi/TMEM106B_chr7_12211299_+.pickle,13.28,neutral,"K562 ENCODE, biol_"
-6519,0.0315,0.314,../results/context_dependence_test_10/borzoi/GBE1_chr3_81761645_-.pickle,11.664,neutral,"K562 ENCODE, biol_"
-9665,0.04727,0.5645,../results/context_dependence_test_10/borzoi/BUD31_chr7_99408968_+.pickle,15.34,neutral,"K562 ENCODE, biol_"
-4402,0.003185,0.618,../results/context_dependence_test_10/borzoi/TTPAL_chr20_44475873_+.pickle,6.312,neutral,"K562 ENCODE, biol_"
-9816,0.01582,0.649,../results/context_dependence_test_10/borzoi/CAPZA1_chr1_112619831_+.pickle,11.734,neutral,"K562 ENCODE, biol_"
-7387,-0.04993,0.767,../results/context_dependence_test_10/borzoi/LAMTOR4_chr7_100148912_+.pickle,10.96,neutral,"K562 ENCODE, biol_"
-9763,-0.02023,0.4182,../results/context_dependence_test_10/borzoi/RPL8_chr8_144792389_-.pickle,14.83,neutral,"K562 ENCODE, biol_"
-4762,0.01555,0.56,../results/context_dependence_test_10/borzoi/STRIP1_chr1_110034623_+.pickle,5.746,neutral,"K562 ENCODE, biol_"
-3112,-0.4011,0.4326,../results/context_dependence_test_10/borzoi/ZNF626_chr19_20661596_-.pickle,5.324,silencing,"K562 ENCODE, biol_"
-3137,-0.596,1.624,../results/context_dependence_test_10/borzoi/MSTO1_chr1_155563234_+.pickle,3.803,silencing,"K562 ENCODE, biol_"
-526,-0.5093,0.4976,../results/context_dependence_test_10/borzoi/CPZ_chr4_8592764_+.pickle,0.2168,silencing,"K562 ENCODE, biol_"
-2831,-1.682,0.9604,../results/context_dependence_test_10/borzoi/ZNF730_chr19_23075209_+.pickle,2.094,silencing,"K562 ENCODE, biol_"
-5043,-0.5435,0.4973,../results/context_dependence_test_10/borzoi/ENSG00000100101_chr22_37686413_+.pickle,8.46,silencing,"K562 ENCODE, biol_"
-1888,-4.285,1.8955,../results/context_dependence_test_10/borzoi/SIK1_chr21_43427131_-.pickle,0.2698,silencing,"K562 ENCODE, biol_"
-966,-1.074,0.3623,../results/context_dependence_test_10/borzoi/NCK2_chr2_105851781_+.pickle,0.02489,silencing,"K562 ENCODE, biol_"
-499,-0.912,0.7456,../results/context_dependence_test_10/borzoi/ZNF790_chr19_36838387_-.pickle,1.11,silencing,"K562 ENCODE, biol_"
-3630,-1.438,3.486,../results/context_dependence_test_10/borzoi/MCTS2_chr20_31547378_+.pickle,6.086,silencing,"K562 ENCODE, biol_"
-118,-2.121,1.587,../results/context_dependence_test_10/borzoi/ZNF479_chr7_57132436_-.pickle,0.2727,silencing,"K562 ENCODE, biol_"
-1933,-0.322,0.612,../results/context_dependence_test_10/borzoi/ZNF322_chr6_26659752_-.pickle,4.184,silencing,"K562 ENCODE, biol_"
-1819,-0.3137,0.9707,../results/context_dependence_test_10/borzoi/ZBTB26_chr9_122931512_-.pickle,4.28,silencing,"K562 ENCODE, biol_"
-3848,-0.3726,0.2742,../results/context_dependence_test_10/borzoi/C1orf122_chr1_37807789_+.pickle,5.58,silencing,"K562 ENCODE, biol_"
-9115,-0.4065,1.303,../results/context_dependence_test_10/borzoi/TMA16_chr4_163494689_+.pickle,11.97,silencing,"K562 ENCODE, biol_"
-1916,-2.703,3.559,../results/context_dependence_test_10/borzoi/ZNF35_chr3_44648731_+.pickle,2.05,silencing,"K562 ENCODE, biol_"
-4031,-0.6523,2.117,../results/context_dependence_test_10/borzoi/DBR1_chr3_138174949_-.pickle,6.617,silencing,"K562 ENCODE, biol_"
-2345,-0.3513,0.7744,../results/context_dependence_test_10/borzoi/RSBN1_chr1_113812289_-.pickle,5.086,silencing,"K562 ENCODE, biol_"
-9102,-0.738,0.937,../results/context_dependence_test_10/borzoi/SELENOH_chr11_57741490_+.pickle,11.6,silencing,"K562 ENCODE, biol_"
-6379,-0.3555,1.33,../results/context_dependence_test_10/borzoi/H3C1_chr6_26020450_+.pickle,5.746,silencing,"K562 ENCODE, biol_"
-9924,-0.365,1.11,../results/context_dependence_test_10/borzoi/CCNA2_chr4_121823883_-.pickle,11.95,silencing,"K562 ENCODE, biol_"
-8795,-0.784,1.573,../results/context_dependence_test_10/borzoi/SUMF2_chr7_56064288_+.pickle,9.6,silencing,"K562 ENCODE, biol_"
-4493,-1.433,0.977,../results/context_dependence_test_10/borzoi/ZNF578_chr19_52453552_+.pickle,0.968,silencing,"K562 ENCODE, biol_"
-7098,-1.998,2.72,../results/context_dependence_test_10/borzoi/APOOL_chrX_85003876_+.pickle,5.73,silencing,"K562 ENCODE, biol_"
-824,-0.553,1.246,../results/context_dependence_test_10/borzoi/FOXN3_chr14_89417233_-.pickle,3.385,silencing,"K562 ENCODE, biol_"
-2480,-0.3325,0.626,../results/context_dependence_test_10/borzoi/POMGNT2_chr3_43106085_-.pickle,3.584,silencing,"K562 ENCODE, biol_"
-1382,-3.023,3.45,../results/context_dependence_test_10/borzoi/ZNF141_chr4_337833_+.pickle,4.45,silencing,"K562 ENCODE, biol_"
-4044,-0.8496,0.715,../results/context_dependence_test_10/borzoi/EIF4EBP3_chr5_140547661_+.pickle,3.775,silencing,"K562 ENCODE, biol_"
-6950,-4.715,5.4,../results/context_dependence_test_10/borzoi/THOC3_chr5_175968280_-.pickle,2.605,silencing,"K562 ENCODE, biol_"
-8017,-0.4934,0.896,../results/context_dependence_test_10/borzoi/LAMTOR3_chr4_99894427_-.pickle,12.76,silencing,"K562 ENCODE, biol_"
-8315,-0.3503,0.866,../results/context_dependence_test_10/borzoi/MRPS14_chr1_175023425_-.pickle,6.902,silencing,"K562 ENCODE, biol_"
-3895,-0.6885,1.136,../results/context_dependence_test_10/borzoi/ZNF197_chr3_44625018_+.pickle,4.773,silencing,"K562 ENCODE, biol_"
-1732,-0.449,0.7344,../results/context_dependence_test_10/borzoi/GADD45B_chr19_2476126_+.pickle,5.74,silencing,"K562 ENCODE, biol_"
-7705,-0.463,1.211,../results/context_dependence_test_10/borzoi/SPATA5_chr4_122923077_+.pickle,8.836,silencing,"K562 ENCODE, biol_"
-110,-1.881,3.16,../results/context_dependence_test_10/borzoi/UCHL1_chr4_41256927_+.pickle,5.918,silencing,"K562 ENCODE, biol_"
-9111,-0.55,0.7983,../results/context_dependence_test_10/borzoi/MRPS30_chr5_44808946_+.pickle,8.7,silencing,"K562 ENCODE, biol_"
-663,-0.5757,0.5825,../results/context_dependence_test_10/borzoi/GSPT2_chrX_51743441_+.pickle,5.17,silencing,"K562 ENCODE, biol_"
-2136,-0.3787,0.5776,../results/context_dependence_test_10/borzoi/ZNF439_chr19_11848725_+.pickle,2.254,silencing,"K562 ENCODE, biol_"
-8071,-0.4849,1.463,../results/context_dependence_test_10/borzoi/TTC27_chr2_32628049_+.pickle,9.68,silencing,"K562 ENCODE, biol_"
-4982,-0.506,0.7163,../results/context_dependence_test_10/borzoi/TMEM223_chr11_62792006_-.pickle,6.35,silencing,"K562 ENCODE, biol_"
-243,-1.075,2.11,../results/context_dependence_test_10/borzoi/SQOR_chr15_45635028_+.pickle,3.47,silencing,"K562 ENCODE, biol_"
-8932,-0.458,0.685,../results/context_dependence_test_10/borzoi/RIF1_chr2_151409901_+.pickle,9.41,silencing,"K562 ENCODE, biol_"
-9219,-0.679,0.6333,../results/context_dependence_test_10/borzoi/HYPK_chr15_43800598_+.pickle,8.41,silencing,"K562 ENCODE, biol_"
-6947,-2.049,4.01,../results/context_dependence_test_10/borzoi/ARHGAP11A_chr15_32615503_+.pickle,3.197,silencing,"K562 ENCODE, biol_"
-59,-0.7544,1.763,../results/context_dependence_test_10/borzoi/TPM2_chr9_35689925_-.pickle,4.02,silencing,"K562 ENCODE, biol_"
-341,-3.893,3.652,../results/context_dependence_test_10/borzoi/ZNF880_chr19_52369916_+.pickle,2.986,silencing,"K562 ENCODE, biol_"
-9479,-0.3877,1.023,../results/context_dependence_test_10/borzoi/ETFA_chr15_76311414_-.pickle,13.53,silencing,"K562 ENCODE, biol_"
-2899,-0.3235,0.5166,../results/context_dependence_test_10/borzoi/ZNF460_chr19_57280484_+.pickle,6.89,silencing,"K562 ENCODE, biol_"
-2787,-0.325,0.4824,../results/context_dependence_test_10/borzoi/ZNF569_chr19_37467229_-.pickle,1.224,silencing,"K562 ENCODE, biol_"
-4234,-0.4287,0.3667,../results/context_dependence_test_10/borzoi/ZNF266_chr19_9435571_-.pickle,7.246,silencing,"K562 ENCODE, biol_"
-8493,-0.3552,0.654,../results/context_dependence_test_10/borzoi/SURF6_chr9_133336188_-.pickle,10.55,silencing,"K562 ENCODE, biol_"
-3355,-0.7476,1.559,../results/context_dependence_test_10/borzoi/ZNF614_chr19_52028379_-.pickle,4.895,silencing,"K562 ENCODE, biol_"
-3085,-5.215,4.062,../results/context_dependence_test_10/borzoi/ZNF461_chr19_36666841_-.pickle,2.977,silencing,"K562 ENCODE, biol_"
-6940,-0.624,0.7334,../results/context_dependence_test_10/borzoi/MYC_chr8_127736083_+.pickle,0.4468,silencing,"K562 ENCODE, biol_"
-8175,-0.562,1.17,../results/context_dependence_test_10/borzoi/RMDN1_chr8_86508675_-.pickle,9.984,silencing,"K562 ENCODE, biol_"
-596,-0.9326,1.94,../results/context_dependence_test_10/borzoi/LAMC1_chr1_183023419_+.pickle,4.29,silencing,"K562 ENCODE, biol_"
-2219,-1.735,5.375,../results/context_dependence_test_10/borzoi/TRIM16_chr17_15684311_-.pickle,2.178,silencing,"K562 ENCODE, biol_"
-6252,-0.6816,1.684,../results/context_dependence_test_10/borzoi/ARHGAP11A-SCG5_chr15_32615447_+.pickle,3.28,silencing,"K562 ENCODE, biol_"
-7195,-0.9087,1.508,../results/context_dependence_test_10/borzoi/ZDHHC6_chr10_112446914_-.pickle,11.85,silencing,"K562 ENCODE, biol_"
-4847,-1.018,3.53,../results/context_dependence_test_10/borzoi/PDPR_chr16_70114331_+.pickle,2.697,silencing,"K562 ENCODE, biol_"
-7817,-0.307,1.428,../results/context_dependence_test_10/borzoi/H2AC4_chr6_26033618_-.pickle,5.34,silencing,"K562 ENCODE, biol_"
-821,-0.307,0.8916,../results/context_dependence_test_10/borzoi/E2F6_chr2_11466161_-.pickle,3.383,silencing,"K562 ENCODE, biol_"
-1889,-0.3943,0.689,../results/context_dependence_test_10/borzoi/MAP1LC3A_chr20_34558717_+.pickle,3.121,silencing,"K562 ENCODE, biol_"
-4186,-0.3381,0.5435,../results/context_dependence_test_10/borzoi/ZNF646_chr16_31074421_+.pickle,7.12,silencing,"K562 ENCODE, biol_"
-6010,-0.4124,1.064,../results/context_dependence_test_10/borzoi/MED17_chr11_93784281_+.pickle,10.555,silencing,"K562 ENCODE, biol_"
-112,-0.637,1.107,../results/context_dependence_test_10/borzoi/AASS_chr7_122144255_-.pickle,2.812,silencing,"K562 ENCODE, biol_"
-6155,-0.3772,1.458,../results/context_dependence_test_10/borzoi/HBA1_chr16_176679_+.pickle,1.095,silencing,"K562 ENCODE, biol_"
-8210,-0.3838,0.935,../results/context_dependence_test_10/borzoi/TPRKB_chr2_73737345_-.pickle,8.08,silencing,"K562 ENCODE, biol_"
-2525,-0.679,0.6675,../results/context_dependence_test_10/borzoi/ZNF416_chr19_57578911_-.pickle,3.816,silencing,"K562 ENCODE, biol_"
-2406,-1.135,0.7827,../results/context_dependence_test_10/borzoi/ZNF222_chr19_44025378_+.pickle,2.947,silencing,"K562 ENCODE, biol_"
-2836,-1.168,1.611,../results/context_dependence_test_10/borzoi/ENSG00000286098_chr19_11987640_+.pickle,4.547,silencing,"K562 ENCODE, biol_"
-9738,-0.68,0.965,../results/context_dependence_test_10/borzoi/SF3B5_chr6_144095573_-.pickle,8.81,silencing,"K562 ENCODE, biol_"
-3318,-0.466,1.05,../results/context_dependence_test_10/borzoi/SH3BP5L_chr1_248825915_-.pickle,4.086,silencing,"K562 ENCODE, biol_"
-5947,-0.787,0.883,../results/context_dependence_test_10/borzoi/ZNF529_chr19_36573288_-.pickle,7.414,silencing,"K562 ENCODE, biol_"
-3344,-0.3098,0.4407,../results/context_dependence_test_10/borzoi/ZNF559_chr19_9324178_+.pickle,3.82,silencing,"K562 ENCODE, biol_"
-4648,-0.8477,1.142,../results/context_dependence_test_10/borzoi/KRBOX5_chr16_31713276_+.pickle,7.367,silencing,"K562 ENCODE, biol_"
-2235,-0.3433,0.3057,../results/context_dependence_test_10/borzoi/ZNF586_chr19_57769654_+.pickle,4.684,silencing,"K562 ENCODE, biol_"
-6312,-0.6875,1.067,../results/context_dependence_test_10/borzoi/KLHL28_chr14_44961947_-.pickle,7.938,silencing,"K562 ENCODE, biol_"
-5551,-0.9897,2.049,../results/context_dependence_test_10/borzoi/FBXO4_chr5_41925300_+.pickle,7.535,silencing,"K562 ENCODE, biol_"
-2769,-0.4883,0.5234,../results/context_dependence_test_10/borzoi/ZNF347_chr19_53159053_-.pickle,2.031,silencing,"K562 ENCODE, biol_"
-3894,-0.3875,0.5137,../results/context_dependence_test_10/borzoi/ZNF292_chr6_87155580_+.pickle,6.016,silencing,"K562 ENCODE, biol_"
-1825,-0.5244,1.112,../results/context_dependence_test_10/borzoi/TOMM40L_chr1_161226059_+.pickle,2.441,silencing,"K562 ENCODE, biol_"
-3197,-2.428,1.001,../results/context_dependence_test_10/borzoi/RFPL4B_chr6_112347329_+.pickle,0.2097,silencing,"K562 ENCODE, biol_"
-2320,-1.142,0.923,../results/context_dependence_test_10/borzoi/ZNF484_chr9_92878022_-.pickle,0.5806,silencing,"K562 ENCODE, biol_"
-5896,-0.4163,0.7935,../results/context_dependence_test_10/borzoi/PHACTR2_chr6_143677964_+.pickle,1.29,silencing,"K562 ENCODE, biol_"
-2430,-0.7354,0.527,../results/context_dependence_test_10/borzoi/TRAPPC2B_chr19_57363566_+.pickle,6.33,silencing,"K562 ENCODE, biol_"
-3740,-0.3176,1.172,../results/context_dependence_test_10/borzoi/PDK2_chr17_50095350_+.pickle,6.117,silencing,"K562 ENCODE, biol_"
-6317,-1.168,0.6685,../results/context_dependence_test_10/borzoi/GCNA_chrX_71578436_+.pickle,0.1333,silencing,"K562 ENCODE, biol_"
-1284,-0.8267,1.1455,../results/context_dependence_test_10/borzoi/ZNF519_chr18_14132428_-.pickle,3.44,silencing,"K562 ENCODE, biol_"
-7698,-0.6367,1.73,../results/context_dependence_test_10/borzoi/METTL3_chr14_21511340_-.pickle,9.93,silencing,"K562 ENCODE, biol_"
-2698,-2.055,1.745,../results/context_dependence_test_10/borzoi/ZNF345_chr19_36850877_+.pickle,2.395,silencing,"K562 ENCODE, biol_"
-6230,-0.4167,1.068,../results/context_dependence_test_10/borzoi/E2F4_chr16_67192154_+.pickle,7.742,silencing,"K562 ENCODE, biol_"
-7964,-0.587,1.078,../results/context_dependence_test_10/borzoi/GRPEL2_chr5_149345501_+.pickle,8.17,silencing,"K562 ENCODE, biol_"
-1103,-0.696,0.878,../results/context_dependence_test_10/borzoi/ZNF14_chr19_19733112_-.pickle,3.967,silencing,"K562 ENCODE, biol_"
-3771,-0.9717,1.603,../results/context_dependence_test_10/borzoi/ZNF408_chr11_46701030_+.pickle,5.094,silencing,"K562 ENCODE, biol_"
-8800,-0.892,1.833,../results/context_dependence_test_10/borzoi/TBP_chr6_170554378_+.pickle,10.78,silencing,"K562 ENCODE, biol_"
-5650,-0.4934,1.333,../results/context_dependence_test_10/borzoi/NIPSNAP1_chr22_29581113_-.pickle,6.625,silencing,"K562 ENCODE, biol_"
-1966,-0.547,0.6587,../results/context_dependence_test_10/borzoi/TVP23C_chr17_15563544_-.pickle,4.66,silencing,"K562 ENCODE, biol_"
-5055,-0.571,0.727,../results/context_dependence_test_10/borzoi/RADX_chrX_106611929_+.pickle,1.669,silencing,"K562 ENCODE, biol_"
-2045,-0.4014,0.2834,../results/context_dependence_test_10/borzoi/ZNF551_chr19_57682034_+.pickle,4.832,silencing,"K562 ENCODE, biol_"
-4374,-3.107,3.787,../results/context_dependence_test_10/borzoi/MTAP_chr9_21802648_+.pickle,6.336,silencing,"K562 ENCODE, biol_"
-1319,-1.026,0.9985,../results/context_dependence_test_10/borzoi/ZSCAN16_chr6_28124608_+.pickle,3.117,silencing,"K562 ENCODE, biol_"
-9467,-0.3345,0.773,../results/context_dependence_test_10/borzoi/PRPF40A_chr2_152717439_-.pickle,11.26,silencing,"K562 ENCODE, biol_"
-1235,-0.526,1.171,../results/context_dependence_test_10/borzoi/MGMT_chr10_129467240_+.pickle,6.355,silencing,"K562 ENCODE, biol_"
-9681,-0.39,1.076,../results/context_dependence_test_10/borzoi/NOL7_chr6_13615334_+.pickle,12.555,silencing,"K562 ENCODE, biol_"
-129,-0.6963,1.497,../results/context_dependence_test_10/borzoi/FKBP11_chr12_48925492_-.pickle,4.234,silencing,"K562 ENCODE, biol_"
-4831,-0.3442,1.064,../results/context_dependence_test_10/borzoi/REC8_chr14_24172079_+.pickle,3.217,silencing,"K562 ENCODE, biol_"
-7850,-2.1,5.047,../results/context_dependence_test_10/borzoi/TMEM50A_chr1_25338333_+.pickle,9.75,silencing,"K562 ENCODE, biol_"
-4110,-1.419,2.479,../results/context_dependence_test_10/borzoi/AKR1B1_chr7_134459100_-.pickle,9.375,silencing,"K562 ENCODE, biol_"
-8905,-0.9346,2.076,../results/context_dependence_test_10/borzoi/RABGGTB_chr1_75786255_+.pickle,9.09,silencing,"K562 ENCODE, biol_"
-1904,-0.6025,0.708,../results/context_dependence_test_10/borzoi/LUZP4_chrX_115289714_+.pickle,0.2393,silencing,"K562 ENCODE, biol_"
-9788,-0.7783,2.828,../results/context_dependence_test_10/borzoi/TPM3_chr1_154183189_-.pickle,10.94,silencing,"K562 ENCODE, biol_"
-1164,-0.552,0.5195,../results/context_dependence_test_10/borzoi/ENSG00000269533_chr19_57390007_+.pickle,2.582,silencing,"K562 ENCODE, biol_"
-4865,-5.742,3.451,../results/context_dependence_test_10/borzoi/VCY_chrY_13986473_-.pickle,0.1027,silencing,"K562 ENCODE, biol_"
-5894,-0.698,1.419,../results/context_dependence_test_10/borzoi/SCFD2_chr4_53366061_-.pickle,9.41,silencing,"K562 ENCODE, biol_"
-2031,-0.7227,1.283,../results/context_dependence_test_10/borzoi/INTU_chr4_127632956_+.pickle,3.055,silencing,"K562 ENCODE, biol_"
-1220,-0.7417,0.948,../results/context_dependence_test_10/borzoi/ZNF430_chr19_21020656_+.pickle,6.945,silencing,"K562 ENCODE, biol_"
-7635,-1.092,1.21,../results/context_dependence_test_10/borzoi/TCEAL8_chrX_103255155_-.pickle,9.67,silencing,"K562 ENCODE, biol_"
-1359,-0.9146,1.35,../results/context_dependence_test_10/borzoi/FERMT2_chr14_52951018_-.pickle,2.521,silencing,"K562 ENCODE, biol_"
-2932,-0.482,0.775,../results/context_dependence_test_10/borzoi/ZNF567_chr19_36687611_+.pickle,3.152,silencing,"K562 ENCODE, biol_"
-1093,-0.3484,0.5522,../results/context_dependence_test_10/borzoi/ANGPT1_chr8_107336522_-.pickle,5.674e-05,silencing,"K562 ENCODE, biol_"
-2442,-1.135,0.974,../results/context_dependence_test_10/borzoi/TRIQK_chr8_92966144_-.pickle,0.617,silencing,"K562 ENCODE, biol_"
-1104,-1.043,1.515,../results/context_dependence_test_10/borzoi/ENSG00000270149_chr1_161038944_-.pickle,4.64,silencing,"K562 ENCODE, biol_"
-3506,-0.6973,0.997,../results/context_dependence_test_10/borzoi/SCFD1_chr14_30622338_+.pickle,7.562,silencing,"K562 ENCODE, biol_"
-1066,-2.578,3.846,../results/context_dependence_test_10/borzoi/HMOX1_chr22_35381095_+.pickle,2.578,silencing,"K562 ENCODE, biol_"
-1932,-0.3237,0.517,../results/context_dependence_test_10/borzoi/LRCH2_chrX_115234096_-.pickle,0.866,silencing,"K562 ENCODE, biol_"
-2137,-0.335,0.2249,../results/context_dependence_test_10/borzoi/ENSG00000269026_chr19_57682044_+.pickle,5.098,silencing,"K562 ENCODE, biol_"
-7586,-0.3943,0.8975,../results/context_dependence_test_10/borzoi/DIAPH3_chr13_60163928_-.pickle,9.59,silencing,"K562 ENCODE, biol_"
-610,-0.4324,0.7334,../results/context_dependence_test_10/borzoi/ZNF599_chr19_34773229_-.pickle,2.607,silencing,"K562 ENCODE, biol_"
-6510,-0.3774,0.8877,../results/context_dependence_test_10/borzoi/ZBTB37_chr1_173868081_+.pickle,6.785,silencing,"K562 ENCODE, biol_"
-3502,-0.8203,1.122,../results/context_dependence_test_10/borzoi/RIT1_chr1_155911351_-.pickle,7.098,silencing,"K562 ENCODE, biol_"
-2453,-0.5474,0.897,../results/context_dependence_test_10/borzoi/PEG3_chr19_56840696_-.pickle,0.883,silencing,"K562 ENCODE, biol_"
-3152,-0.3323,0.383,../results/context_dependence_test_10/borzoi/SMIM27_chr9_32552344_+.pickle,4.723,silencing,"K562 ENCODE, biol_"
-2762,-2.836,2.066,../results/context_dependence_test_10/borzoi/ZNF486_chr19_20167213_+.pickle,4.156,silencing,"K562 ENCODE, biol_"
-1598,-1.701,0.8843,../results/context_dependence_test_10/borzoi/TENT5D_chrX_80335503_+.pickle,0.2074,silencing,"K562 ENCODE, biol_"
-8228,-0.781,1.443,../results/context_dependence_test_10/borzoi/ATAD3B_chr1_1471764_+.pickle,7.246,silencing,"K562 ENCODE, biol_"
-536,-0.451,1.104,../results/context_dependence_test_10/borzoi/ADM_chr11_10305072_+.pickle,2.81,silencing,"K562 ENCODE, biol_"
-1081,-1.837,0.898,../results/context_dependence_test_10/borzoi/ZNF729_chr19_22286440_+.pickle,0.1456,silencing,"K562 ENCODE, biol_"
-2723,-0.4104,0.961,../results/context_dependence_test_10/borzoi/ZNF350_chr19_51986840_-.pickle,4.242,silencing,"K562 ENCODE, biol_"
-2223,-1.846,1.253,../results/context_dependence_test_10/borzoi/ZNF682_chr19_20039465_-.pickle,2.43,silencing,"K562 ENCODE, biol_"
-6952,-0.3584,1.219,../results/context_dependence_test_10/borzoi/GTF2H2C_chr5_69560190_+.pickle,2.969,silencing,"K562 ENCODE, biol_"
-7753,-0.6416,1.279,../results/context_dependence_test_10/borzoi/TENT2_chr5_79612440_+.pickle,11.33,silencing,"K562 ENCODE, biol_"
-784,-0.7656,1.099,../results/context_dependence_test_10/borzoi/ZNF597_chr16_3443504_-.pickle,4.4,silencing,"K562 ENCODE, biol_"
-5122,-2.848,1.945,../results/context_dependence_test_10/borzoi/ZNF257_chr19_22052483_+.pickle,2.326,silencing,"K562 ENCODE, biol_"
-4923,-1.959,5.465,../results/context_dependence_test_10/borzoi/HNRNPA3_chr2_177212748_+.pickle,3.703,silencing,"K562 ENCODE, biol_"
-9676,-0.3088,1.509,../results/context_dependence_test_10/borzoi/H2AC17_chr6_27893185_-.pickle,11.34,silencing,"K562 ENCODE, biol_"
-1280,-1.984,2.123,../results/context_dependence_test_10/borzoi/ZNF253_chr19_19865881_+.pickle,5.375,silencing,"K562 ENCODE, biol_"
-1202,-0.58,2.176,../results/context_dependence_test_10/borzoi/MXRA7_chr17_76710955_-.pickle,4.832,silencing,"K562 ENCODE, biol_"
-3720,-2.182,1.128,../results/context_dependence_test_10/borzoi/TSPYL6_chr2_54256229_-.pickle,0.6167,silencing,"K562 ENCODE, biol_"
-3884,-0.7466,0.5454,../results/context_dependence_test_10/borzoi/ZNF550_chr19_57559812_-.pickle,4.395,silencing,"K562 ENCODE, biol_"
-9403,-0.3733,1.669,../results/context_dependence_test_10/borzoi/FARSA_chr19_12933711_-.pickle,7.977,silencing,"K562 ENCODE, biol_"
-5255,-0.664,0.8945,../results/context_dependence_test_10/borzoi/SMG1_chr16_18926408_-.pickle,3.156,silencing,"K562 ENCODE, biol_"
-616,-1.84,1.669,../results/context_dependence_test_10/borzoi/ZNF625_chr19_12156714_-.pickle,1.707,silencing,"K562 ENCODE, biol_"
-2879,-1.924,1.093,../results/context_dependence_test_10/borzoi/ZNF229_chr19_44448472_-.pickle,2.672,silencing,"K562 ENCODE, biol_"
-9694,-0.3315,0.8022,../results/context_dependence_test_10/borzoi/ATP5MC3_chr2_175181710_-.pickle,11.27,silencing,"K562 ENCODE, biol_"
-1922,-1.583,1.101,../results/context_dependence_test_10/borzoi/ZNF223_chr19_44052040_+.pickle,1.871,silencing,"K562 ENCODE, biol_"
-7225,-0.43,1.156,../results/context_dependence_test_10/borzoi/RBM14-RBM4_chr11_66616669_+.pickle,7.004,silencing,"K562 ENCODE, biol_"
-5073,-0.4336,0.8027,../results/context_dependence_test_10/borzoi/ALG11_chr13_52012390_+.pickle,4.81,silencing,"K562 ENCODE, biol_"
-7459,-0.909,1.53,../results/context_dependence_test_10/borzoi/OSTC_chr4_108650598_+.pickle,11.016,silencing,"K562 ENCODE, biol_"
-400,-1.15,0.7334,../results/context_dependence_test_10/borzoi/PPP1R2C_chrX_42778163_-.pickle,1.123,silencing,"K562 ENCODE, biol_"
-672,-0.3916,1.067,../results/context_dependence_test_10/borzoi/DPYD_chr1_97921034_-.pickle,7.383,silencing,"K562 ENCODE, biol_"
-9539,-0.3855,0.645,../results/context_dependence_test_10/borzoi/ZRANB2_chr1_71081035_-.pickle,9.84,silencing,"K562 ENCODE, biol_"
-9823,-0.563,1.54,../results/context_dependence_test_10/borzoi/IARS1_chr9_92293689_-.pickle,10.65,silencing,"K562 ENCODE, biol_"
-2215,-1.911,3.852,../results/context_dependence_test_10/borzoi/SPARC_chr5_151686915_-.pickle,4.004,silencing,"K562 ENCODE, biol_"
-1377,-0.4363,0.7607,../results/context_dependence_test_10/borzoi/ZNF324_chr19_58467079_+.pickle,4.28,silencing,"K562 ENCODE, biol_"
-808,-1.268,2.53,../results/context_dependence_test_10/borzoi/ALDH7A1_chr5_126595219_-.pickle,4.508,silencing,"K562 ENCODE, biol_"
-2447,-1.352,3.879,../results/context_dependence_test_10/borzoi/RBM8A_chr1_145927460_-.pickle,3.332,silencing,"K562 ENCODE, biol_"
-433,-0.83,1.337,../results/context_dependence_test_10/borzoi/RHOB_chr2_20447073_+.pickle,3.816,silencing,"K562 ENCODE, biol_"
-305,-1.999,1.604,../results/context_dependence_test_10/borzoi/ZNF814_chr19_57888969_-.pickle,2.885,silencing,"K562 ENCODE, biol_"
-999,-1.069,1.106,../results/context_dependence_test_10/borzoi/ZNF549_chr19_57527355_+.pickle,2.639,silencing,"K562 ENCODE, biol_"
-5441,-0.3982,0.8545,../results/context_dependence_test_10/borzoi/RRP7A_chr22_42519796_-.pickle,6.56,silencing,"K562 ENCODE, biol_"
-8685,-0.78,1.949,../results/context_dependence_test_10/borzoi/CYB5B_chr16_69424617_+.pickle,11.766,silencing,"K562 ENCODE, biol_"
-544,-0.64,1.056,../results/context_dependence_test_10/borzoi/TSTD1_chr1_161038937_-.pickle,4.04,silencing,"K562 ENCODE, biol_"
-8521,-0.3494,1.242,../results/context_dependence_test_10/borzoi/AARS1_chr16_70289506_-.pickle,11.74,silencing,"K562 ENCODE, biol_"
-3196,-7.984,4.977,../results/context_dependence_test_10/borzoi/CT83_chrX_116462976_-.pickle,0.1909,silencing,"K562 ENCODE, biol_"
-7446,-0.9775,3.385,../results/context_dependence_test_10/borzoi/RAC1_chr7_6374538_+.pickle,9.76,silencing,"K562 ENCODE, biol_"
-480,-0.4194,1.352,../results/context_dependence_test_10/borzoi/ITGA6_chr2_172427585_+.pickle,4.89,silencing,"K562 ENCODE, biol_"
-2931,-0.6084,1.166,../results/context_dependence_test_10/borzoi/ENPP3_chr6_131637301_+.pickle,0.0996,silencing,"K562 ENCODE, biol_"
-551,-1.061,1.769,../results/context_dependence_test_10/borzoi/LDOC1_chrX_141177129_-.pickle,6.043,silencing,"K562 ENCODE, biol_"
-4062,-0.4255,0.6807,../results/context_dependence_test_10/borzoi/RNPC3_chr1_103525698_+.pickle,6.098,silencing,"K562 ENCODE, biol_"
-5645,-1.633,0.981,../results/context_dependence_test_10/borzoi/NXT2_chrX_109535780_+.pickle,0.4663,silencing,"K562 ENCODE, biol_"
-8387,-0.3333,0.3203,../results/context_dependence_test_10/borzoi/RBM4_chr11_66638690_+.pickle,7.953,silencing,"K562 ENCODE, biol_"
-9194,-0.657,0.567,../results/context_dependence_test_10/borzoi/ATF4_chr22_39520563_+.pickle,8.48,silencing,"K562 ENCODE, biol_"
-141,-0.9897,1.723,../results/context_dependence_test_10/borzoi/MFSD2A_chr1_39955144_+.pickle,2.225,silencing,"K562 ENCODE, biol_"
-8187,-3.639,4.453,../results/context_dependence_test_10/borzoi/ZNG1A_chr9_179025_-.pickle,0.2135,silencing,"K562 ENCODE, biol_"
-232,-0.4526,1.873,../results/context_dependence_test_10/borzoi/IGFBP7_chr4_57110385_-.pickle,4.39,silencing,"K562 ENCODE, biol_"
-9633,-0.679,3.285,../results/context_dependence_test_10/borzoi/ST13_chr22_40856639_-.pickle,10.66,silencing,"K562 ENCODE, biol_"
-9164,-0.3413,0.3667,../results/context_dependence_test_10/borzoi/DMAC1_chr9_7799778_-.pickle,9.74,silencing,"K562 ENCODE, biol_"
-5587,-1.217,2.621,../results/context_dependence_test_10/borzoi/TRAPPC6B_chr14_39170333_-.pickle,8.875,silencing,"K562 ENCODE, biol_"
-342,-4.023,3.373,../results/context_dependence_test_10/borzoi/ZNF722_chr7_63998848_+.pickle,0.0808,silencing,"K562 ENCODE, biol_"
-9272,-0.4094,1.684,../results/context_dependence_test_10/borzoi/RCC1_chr1_28506042_+.pickle,9.484,silencing,"K562 ENCODE, biol_"
-5322,-5.605,4.71,../results/context_dependence_test_10/borzoi/SRGAP2_chr1_206203540_+.pickle,0.0754,silencing,"K562 ENCODE, biol_"
-794,-0.7495,1.539,../results/context_dependence_test_10/borzoi/STARD5_chr15_81324141_-.pickle,5.01,silencing,"K562 ENCODE, biol_"
-3052,-0.902,1.168,../results/context_dependence_test_10/borzoi/HELB_chr12_66302492_+.pickle,4.574,silencing,"K562 ENCODE, biol_"
-8043,-2.646,1.674,../results/context_dependence_test_10/borzoi/H2BC12L_chr21_43565181_+.pickle,0.3755,silencing,"K562 ENCODE, biol_"
-5320,-2.668,3.805,../results/context_dependence_test_10/borzoi/POLR2J2_chr7_102671629_-.pickle,0.826,silencing,"K562 ENCODE, biol_"
-3326,-0.5366,0.644,../results/context_dependence_test_10/borzoi/ZNF226_chr19_44165083_+.pickle,4.68,silencing,"K562 ENCODE, biol_"
-5413,-1.288,0.844,../results/context_dependence_test_10/borzoi/TUBA3C_chr13_19181824_-.pickle,0.7217,silencing,"K562 ENCODE, biol_"
-8259,-0.3584,0.6343,../results/context_dependence_test_10/borzoi/H3-3B_chr17_75779779_-.pickle,6.797,silencing,"K562 ENCODE, biol_"
-18,-0.4795,1.243,../results/context_dependence_test_10/borzoi/TMEM132A_chr11_60924480_+.pickle,2.672,silencing,"K562 ENCODE, biol_"
-131,-0.885,2.314,../results/context_dependence_test_10/borzoi/CD74_chr5_150412769_-.pickle,5.082,silencing,"K562 ENCODE, biol_"
+,delta_mean,path,wt,context,cell_line
+7,-0.6436,../results/context_dependence_test_5/borzoi/RRN3_chr16_15094311_-.pickle,20.78,silencing,K562
+11,0.926,../results/context_dependence_test_5/borzoi/USP18_chr22_18150169_+.pickle,20.81,enhancing,K562
+31,0.93,../results/context_dependence_test_5/borzoi/TMEM25_chr11_118531087_+.pickle,21.06,enhancing,K562
+34,-0.0238,../results/context_dependence_test_5/borzoi/HACD4_chr9_21031640_-.pickle,21.11,neutral,K562
+37,-0.3745,../results/context_dependence_test_5/borzoi/ZNF549_chr19_57527355_+.pickle,21.12,silencing,K562
+45,-0.02374,../results/context_dependence_test_5/borzoi/FOXO3B_chr17_18682314_-.pickle,21.2,neutral,K562
+50,0.9346,../results/context_dependence_test_5/borzoi/AMT_chr3_49422469_-.pickle,21.22,enhancing,K562
+72,-3.965,../results/context_dependence_test_5/borzoi/THOC3_chr5_175968315_-.pickle,21.33,silencing,K562
+73,-0.4392,../results/context_dependence_test_5/borzoi/ZNF229_chr19_44448472_-.pickle,21.36,silencing,K562
+124,-0.598,../results/context_dependence_test_5/borzoi/ENSG00000267022_chr19_44025353_+.pickle,21.75,silencing,K562
+134,0.9126,../results/context_dependence_test_5/borzoi/FBXO43_chr8_100145817_-.pickle,21.89,enhancing,K562
+145,-0.001862,../results/context_dependence_test_5/borzoi/ZNF468_chr19_52857649_-.pickle,21.95,neutral,K562
+160,0.913,../results/context_dependence_test_5/borzoi/TTLL1_chr22_43089391_-.pickle,22.06,enhancing,K562
+180,0.9556,../results/context_dependence_test_5/borzoi/DUSP19_chr2_183078746_+.pickle,22.23,enhancing,K562
+191,0.9277,../results/context_dependence_test_5/borzoi/CHD2_chr15_92900323_+.pickle,22.3,enhancing,K562
+207,0.923,../results/context_dependence_test_5/borzoi/CCDC171_chr9_15553042_+.pickle,22.45,enhancing,K562
+228,0.984,../results/context_dependence_test_5/borzoi/FAN1_chr15_30903903_+.pickle,22.8,enhancing,K562
+280,0.9307,../results/context_dependence_test_5/borzoi/HLA-DPA1_chr6_33073649_-.pickle,23.25,enhancing,K562
+282,0.906,../results/context_dependence_test_5/borzoi/PUS10_chr2_61017193_-.pickle,23.28,enhancing,K562
+287,0.926,../results/context_dependence_test_5/borzoi/TGM2_chr20_38165270_-.pickle,23.33,enhancing,K562
+321,0.923,../results/context_dependence_test_5/borzoi/MYL4_chr17_47209347_+.pickle,23.56,enhancing,K562
+327,-0.005432,../results/context_dependence_test_5/borzoi/ZNF501_chr3_44729634_+.pickle,23.6,neutral,K562
+338,0.03256,../results/context_dependence_test_5/borzoi/C1orf74_chr1_209784559_-.pickle,23.75,neutral,K562
+341,0.9106,../results/context_dependence_test_5/borzoi/FAM228B_chr2_24123468_+.pickle,23.77,enhancing,K562
+348,0.01833,../results/context_dependence_test_5/borzoi/ZNF668_chr16_31074240_-.pickle,23.84,neutral,K562
+350,0.91,../results/context_dependence_test_5/borzoi/ENSG00000248993_chr6_32953122_-.pickle,23.84,enhancing,K562
+362,-0.5254,../results/context_dependence_test_5/borzoi/ZNF222_chr19_44025341_+.pickle,23.92,silencing,K562
+400,0.00145,../results/context_dependence_test_5/borzoi/ZNF235_chr19_44305025_-.pickle,24.22,neutral,K562
+403,0.924,../results/context_dependence_test_5/borzoi/PGBD1_chr6_28281571_+.pickle,24.22,enhancing,K562
+411,0.04987,../results/context_dependence_test_5/borzoi/ZNF599_chr19_34773200_-.pickle,24.31,neutral,K562
+416,0.9297,../results/context_dependence_test_5/borzoi/ENSG00000288529_chr6_133953303_+.pickle,24.34,enhancing,K562
+419,0.932,../results/context_dependence_test_5/borzoi/HLA-DMA_chr6_32953097_-.pickle,24.38,enhancing,K562
+429,0.012024,../results/context_dependence_test_5/borzoi/HIC2_chr22_21417370_+.pickle,24.45,neutral,K562
+436,0.03387,../results/context_dependence_test_5/borzoi/ENSG00000268163_chr19_57477503_-.pickle,24.44,neutral,K562
+442,0.04947,../results/context_dependence_test_5/borzoi/ZNF814_chr19_57888958_-.pickle,24.5,neutral,K562
+449,-0.304,../results/context_dependence_test_5/borzoi/ZNF461_chr19_36666837_-.pickle,24.6,silencing,K562
+470,-0.605,../results/context_dependence_test_5/borzoi/ZNF256_chr19_57947675_-.pickle,24.72,silencing,K562
+480,0.9277,../results/context_dependence_test_5/borzoi/MME_chr3_155079931_+.pickle,24.81,enhancing,K562
+494,0.9136,../results/context_dependence_test_5/borzoi/ADAMTSL4_chr1_150549368_+.pickle,24.97,enhancing,K562
+495,0.983,../results/context_dependence_test_5/borzoi/NEURL4_chr17_7329393_-.pickle,24.97,enhancing,K562
+509,0.94,../results/context_dependence_test_5/borzoi/KAT14_chr20_18137862_+.pickle,25.03,enhancing,K562
+541,0.915,../results/context_dependence_test_5/borzoi/IKZF1_chr7_50304727_+.pickle,25.33,enhancing,K562
+570,0.9634,../results/context_dependence_test_5/borzoi/RAD52_chr12_949649_-.pickle,25.55,enhancing,K562
+591,-0.01077,../results/context_dependence_test_5/borzoi/ZNF234_chr19_44141556_+.pickle,25.75,neutral,K562
+642,-0.2393,../results/context_dependence_test_5/borzoi/ZNF844_chr19_12064730_+.pickle,26.2,silencing,K562
+651,0.9023,../results/context_dependence_test_5/borzoi/ZDHHC21_chr9_14693432_-.pickle,26.27,enhancing,K562
+660,0.9487,../results/context_dependence_test_5/borzoi/COQ10A_chr12_56266941_+.pickle,26.31,enhancing,K562
+680,0.9004,../results/context_dependence_test_5/borzoi/ZNF205_chr16_3112585_+.pickle,26.5,enhancing,K562
+682,0.969,../results/context_dependence_test_5/borzoi/DPY19L4_chr8_94719899_+.pickle,26.55,enhancing,K562
+690,0.0271,../results/context_dependence_test_5/borzoi/TLK2_chr17_62478824_+.pickle,26.56,neutral,K562
+700,0.002953,../results/context_dependence_test_5/borzoi/ZNF772_chr19_57477551_-.pickle,26.64,neutral,K562
+714,-0.04865,../results/context_dependence_test_5/borzoi/ZNF20_chr19_12140341_-.pickle,26.73,neutral,K562
+724,0.947,../results/context_dependence_test_5/borzoi/PIK3R3_chr1_46132629_-.pickle,26.8,enhancing,K562
+727,0.007095,../results/context_dependence_test_5/borzoi/ZNF17_chr19_57411178_+.pickle,26.84,neutral,K562
+773,-0.3413,../results/context_dependence_test_5/borzoi/ZNF225_chr19_44113398_+.pickle,27.27,silencing,K562
+782,0.9336,../results/context_dependence_test_5/borzoi/KCTD7_chr7_66628884_+.pickle,27.38,enhancing,K562
+795,0.95,../results/context_dependence_test_5/borzoi/CUL9_chr6_43182184_+.pickle,27.53,enhancing,K562
+820,0.949,../results/context_dependence_test_5/borzoi/SQOR_chr15_45635028_+.pickle,27.77,enhancing,K562
+837,0.04678,../results/context_dependence_test_5/borzoi/ZNF587_chr19_57849859_+.pickle,27.92,neutral,K562
+843,0.9497,../results/context_dependence_test_5/borzoi/ACSM3_chr16_20764013_+.pickle,27.97,enhancing,K562
+848,0.947,../results/context_dependence_test_5/borzoi/RHAG_chr6_49636839_-.pickle,28.0,enhancing,K562
+850,0.9023,../results/context_dependence_test_5/borzoi/GBP2_chr1_89126114_-.pickle,28.0,enhancing,K562
+864,0.921,../results/context_dependence_test_5/borzoi/IPO13_chr1_43946949_+.pickle,28.12,enhancing,K562
+898,0.918,../results/context_dependence_test_5/borzoi/COQ3_chr6_99394195_-.pickle,28.38,enhancing,K562
+928,0.9604,../results/context_dependence_test_5/borzoi/CCDC106_chr19_55648211_+.pickle,28.67,enhancing,K562
+941,0.0442,../results/context_dependence_test_5/borzoi/CSNK2A3_chr11_11353250_-.pickle,28.75,neutral,K562
+954,0.9233,../results/context_dependence_test_5/borzoi/MYOF_chr10_93482317_-.pickle,28.88,enhancing,K562
+961,-10.01,../results/context_dependence_test_5/borzoi/RBMY1B_chrY_21511337_+.pickle,28.88,silencing,K562
+967,0.963,../results/context_dependence_test_5/borzoi/ENSG00000258539_chr10_124791727_-.pickle,28.97,enhancing,K562
+1005,0.9814,../results/context_dependence_test_5/borzoi/NUDT13_chr10_73110454_+.pickle,29.27,enhancing,K562
+1020,-0.2742,../results/context_dependence_test_5/borzoi/ENSG00000283201_chr19_23274221_-.pickle,29.36,silencing,K562
+1021,0.911,../results/context_dependence_test_5/borzoi/TGFBI_chr5_136028987_+.pickle,29.38,enhancing,K562
+1065,0.0404,../results/context_dependence_test_5/borzoi/ZNF644_chr1_91022272_-.pickle,29.73,neutral,K562
+1077,0.911,../results/context_dependence_test_5/borzoi/ENSG00000284461_chr7_66628957_+.pickle,29.78,enhancing,K562
+1079,0.9414,../results/context_dependence_test_5/borzoi/H4C6_chr6_26240392_+.pickle,29.84,enhancing,K562
+1103,0.9043,../results/context_dependence_test_5/borzoi/TST_chr22_37019467_-.pickle,30.06,enhancing,K562
+1118,0.0498,../results/context_dependence_test_5/borzoi/FKBP1C_chr6_63211445_+.pickle,30.23,neutral,K562
+1119,0.904,../results/context_dependence_test_5/borzoi/H1-1_chr6_26017787_-.pickle,30.22,enhancing,K562
+1142,0.9033,../results/context_dependence_test_5/borzoi/TGFBR3_chr1_91886151_-.pickle,30.44,enhancing,K562
+1148,-0.2275,../results/context_dependence_test_5/borzoi/ZNF416_chr19_57578911_-.pickle,30.53,silencing,K562
+1174,-8.8,../results/context_dependence_test_5/borzoi/RBMY1A1_chrY_21534878_+.pickle,30.7,silencing,K562
+1189,-0.3303,../results/context_dependence_test_5/borzoi/NDN_chr15_23687305_-.pickle,30.84,silencing,K562
+1215,0.9175,../results/context_dependence_test_5/borzoi/TTC5_chr14_20305951_-.pickle,31.03,enhancing,K562
+1232,0.974,../results/context_dependence_test_5/borzoi/HBE1_chr11_5269945_-.pickle,31.19,enhancing,K562
+1239,-0.0174,../results/context_dependence_test_5/borzoi/ENSG00000269476_chr19_57916591_-.pickle,31.23,neutral,K562
+1248,-0.04422,../results/context_dependence_test_5/borzoi/ZNF773_chr19_57499914_+.pickle,31.27,neutral,K562
+1325,0.955,../results/context_dependence_test_5/borzoi/DNAJC12_chr10_67838096_-.pickle,32.06,enhancing,K562
+1343,-0.01839,../results/context_dependence_test_5/borzoi/ZNF283_chr19_43827377_+.pickle,32.2,neutral,K562
+1359,0.913,../results/context_dependence_test_5/borzoi/SLC24A1_chr15_65611404_+.pickle,32.3,enhancing,K562
+1363,0.946,../results/context_dependence_test_5/borzoi/ULK2_chr17_19867936_-.pickle,32.3,enhancing,K562
+1375,0.9463,../results/context_dependence_test_5/borzoi/LRP6_chr12_12267044_-.pickle,32.38,enhancing,K562
+1420,0.9478,../results/context_dependence_test_5/borzoi/CPVL_chr7_29146537_-.pickle,32.84,enhancing,K562
+1434,0.9287,../results/context_dependence_test_5/borzoi/BTN2A2_chr6_26383095_+.pickle,32.97,enhancing,K562
+1449,0.918,../results/context_dependence_test_5/borzoi/MINDY1_chr1_151006902_-.pickle,33.06,enhancing,K562
+1466,0.9478,../results/context_dependence_test_5/borzoi/FAIM_chr3_138609071_+.pickle,33.25,enhancing,K562
+1482,0.02316,../results/context_dependence_test_5/borzoi/ZNF417_chr19_57916592_-.pickle,33.47,neutral,K562
+1498,0.9033,../results/context_dependence_test_5/borzoi/TESC_chr12_117099446_-.pickle,33.62,enhancing,K562
+1524,-0.03023,../results/context_dependence_test_5/borzoi/GADD45G_chr9_89605011_+.pickle,33.8,neutral,K562
+1533,0.9624,../results/context_dependence_test_5/borzoi/CHAC2_chr2_53767803_+.pickle,33.88,enhancing,K562
+1540,0.9683,../results/context_dependence_test_5/borzoi/PEX13_chr2_61017729_+.pickle,33.94,enhancing,K562
+1541,0.921,../results/context_dependence_test_5/borzoi/ALDH4A1_chr1_18902553_-.pickle,33.94,enhancing,K562
+1551,0.907,../results/context_dependence_test_5/borzoi/ZNF276_chr16_89721006_+.pickle,34.03,enhancing,K562
+1600,0.948,../results/context_dependence_test_5/borzoi/CENPS-CORT_chr1_10430803_+.pickle,34.3,enhancing,K562
+1641,0.962,../results/context_dependence_test_5/borzoi/PHYH_chr10_13300064_-.pickle,34.7,enhancing,K562
+1656,0.02266,../results/context_dependence_test_5/borzoi/ZNF737_chr19_20565781_-.pickle,34.78,neutral,K562
+1695,0.917,../results/context_dependence_test_5/borzoi/WASF1_chr6_110179670_-.pickle,35.06,enhancing,K562
+1705,0.008224,../results/context_dependence_test_5/borzoi/ZNF550_chr19_57559812_-.pickle,35.16,neutral,K562
+1717,0.9185,../results/context_dependence_test_5/borzoi/PDE3B_chr11_14643803_+.pickle,35.25,enhancing,K562
+1761,0.9097,../results/context_dependence_test_5/borzoi/PCBD2_chr5_134905130_+.pickle,35.6,enhancing,K562
+1772,0.00447,../results/context_dependence_test_5/borzoi/HNRNPA3_chr2_177212723_+.pickle,35.7,neutral,K562
+1815,0.9263,../results/context_dependence_test_5/borzoi/TMEM242_chr6_157323519_-.pickle,36.03,enhancing,K562
+1816,-0.2078,../results/context_dependence_test_5/borzoi/PLD5P1_chr10_38094367_+.pickle,36.0,silencing,K562
+1840,0.925,../results/context_dependence_test_5/borzoi/TBCD_chr17_82752050_+.pickle,36.16,enhancing,K562
+1842,0.99,../results/context_dependence_test_5/borzoi/PMVK_chr1_154936719_-.pickle,36.16,enhancing,K562
+1859,0.913,../results/context_dependence_test_5/borzoi/PKIA_chr8_78516354_+.pickle,36.38,enhancing,K562
+1869,0.0484,../results/context_dependence_test_5/borzoi/ENSG00000286098_chr19_11987640_+.pickle,36.4,neutral,K562
+1874,0.9355,../results/context_dependence_test_5/borzoi/NMI_chr2_151289668_-.pickle,36.44,enhancing,K562
+1882,0.9336,../results/context_dependence_test_5/borzoi/BBS5_chr2_169479493_+.pickle,36.5,enhancing,K562
+1886,0.9546,../results/context_dependence_test_5/borzoi/COMMD1_chr2_61905673_+.pickle,36.5,enhancing,K562
+1953,0.907,../results/context_dependence_test_5/borzoi/NEK3_chr13_52159535_-.pickle,37.2,enhancing,K562
+2005,0.912,../results/context_dependence_test_5/borzoi/GPATCH1_chr19_33081180_+.pickle,37.6,enhancing,K562
+2007,0.992,../results/context_dependence_test_5/borzoi/C17orf75_chr17_32342173_-.pickle,37.62,enhancing,K562
+2074,-0.03882,../results/context_dependence_test_5/borzoi/NOTCH2NLR_chr1_120723911_+.pickle,38.28,neutral,K562
+2085,0.9004,../results/context_dependence_test_5/borzoi/ZMYM1_chr1_35079390_+.pickle,38.38,enhancing,K562
+2102,0.912,../results/context_dependence_test_5/borzoi/S100A13_chr1_153627505_-.pickle,38.5,enhancing,K562
+2104,-0.04404,../results/context_dependence_test_5/borzoi/ZNF606_chr19_58002820_-.pickle,38.47,neutral,K562
+2111,0.9336,../results/context_dependence_test_5/borzoi/ENSG00000276302_chr6_28267120_+.pickle,38.6,enhancing,K562
+2112,0.929,../results/context_dependence_test_5/borzoi/MOB3A_chr19_2096326_-.pickle,38.62,enhancing,K562
+2128,0.9165,../results/context_dependence_test_5/borzoi/AMBRA1_chr11_46594045_-.pickle,38.75,enhancing,K562
+2202,-0.006897,../results/context_dependence_test_5/borzoi/ZNF93_chr19_19900927_+.pickle,39.34,neutral,K562
+2269,0.0428,../results/context_dependence_test_5/borzoi/ZNF354B_chr5_178859952_+.pickle,39.94,neutral,K562
+2321,0.9297,../results/context_dependence_test_5/borzoi/CDC40_chr6_110180420_+.pickle,40.44,enhancing,K562
+2338,0.995,../results/context_dependence_test_5/borzoi/NDUFAF1_chr15_41402483_-.pickle,40.6,enhancing,K562
+2360,-0.02393,../results/context_dependence_test_5/borzoi/ENSG00000269026_chr19_57682044_+.pickle,40.78,neutral,K562
+2366,0.907,../results/context_dependence_test_5/borzoi/BIVM_chr13_102799118_+.pickle,40.84,enhancing,K562
+2371,0.9004,../results/context_dependence_test_5/borzoi/PTMS_chr12_6766362_+.pickle,40.88,enhancing,K562
+2411,0.9404,../results/context_dependence_test_5/borzoi/ALDH5A1_chr6_24494968_+.pickle,41.1,enhancing,K562
+2510,0.9727,../results/context_dependence_test_5/borzoi/NFE2_chr12_54301015_-.pickle,41.75,enhancing,K562
+2518,-0.0347,../results/context_dependence_test_5/borzoi/MAPK7_chr17_19378497_+.pickle,41.94,neutral,K562
+2532,0.913,../results/context_dependence_test_5/borzoi/CCDC88A_chr2_55419895_-.pickle,41.97,enhancing,K562
+2633,0.9595,../results/context_dependence_test_5/borzoi/NDUFB3_chr2_201072029_+.pickle,42.72,enhancing,K562
+2635,0.03818,../results/context_dependence_test_5/borzoi/ZNF85_chr19_20923250_+.pickle,42.72,neutral,K562
+2648,0.902,../results/context_dependence_test_5/borzoi/HMG20A_chr15_77420887_+.pickle,42.8,enhancing,K562
+2664,0.953,../results/context_dependence_test_5/borzoi/TARBP1_chr1_234479179_-.pickle,42.94,enhancing,K562
+2669,0.949,../results/context_dependence_test_5/borzoi/AGK_chr7_141551394_+.pickle,43.0,enhancing,K562
+2701,0.936,../results/context_dependence_test_5/borzoi/ANKLE2_chr12_132761832_-.pickle,43.3,enhancing,K562
+2777,0.913,../results/context_dependence_test_5/borzoi/CHMP6_chr17_80991840_+.pickle,44.0,enhancing,K562
+2892,0.926,../results/context_dependence_test_5/borzoi/FUT10_chr8_33473119_-.pickle,44.8,enhancing,K562
+2949,-0.001495,../results/context_dependence_test_5/borzoi/ZNF736_chr7_64313960_+.pickle,45.28,neutral,K562
+2951,0.917,../results/context_dependence_test_5/borzoi/MIF4GD_chr17_75271211_-.pickle,45.28,enhancing,K562
+3006,0.9683,../results/context_dependence_test_5/borzoi/SNX15_chr11_65027537_+.pickle,45.7,enhancing,K562
+3010,0.949,../results/context_dependence_test_5/borzoi/PTDSS1_chr8_96261901_+.pickle,45.75,enhancing,K562
+3027,0.92,../results/context_dependence_test_5/borzoi/KMT5B_chr11_68213635_-.pickle,45.84,enhancing,K562
+3047,0.904,../results/context_dependence_test_5/borzoi/DDHD2_chr8_38231584_+.pickle,46.0,enhancing,K562
+3111,0.93,../results/context_dependence_test_5/borzoi/DYNC2I1_chr7_158856557_+.pickle,46.4,enhancing,K562
+3167,0.921,../results/context_dependence_test_5/borzoi/RAD54L2_chr3_51538718_+.pickle,46.75,enhancing,K562
+3173,0.9473,../results/context_dependence_test_5/borzoi/CTPS2_chrX_16712669_-.pickle,46.75,enhancing,K562
+3202,-0.02988,../results/context_dependence_test_5/borzoi/KLHL9_chr9_21335404_-.pickle,47.0,neutral,K562
+3205,-0.2388,../results/context_dependence_test_5/borzoi/C1orf122_chr1_37807746_+.pickle,47.0,silencing,K562
+3279,0.9307,../results/context_dependence_test_5/borzoi/BOLA3_chr2_74147912_-.pickle,47.47,enhancing,K562
+3357,0.966,../results/context_dependence_test_5/borzoi/PKIG_chr20_44531915_+.pickle,48.0,enhancing,K562
+3361,0.9204,../results/context_dependence_test_5/borzoi/MTFP1_chr22_30425767_+.pickle,48.03,enhancing,K562
+3438,0.908,../results/context_dependence_test_5/borzoi/TBCK_chr4_106316230_-.pickle,48.62,enhancing,K562
+3447,0.04797,../results/context_dependence_test_5/borzoi/GCC1_chr7_127585596_-.pickle,48.6,neutral,K562
+3477,-0.00739,../results/context_dependence_test_5/borzoi/SMIM27_chr9_32552326_+.pickle,48.78,neutral,K562
+3520,0.9014,../results/context_dependence_test_5/borzoi/STRADB_chr2_201451795_+.pickle,49.06,enhancing,K562
+3526,0.906,../results/context_dependence_test_5/borzoi/MPST_chr22_37019741_+.pickle,49.1,enhancing,K562
+3536,0.9526,../results/context_dependence_test_5/borzoi/ANKRD13A_chr12_109999429_+.pickle,49.2,enhancing,K562
+3621,0.9653,../results/context_dependence_test_5/borzoi/CLUAP1_chr16_3501003_+.pickle,49.84,enhancing,K562
+3673,0.912,../results/context_dependence_test_5/borzoi/FADS2_chr11_61828279_+.pickle,50.25,enhancing,K562
+3720,0.928,../results/context_dependence_test_5/borzoi/EEFSEC_chr3_128153480_+.pickle,50.56,enhancing,K562
+3825,-0.03177,../results/context_dependence_test_5/borzoi/TOE1_chr1_45340169_+.pickle,51.2,neutral,K562
+3839,0.9185,../results/context_dependence_test_5/borzoi/FHL3_chr1_38005514_-.pickle,51.3,enhancing,K562
+3917,0.9873,../results/context_dependence_test_5/borzoi/IFT46_chr11_118565917_-.pickle,51.9,enhancing,K562
+4077,0.9624,../results/context_dependence_test_5/borzoi/MRPL35_chr2_86199456_+.pickle,52.88,enhancing,K562
+4101,0.9473,../results/context_dependence_test_5/borzoi/H2BC14_chr6_27815021_+.pickle,53.03,enhancing,K562
+4126,0.9526,../results/context_dependence_test_5/borzoi/ZBTB6_chr9_122913323_-.pickle,53.12,enhancing,K562
+4166,0.9277,../results/context_dependence_test_5/borzoi/H3C12_chr6_27890826_-.pickle,53.38,enhancing,K562
+4232,0.9136,../results/context_dependence_test_5/borzoi/DDX19B_chr16_70299185_+.pickle,53.88,enhancing,K562
+4237,0.9795,../results/context_dependence_test_5/borzoi/PSMD1_chr2_231056866_+.pickle,53.9,enhancing,K562
+4256,0.925,../results/context_dependence_test_5/borzoi/UGDH_chr4_39527439_-.pickle,53.97,enhancing,K562
+4261,0.944,../results/context_dependence_test_5/borzoi/AP3M1_chr10_74150828_-.pickle,54.03,enhancing,K562
+4282,0.00987,../results/context_dependence_test_5/borzoi/MUTYH_chr1_45340163_-.pickle,54.2,neutral,K562
+4283,0.01744,../results/context_dependence_test_5/borzoi/ZNF33A_chr10_38010669_+.pickle,54.2,neutral,K562
+4336,0.953,../results/context_dependence_test_5/borzoi/MLLT11_chr1_151060396_+.pickle,54.5,enhancing,K562
+4340,0.922,../results/context_dependence_test_5/borzoi/DRG2_chr17_18087924_+.pickle,54.47,enhancing,K562
+4402,0.9185,../results/context_dependence_test_5/borzoi/CDCA7L_chr7_21945884_-.pickle,54.88,enhancing,K562
+4431,0.9644,../results/context_dependence_test_5/borzoi/NUP85_chr17_75205678_+.pickle,55.1,enhancing,K562
+4489,0.9185,../results/context_dependence_test_5/borzoi/ENSG00000260537_chr16_70299223_+.pickle,55.38,enhancing,K562
+4498,0.03986,../results/context_dependence_test_5/borzoi/RBAK_chr7_5045859_+.pickle,55.44,neutral,K562
+4511,0.949,../results/context_dependence_test_5/borzoi/TCTN1_chr12_110614112_+.pickle,55.5,enhancing,K562
+4547,0.945,../results/context_dependence_test_5/borzoi/PXMP4_chr20_33720319_-.pickle,55.7,enhancing,K562
+4553,0.952,../results/context_dependence_test_5/borzoi/TTC21A_chr3_39107703_+.pickle,55.72,enhancing,K562
+4605,0.03665,../results/context_dependence_test_5/borzoi/RPS26_chr12_56041892_+.pickle,55.88,neutral,K562
+4611,0.9346,../results/context_dependence_test_5/borzoi/RGPD8_chr2_112433530_-.pickle,56.0,enhancing,K562
+4629,0.929,../results/context_dependence_test_5/borzoi/SH2B1_chr16_28863842_+.pickle,56.06,enhancing,K562
+4636,0.9766,../results/context_dependence_test_5/borzoi/TTC8_chr14_88824659_+.pickle,56.1,enhancing,K562
+4692,-0.00857,../results/context_dependence_test_5/borzoi/RPL18A_chr19_17859920_+.pickle,56.5,neutral,K562
+4693,0.0296,../results/context_dependence_test_5/borzoi/MIS12_chr17_5486565_+.pickle,56.5,neutral,K562
+4706,0.9365,../results/context_dependence_test_5/borzoi/GORASP1_chr3_39107614_-.pickle,56.56,enhancing,K562
+4719,0.957,../results/context_dependence_test_5/borzoi/STX8_chr17_9575820_-.pickle,56.66,enhancing,K562
+4771,0.919,../results/context_dependence_test_5/borzoi/HDAC2_chr6_113971148_-.pickle,56.97,enhancing,K562
+4784,0.951,../results/context_dependence_test_5/borzoi/PTPMT1_chr11_47565598_+.pickle,57.12,enhancing,K562
+4791,0.9155,../results/context_dependence_test_5/borzoi/POGLUT2_chr13_102799040_-.pickle,57.12,enhancing,K562
+4833,0.9365,../results/context_dependence_test_5/borzoi/RBM45_chr2_178112436_+.pickle,57.38,enhancing,K562
+4905,0.984,../results/context_dependence_test_5/borzoi/SUPV3L1_chr10_69180233_+.pickle,57.84,enhancing,K562
+4976,0.972,../results/context_dependence_test_5/borzoi/FAM216A_chr12_110468844_+.pickle,58.3,enhancing,K562
+4985,0.91,../results/context_dependence_test_5/borzoi/LACTB_chr15_63121832_+.pickle,58.38,enhancing,K562
+5011,0.9644,../results/context_dependence_test_5/borzoi/COMMD7_chr20_32743467_-.pickle,58.56,enhancing,K562
+5087,0.9463,../results/context_dependence_test_5/borzoi/CDKN2AIPNL_chr5_134411881_-.pickle,59.1,enhancing,K562
+5136,0.948,../results/context_dependence_test_5/borzoi/KIFBP_chr10_68988802_+.pickle,59.3,enhancing,K562
+5200,0.9707,../results/context_dependence_test_5/borzoi/CWF19L1_chr10_100267638_-.pickle,59.75,enhancing,K562
+5211,0.9224,../results/context_dependence_test_5/borzoi/USP1_chr1_62437048_+.pickle,59.78,enhancing,K562
+5216,0.9185,../results/context_dependence_test_5/borzoi/PAFAH1B3_chr19_42302624_-.pickle,59.8,enhancing,K562
+5224,0.9297,../results/context_dependence_test_5/borzoi/MRPL48_chr11_73787905_+.pickle,59.88,enhancing,K562
+5244,0.958,../results/context_dependence_test_5/borzoi/SLC35B1_chr17_49707964_-.pickle,60.03,enhancing,K562
+5250,0.0416,../results/context_dependence_test_5/borzoi/PCF11_chr11_83157130_+.pickle,60.06,neutral,K562
+5390,0.907,../results/context_dependence_test_5/borzoi/RNF141_chr11_10541190_-.pickle,61.1,enhancing,K562
+5463,0.9385,../results/context_dependence_test_5/borzoi/DDX31_chr9_132669983_-.pickle,61.56,enhancing,K562
+5519,0.905,../results/context_dependence_test_5/borzoi/TAFAZZIN_chrX_154411552_+.pickle,62.0,enhancing,K562
+5549,0.03983,../results/context_dependence_test_5/borzoi/ZNF669_chr1_247104356_-.pickle,62.25,neutral,K562
+5597,0.969,../results/context_dependence_test_5/borzoi/ALG9_chr11_111871533_-.pickle,62.62,enhancing,K562
+5606,0.924,../results/context_dependence_test_5/borzoi/UROD_chr1_45012247_+.pickle,62.66,enhancing,K562
+5632,0.952,../results/context_dependence_test_5/borzoi/SS18_chr18_26090613_-.pickle,62.9,enhancing,K562
+5643,0.916,../results/context_dependence_test_5/borzoi/ANAPC13_chr3_134485989_-.pickle,62.94,enhancing,K562
+5666,0.913,../results/context_dependence_test_5/borzoi/LYRM1_chr16_20900770_+.pickle,63.2,enhancing,K562
+5790,0.956,../results/context_dependence_test_5/borzoi/ATPAF1_chr1_46668427_-.pickle,63.9,enhancing,K562
+5939,0.9326,../results/context_dependence_test_5/borzoi/RWDD1_chr6_116571488_+.pickle,64.9,enhancing,K562
+6007,0.922,../results/context_dependence_test_5/borzoi/ENSG00000258529_chr11_111879425_-.pickle,65.5,enhancing,K562
+6043,0.903,../results/context_dependence_test_5/borzoi/FAM149B1_chr10_73168118_+.pickle,65.7,enhancing,K562
+6069,0.905,../results/context_dependence_test_5/borzoi/RNF187_chr1_228487381_+.pickle,65.94,enhancing,K562
+6079,0.915,../results/context_dependence_test_5/borzoi/RAB3D_chr19_11346270_-.pickle,66.0,enhancing,K562
+6146,0.03204,../results/context_dependence_test_5/borzoi/AKAP17A_chrX_1591603_+.pickle,66.44,neutral,K562
+6243,0.0355,../results/context_dependence_test_5/borzoi/HYPK_chr15_43800598_+.pickle,67.25,neutral,K562
+6260,0.9375,../results/context_dependence_test_5/borzoi/EEF1AKMT2_chr10_124791887_-.pickle,67.44,enhancing,K562
+6398,0.9033,../results/context_dependence_test_5/borzoi/GLRX2_chr1_193105414_-.pickle,68.5,enhancing,K562
+6436,0.922,../results/context_dependence_test_5/borzoi/TBPL1_chr6_133953223_+.pickle,68.75,enhancing,K562
+6530,0.006836,../results/context_dependence_test_5/borzoi/RBM4_chr11_66638702_+.pickle,69.44,neutral,K562
+6673,0.982,../results/context_dependence_test_5/borzoi/SERPINB6_chr6_2971661_-.pickle,70.44,enhancing,K562
+6698,-0.03223,../results/context_dependence_test_5/borzoi/SRSF6_chr20_43457895_+.pickle,70.56,neutral,K562
+6729,0.919,../results/context_dependence_test_5/borzoi/STX18_chr4_4542048_-.pickle,70.9,enhancing,K562
+6791,0.902,../results/context_dependence_test_5/borzoi/ENSG00000256500_chr14_103562961_+.pickle,71.3,enhancing,K562
+6817,0.9453,../results/context_dependence_test_5/borzoi/PRR3_chr6_30557279_+.pickle,71.56,enhancing,K562
+6849,0.02464,../results/context_dependence_test_5/borzoi/ATF4_chr22_39520562_+.pickle,71.8,neutral,K562
+6972,0.965,../results/context_dependence_test_5/borzoi/ENSG00000285382_chr20_32743523_-.pickle,72.6,enhancing,K562
+6974,0.907,../results/context_dependence_test_5/borzoi/GTF3C3_chr2_196799683_-.pickle,72.7,enhancing,K562
+7303,0.915,../results/context_dependence_test_5/borzoi/EMC4_chr15_34225015_+.pickle,75.2,enhancing,K562
+7353,0.9697,../results/context_dependence_test_5/borzoi/HADHB_chr2_26244925_+.pickle,75.7,enhancing,K562
+7397,0.9727,../results/context_dependence_test_5/borzoi/MAP7D1_chr1_36156201_+.pickle,76.1,enhancing,K562
+7406,0.908,../results/context_dependence_test_5/borzoi/MTERF3_chr8_96261610_-.pickle,76.1,enhancing,K562
+7422,0.9297,../results/context_dependence_test_5/borzoi/ACBD6_chr1_180502577_-.pickle,76.25,enhancing,K562
+7433,0.946,../results/context_dependence_test_5/borzoi/SCCPDH_chr1_246724408_+.pickle,76.4,enhancing,K562
+7487,0.9116,../results/context_dependence_test_5/borzoi/ACTR10_chr14_58200148_+.pickle,76.9,enhancing,K562
+7561,0.966,../results/context_dependence_test_5/borzoi/SCP2_chr1_53014973_+.pickle,77.56,enhancing,K562
+7716,0.908,../results/context_dependence_test_5/borzoi/CEP63_chr3_134486049_+.pickle,79.2,enhancing,K562
+7760,0.9307,../results/context_dependence_test_5/borzoi/NT5DC2_chr3_52533857_-.pickle,79.6,enhancing,K562
+7786,0.9004,../results/context_dependence_test_5/borzoi/METTL5_chr2_169824874_-.pickle,79.8,enhancing,K562
+7788,0.918,../results/context_dependence_test_5/borzoi/DUT_chr15_48332209_+.pickle,79.9,enhancing,K562
+7812,0.9316,../results/context_dependence_test_5/borzoi/PARP6_chr15_72272554_-.pickle,80.06,enhancing,K562
+7990,0.04227,../results/context_dependence_test_5/borzoi/TTC14_chr3_180602162_+.pickle,82.1,neutral,K562
+8095,0.932,../results/context_dependence_test_5/borzoi/UBE2M_chr19_58558611_-.pickle,83.06,enhancing,K562
+8121,0.9517,../results/context_dependence_test_5/borzoi/BPNT1_chr1_220089788_-.pickle,83.4,enhancing,K562
+8171,0.906,../results/context_dependence_test_5/borzoi/ARL2_chr11_65014159_+.pickle,84.06,enhancing,K562
+8266,0.9346,../results/context_dependence_test_5/borzoi/SUMO3_chr21_44818051_-.pickle,85.3,enhancing,K562
+8267,0.9062,../results/context_dependence_test_5/borzoi/KRTCAP2_chr1_155173254_-.pickle,85.25,enhancing,K562
+8399,0.9277,../results/context_dependence_test_5/borzoi/ARL2-SNX15_chr11_65014181_+.pickle,86.8,enhancing,K562
+8435,0.0391,../results/context_dependence_test_5/borzoi/PTAR1_chr9_69760011_-.pickle,87.25,neutral,K562
+8481,0.0487,../results/context_dependence_test_5/borzoi/RPS23_chr5_82278355_-.pickle,87.9,neutral,K562
+8607,0.000143,../results/context_dependence_test_5/borzoi/CENPC_chr4_67545503_-.pickle,89.75,neutral,K562
+8761,0.0427,../results/context_dependence_test_5/borzoi/DNAJB9_chr7_108569873_+.pickle,91.94,neutral,K562
+8791,0.9077,../results/context_dependence_test_5/borzoi/CDIPT_chr16_29863204_-.pickle,92.4,enhancing,K562
+9000,0.906,../results/context_dependence_test_5/borzoi/SCD_chr10_100347232_+.pickle,95.75,enhancing,K562
+9012,0.907,../results/context_dependence_test_5/borzoi/CHMP2A_chr19_58554973_-.pickle,96.06,enhancing,K562
+9015,0.9126,../results/context_dependence_test_5/borzoi/DPH5_chr1_101025792_-.pickle,96.2,enhancing,K562
+9044,0.9775,../results/context_dependence_test_5/borzoi/PRDX2_chr19_12801800_-.pickle,96.7,enhancing,K562
+9136,0.966,../results/context_dependence_test_5/borzoi/VARS1_chr6_31795752_-.pickle,98.9,enhancing,K562
+9208,0.04846,../results/context_dependence_test_5/borzoi/CCNL1_chr3_157160147_-.pickle,100.3,neutral,K562
+9349,0.9053,../results/context_dependence_test_5/borzoi/LDB1_chr10_102120368_-.pickle,104.25,enhancing,K562
+9383,0.01004,../results/context_dependence_test_5/borzoi/RPS20_chr8_56074498_-.pickle,105.25,neutral,K562
+9475,0.9243,../results/context_dependence_test_5/borzoi/PLP2_chrX_49171925_+.pickle,108.0,enhancing,K562
+9487,0.9185,../results/context_dependence_test_5/borzoi/DHX57_chr2_38875934_-.pickle,108.44,enhancing,K562
+9492,0.9272,../results/context_dependence_test_5/borzoi/MORN2_chr2_38875990_+.pickle,108.7,enhancing,K562

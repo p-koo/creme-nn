@@ -44,7 +44,7 @@ def main():
             for j, (cell_line, v) in enumerate(cell_line_info.items()):
 
                 indeces = v['output']
-                all_tss[i, j] = pred[indeces].mean() # sum across strands of cell line tracks
+                all_tss[i, j] = pred[indeces].sum() # sum across strands of cell line tracks
 
 
 
