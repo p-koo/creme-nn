@@ -34,7 +34,7 @@ def main():
     cre_df_path = f'{csv_dir}/sufficient_CREs.csv'
     all_cre_set = pd.read_csv(cre_df_path)
     all_cre_set = all_cre_set[(all_cre_set['cell_line'] == cell_line) & (all_cre_set['tile class'] == 'Enhancer')]
-    bps = np.arange(0, 5000, 500)
+    bps = np.arange(0, 5001, 500)
     target_bins = [447, 448]
 
     for cell_line, cre_set in all_cre_set.groupby('cell_line'):

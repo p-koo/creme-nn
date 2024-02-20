@@ -5,7 +5,9 @@ import pyfaidx
 import kipoiseq
 import pickle
 import numpy as np
-
+import logomaker
+import matplotlib.pyplot as plt
+import glob
 
 
 def rc_dna(seq):
@@ -162,9 +164,11 @@ def clean_cell_name(t):
      return t.split(':')[-1].split(' ENCODE')[0].strip()
 
 def save_pickle(result_path, x):
-    assert not os.path.isfile(result_path), 'File already exists!'
-    with open(result_path, 'wb') as handle:
-        pickle.dump(x, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    if os.path.isfile(result_path):
+        print('File already exists!')
+    else:
+        with open(result_path, 'wb') as handle:
+            pickle.dump(x, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 def read_pickle(result_path):
     with open(result_path, 'rb') as handle:
@@ -185,7 +189,40 @@ def get_borzoi_targets(target_df, cell_lines):
                                                       targets]
         cell_line_info[target_cell_line]['target'] = '&'.join([str(t) for t in targets])
 
-    return cell_line_info
+    return cell_line_info, cage_tracks
+
+
+def grad_times_input_to_df(x, grad, alphabet='ACGT'):
+    """generate pandas dataframe for saliency plot
+     based on grad x inputs """
+
+    x_index = np.argmax(np.squeeze(x), axis=1)
+    grad = np.squeeze(grad)
+    L, A = grad.shape
+
+    seq = ''
+    saliency = np.zeros((L))
+    for i in range(L):
+        seq += alphabet[x_index[i]]
+        saliency[i] = grad[i, x_index[i]]
+
+    # create saliency matrix
+    saliency_df = logomaker.saliency_to_matrix(seq=seq, values=saliency)
+    return saliency_df
+
+
+def plot_attribution_map(saliency_df, ax=None, figsize=(20, 1)):
+    """plot an attribution map using logomaker"""
+
+    logomaker.Logo(saliency_df, figsize=figsize, ax=ax)
+    if ax is None:
+        ax = plt.gca()
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.yaxis.set_ticks_position('none')
+    ax.xaxis.set_ticks_position('none')
+    plt.xticks([])
+    plt.yticks([])
 
 # def map_indeces_to_labels_borzoi(track_labels, assay, target_df_path, remove_idx={}):
 #     target_df = pd.read_csv(target_df_path, sep='\t')
@@ -214,4 +251,85 @@ def get_borzoi_targets(target_df, cell_lines):
 #     #     for v_i in v:
 #     #         track_groups[k]['idx']
 #     return track_groups
+
+
+def plot_one_seq_feature_map(seq_tile_id, model, seq_parser, cell_line, track_index, plot_xstreme=True):
+    # get sequence coordinate info
+    cre_saliency_scores, creme_mask = get_saliency_and_creme_mask_overlap(seq_tile_id, model, seq_parser, cell_line,
+                                                                          track_index)
+
+
+    # chrom, tss, strand, enh_tile_start = seq_tile_id.split('_')[1:5]
+    # tss = int(tss)
+    # enh_tile_start = int(enh_tile_start)
+    # # load creme and XSTREME results
+    # creme_res = read_pickle(f'../results/motifs_500,50_batch_1,10_shuffle_10_thresh_0.9,0.7/{cell_line}/{seq_tile_id}')
+    # xstreme_res = read_pickle(glob.glob(f'../results/XSTREME/FIMO/{cell_line}_enhancers_*/{seq_tile_id}')[0])
+    # # get saliency of seq
+    # wt_seq = seq_parser.extract_seq_centered(chrom, int(tss), strand, model.seq_length)
+    # wt_seq_padded = np.pad(wt_seq[np.newaxis].copy(),
+    #                        ((0, 0), (model.seq_length // 2, model.seq_length // 2), (0, 0)), 'constant')
+    # predictions = model.predict(wt_seq[np.newaxis])[0]
+    # target_mask = np.zeros_like(predictions)
+    # target_bins = [447, 448]
+    #
+    # for idx in target_bins:
+    #     target_mask[idx, track_index] = 1
+    #
+    #
+    # saliency_times_input = model.contribution_input_grad(wt_seq_padded, target_mask, mult_by_input=True)[
+    #                        model.seq_length // 2:-model.seq_length // 2].numpy()
+
+    # enh_tile_end = enh_tile_start + 5000
+    # enh_saliency_times_input = saliency_times_input[enh_tile_start: enh_tile_end]
+
+    fig, ax = plt.subplots(1, 1, figsize=[15, 2])
+    ax.plot(cre_saliency_scores, alpha=0.5, label='grad*input')
+    max_sal = np.max(cre_saliency_scores)
+
+    ax.plot(creme_mask*max_sal, label='CREME', color='purple', alpha=0.4)
+    # plt.xlim(2000,2600)
+    if plot_xstreme:
+        xstreme_res = read_pickle(glob.glob(f'../results/XSTREME/FIMO/{cell_line}_enhancers_*/{seq_tile_id}')[0])
+
+        ax.plot([max_sal*0.8 if x else False for x in xstreme_res['motif_mask']], label='XSTREME', alpha=0.4)
+
+    ax.legend()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.set_title(seq_tile_id.split('_')[0])
+    plt.show()
+    return cre_saliency_scores, creme_mask
+
+
+
+def get_saliency_and_creme_mask_overlap(seq_tile_id, model, seq_parser, cell_line, track_index):
+    # get sequence coordinate info
+    chrom, tss, strand, enh_tile_start = seq_tile_id.split('_')[1:5]
+    tss = int(tss)
+    enh_tile_start = int(enh_tile_start)
+    enh_tile_end = enh_tile_start + 5000
+    # load creme and XSTREME results
+    creme_res = read_pickle(f'../results/motifs_500,50_batch_1,10_shuffle_10_thresh_0.9,0.7/{cell_line}/{seq_tile_id}')
+
+    # get saliency of seq
+    wt_seq = seq_parser.extract_seq_centered(chrom, int(tss), strand, model.seq_length)
+    wt_seq_padded = np.pad(wt_seq[np.newaxis].copy(),
+                           ((0, 0), (model.seq_length // 2, model.seq_length // 2), (0, 0)), 'constant')
+    predictions = model.predict(wt_seq[np.newaxis])[0]
+    target_mask = np.zeros_like(predictions)
+    target_bins = [447, 448]
+    for idx in target_bins:
+        target_mask[idx, track_index] = 1
+
+    cre_saliency_scores = model.contribution_input_grad(wt_seq_padded, target_mask)[
+                          model.seq_length // 2:-model.seq_length // 2][enh_tile_start: enh_tile_end]
+
+
+    creme_mask = np.zeros((5000,))
+    for interval in creme_res[50]['insert_coords']:
+        interval = interval - enh_tile_start
+        creme_mask[interval[0]: interval[1]] = 1
+
+    return cre_saliency_scores, creme_mask
 

@@ -337,9 +337,11 @@ def distance_test(model, x, tile_fixed_coord, tile_var_coord, test_positions, nu
     pred_mut = np.array(pred_mut)
 
     if mean:
-        return np.mean(pred_control, axis=0), np.std(pred_control, axis=0), np.mean(pred_mut, axis=1), np.std(pred_mut, axis=1)
+        res = {"mean_control": np.mean(pred_control, axis=0), "std_control": np.std(pred_control, axis=0),
+                "mean_mut": np.mean(pred_mut, axis=1), "std_mut": np.std(pred_mut, axis=1)}
     else:
-        return pred_control, pred_mut 
+        res = {'control': pred_control, 'mut': pred_mut}
+    return res
 
 
 
