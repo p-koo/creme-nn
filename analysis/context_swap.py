@@ -70,6 +70,31 @@ def main():
                     pred_mut = creme.context_swap_test(model, src_seq, dest_seq, tss_tile)
                     utils.save_pickle(result_path, pred_mut)
 
+    result_summary = []
+    bin_index = [447, 448]
+    for cell_index, cell_line in enumerate(cell_lines):
+        # result_files = glob.glob(f'{results_dir}/{cell_line}/*')
+        df_context = pd.read_csv(f'../results/summary_csvs/{model_name}/{cell_line}_selected_contexts.csv')
+        df_context['source_id'] = [p.split('/')[-1].split('.')[0] for p in df_context['path']]
+        # context_id = dict(zip(df_context['source_id'], df_context['context']))
+        preds = []
+        for i, row_src in tqdm(df_context.iterrows()):
+            res = utils.read_pickle(
+                f'{test_results_dir}/{cell_line}/src_{row_src["source_id"]}_dest_{row_src["source_id"]}.pickle')
+
+            src_wt = res[0, bin_index, cell_index].mean()
+            for j, row_dest in df_context.iterrows():
+                res = utils.read_pickle(
+                    f'../results/context_swap_test/enformer/{cell_line}/src_{row_src["source_id"]}_dest_{row_dest["source_id"]}.pickle')
+                preds.append([row_src["source_id"], row_src['context'],
+                              row_dest["source_id"], row_dest['context'],
+                              res[0, bin_index, cell_index].mean() / src_wt])
+        df = pd.DataFrame(preds)
+        df.columns = ['source', 'source_context', 'target', 'target_context', 'normalised']
+        df['cell_line'] = cell_line
+        result_summary.append(df)
+    result_summary = pd.concat(result_summary)
+    result_summary.to_csv(f'../results/summary_csvs/{model_name}/context_swap_test.csv')
 
 if __name__ == '__main__':
     main()
