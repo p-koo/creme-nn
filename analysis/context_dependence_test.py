@@ -153,6 +153,28 @@ def main():
             context_df = pd.concat(context_df_subsample)
             context_df.to_csv(f'{csv_dir}/{k}_selected_contexts.csv')
 
+        k = 'K562'
+        cell_line_names = ['PC-3', 'GM12878', 'K562']
+
+        df = pd.read_csv(f'../results/summary_csvs/enformer/{k}_selected_contexts.csv').sort_values('context')
+        cell_pred_index = cell_line_names.index(k)
+        example_set = []
+        for name, selected_point in zip(['enhancing context', 'neutral context', 'silencing context'],
+                                        [df[df['context'] == 'enhancing'].sort_values('delta_mean')['path'].values[-1],
+                                         df[df['context'] == 'neutral']['path'].values[0],
+                                         df[df['context'] == 'silencing'].sort_values('delta_mean')['path'].values[0]
+                                         ]):
+            with open(selected_point, 'rb') as handle:
+                context_res = pickle.load(handle)
+            wt = context_res['wt'][:, cell_pred_index]
+            mut = context_res['mut'][:, cell_pred_index]
+            one_example = pd.DataFrame([wt, mut]).T
+            one_example.columns = ['WT', 'MUT']
+            one_example['name'] = name
+            example_set.append(one_example)
+        example_set = pd.concat(example_set)
+        example_set.to_csv(f'../results/summary_csvs/enformer/example_sequences.csv')
+
 
 
 if __name__=='__main__':
