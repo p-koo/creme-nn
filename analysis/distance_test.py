@@ -64,13 +64,10 @@ def main():
     cre_df = pd.read_csv(cre_df_path)
 
 
-    # tile_coords = pd.read_csv(f'{csv_dir}/sufficiency_test_tile_coordinates.csv', index_col='Unnamed: 0').T
-    # tss_tile = tile_coords.loc['tss'].T.values
-    # cre_tile_coords = tile_coords.loc[[t for t in tile_coords.index if 'tss' not in t]]
-    # cre_tiles_starts = cre_tile_coords[0].values
+
     tss_tile, cre_tiles = utils.set_tile_range(model.seq_length, perturb_window)
     cre_tiles_starts = np.array(cre_tiles)[:, 0]
-
+    cre_tiles_starts_abs = np.abs(cre_tiles_starts - tss_tile[0]) // 1000
     # set up sequence parser from fasta
     seq_parser = utils.SequenceParser(fasta_path)
     cre_df = cre_df.sample(frac=1)
@@ -92,6 +89,42 @@ def main():
 
             # store predictions
             utils.save_pickle(result_path, res)
+
+    if model_name == 'enformer':
+        result_normalized_effects = []
+        all_norm_effects = []
+        raw_preds = {}
+        for i, cell_line in enumerate(cell_lines):
+            raw_preds[cell_line] = []
+            cre_df_cell = cre_df[cre_df['cell_line'] == cell_line]
+            cre_df_cell.insert(1, "distance to TSS (Kb)",
+                               [np.abs(int(i) - tss_tile[0]) // 1000 for i in cre_df_cell['tile_start'].values])
+            for j, (_, row) in tqdm(enumerate(cre_df_cell.iterrows())):
+                tile_start, tile_end = [row['tile_start'], row['tile_end']]
+                result_path = f'{result_dir_model}/{row["seq_id"]}_{tile_start}_{tile_end}.pickle'
+                res = utils.read_pickle(result_path)
+                control = row['control']  # res['mean_control'][447:449,i].mean()
+                test = res['mean_mut'][:, 447:449, i].mean(axis=-1)
+                if row['context'] == 'enhancing':
+                    CRE_norm_effects = (test - control) / row['wt']
+                else:
+                    CRE_norm_effects = (test - control) / control
+
+                norm_effects = test / np.max(test)
+                all_norm_effects.append(norm_effects)
+                df = pd.DataFrame([norm_effects, CRE_norm_effects, cre_tiles_starts_abs]).T
+                df.columns = ['Fold change over control', "CRE sufficiency effect", 'Binned distance (Kb)']
+                df['Normalized CRE effect (control)'] = row['Normalized CRE effect']
+                raw_preds[cell_line].append(test)
+                df['cell line'] = cell_line
+                df['control'] = control
+                df['enf_data_id'] = f'{row["seq_id"]}_{tile_start}_{tile_end}'
+                df['context'] = row['context']
+                df['tile class'] = row['tile class']
+                result_normalized_effects.append(df)
+
+        result_normalized_effects = pd.concat(result_normalized_effects)
+        result_normalized_effects.to_csv(f"{csv_dir}/distance_test.csv")
 
 if __name__ == '__main__':
     main()
