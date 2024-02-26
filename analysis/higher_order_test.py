@@ -91,7 +91,7 @@ def main():
 
         print(context_df.shape)
         for _, row in context_df.iterrows():
-            res_path = f"../results/higher_order_test_min/{model_name}/{cell_line}/{row['path'].split('/')[-1]}"
+            res_path = f"../results/higher_order_test_{optimization_name}/{model_name}/{cell_line}/{row['path'].split('/')[-1]}"
             res = utils.read_pickle(res_path)
             wt = res[0]['initial_pred']
 
