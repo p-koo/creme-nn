@@ -17,6 +17,39 @@ import utils
 import glob
 
 
+def process_greedy_search_res(res_path, cre_tiles, log):
+    raw_res = utils.read_pickle(res_path)
+    res = {}
+    if log:
+        for i in raw_res.keys():
+            res[i] = {}
+            for k, v in raw_res[i].items():
+                if 'pred' in k:
+                    res[i][k] = np.log(v)
+                else:
+                    res[i][k] = v
+    else:
+        res = raw_res
+
+    wt = res[0]['initial_pred']
+    trace = [res[i]['initial_pred'] / wt for i in res.keys()]
+    ####hypothetical additive model
+    greedy_search_order = [np.argwhere(np.array(cre_tiles) == res[i]['selected_tile'])[0][0] for i in
+                           res.keys()]
+    # first_two_points = res[0]['preds'][greedy_search_order[:2]].mean(axis=1)
+    # two_cres_shuffled = res[2]['initial_pred']
+    # second_it = [wt, first_two_points[0], first_two_points[1], two_cres_shuffled]
+
+    mutant_predictions_first_iter = res[0]['preds'].mean(axis=-1)
+
+    effect_sizes_first_iter = mutant_predictions_first_iter - wt
+    sorted_effect_first_iter = effect_sizes_first_iter[greedy_search_order]
+    sorted_effect = (sorted_effect_first_iter / wt)
+    sum_of_effects = np.cumsum(sorted_effect_first_iter)
+    hypothetical_trace = wt + sum_of_effects
+    hypothetical_trace = (np.concatenate([[wt], hypothetical_trace]) / wt)[:-1]
+    return [trace, hypothetical_trace, sorted_effect]
+
 def main():
     model_name = sys.argv[1]
     optimization_name = sys.argv[2]
@@ -93,26 +126,35 @@ def main():
         for _, row in context_df.iterrows():
             res_path = f"../results/higher_order_test_{optimization_name}/{model_name}/{cell_line}/{row['path'].split('/')[-1]}"
             res = utils.read_pickle(res_path)
-            wt = res[0]['initial_pred']
-
-            trace = [res[i]['initial_pred'] / wt for i in res.keys()]
-            ####hypothetical additive model
             greedy_search_order = [np.argwhere(np.array(cre_tiles) == res[i]['selected_tile'])[0][0] for i in
                                    res.keys()]
             first_two_points = res[0]['preds'][greedy_search_order[:2]].mean(axis=1)
             two_cres_shuffled = res[2]['initial_pred']
-            second_it = [wt, first_two_points[0], first_two_points[1], two_cres_shuffled]
+            second_it = [res[0]['initial_pred'], first_two_points[0], first_two_points[1], two_cres_shuffled]
 
-            mutant_predictions_first_iter = res[0]['preds'].mean(axis=-1)
-
-            effect_sizes_first_iter = mutant_predictions_first_iter - wt
-            sorted_effect_first_iter = effect_sizes_first_iter[greedy_search_order]
-            sorted_effect = (sorted_effect_first_iter / wt)
-            sum_of_effects = np.cumsum(sorted_effect_first_iter)
-            hypothetical_trace = wt + sum_of_effects
-            hypothetical_trace = (np.concatenate([[wt], hypothetical_trace]) / wt)[:-1]
+            # wt = res[0]['initial_pred']
+            # trace = [res[i]['initial_pred'] / wt for i in res.keys()]
+            # ####hypothetical additive model
+            # greedy_search_order = [np.argwhere(np.array(cre_tiles) == res[i]['selected_tile'])[0][0] for i in
+            #                        res.keys()]
+            # first_two_points = res[0]['preds'][greedy_search_order[:2]].mean(axis=1)
+            # two_cres_shuffled = res[2]['initial_pred']
+            # second_it = [wt, first_two_points[0], first_two_points[1], two_cres_shuffled]
+            #
+            # mutant_predictions_first_iter = res[0]['preds'].mean(axis=-1)
+            #
+            # effect_sizes_first_iter = mutant_predictions_first_iter - wt
+            # sorted_effect_first_iter = effect_sizes_first_iter[greedy_search_order]
+            # sorted_effect = (sorted_effect_first_iter / wt)
+            # sum_of_effects = np.cumsum(sorted_effect_first_iter)
+            # hypothetical_trace = wt + sum_of_effects
+            # hypothetical_trace = (np.concatenate([[wt], hypothetical_trace]) / wt)[:-1]
 
             # hypothetical_traces[row['context']].append(hypothetical_trace[:-1])
+            trace, hypothetical_trace, sorted_effect = process_greedy_search_res(res_path, cre_tiles, False)
+            log_trace, log_hypothetical_trace, log_sorted_effect = process_greedy_search_res(res_path, cre_tiles, True)
+
+
             location_map = [0 for _ in range(len(cre_tiles))]
             for iteration in range(5):
                 location_map[np.argwhere(res[iteration]['selected_tile'] == np.array(cre_tiles))[0][0]] = 1
@@ -122,8 +164,10 @@ def main():
             location_map['cell_line'] = cell_line
             locations_all.append(location_map)
 
-            one_seq_res = pd.DataFrame([trace, hypothetical_trace, sorted_effect]).T
-            one_seq_res.columns = ['trace', 'hypothetical_trace', 'sorted_effects']
+            one_seq_res = pd.DataFrame([trace, hypothetical_trace, sorted_effect,
+                                        log_trace, log_hypothetical_trace, log_sorted_effect]).T
+            one_seq_res.columns = ['trace', 'hypothetical_trace', 'sorted_effects',
+                                   'log_trace', 'log_hypothetical_trace', 'log_sorted_effects']
             one_seq_res['cell_line'] = cell_line
             one_seq_res['context'] = row['context']
             one_seq_res['seq_id'] = row['seq_id']
