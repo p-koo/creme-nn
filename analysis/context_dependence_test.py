@@ -175,7 +175,33 @@ def main():
         example_set = pd.concat(example_set)
         example_set.to_csv(f'../results/summary_csvs/enformer/example_sequences.csv')
 
+        ### save profiles
+        cell_lines = [4824, 5110, 5111]
+        cell_line_names = ['PC-3', 'GM12878', 'K562']
+        bin_index = [447, 448]
+        model_name = 'enformer'
+        summary_dfs = []
+        for i, c in enumerate(cell_lines):
+            selected_tss_path = \
+            glob.glob(f'../results/summary_csvs/{model_name}/{c}_{cell_line_names[i]}*_selected_genes.csv')[0]
+            cell_name = selected_tss_path.split('_')[-3]
+            wts = []
+            selected_tss = pd.read_csv(selected_tss_path)
+            for _, row in tqdm(selected_tss.iterrows()):
+                r = f'../results/context_dependence_test_100///{model_name}/{utils.get_summary(row)}.pickle'
 
+                with open(r, 'rb') as handle:
+                    context_res = pickle.load(handle)
+                wts.append(context_res['wt'][:, i])
+
+            window = 10
+            center_coverage = np.array(wts).mean(axis=0)[448 - window: 448 + window]
+            std = np.array(wts).std(axis=0)[448 - window: 448 + window]
+            df = pd.DataFrame([center_coverage, std]).T
+            df.columns = ['mean', 'std']
+            df['cell_line'] = cell_name
+            summary_dfs.append(df)
+        pd.concat(summary_dfs).to_csv('../results/summary_csvs/enformer/coverage_profiles.csv')
 
 if __name__=='__main__':
     main()
