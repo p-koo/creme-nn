@@ -8,7 +8,7 @@ import numpy as np
 import logomaker
 import matplotlib.pyplot as plt
 import glob
-
+import umap
 
 def rc_dna(seq):
     """
@@ -259,30 +259,6 @@ def plot_one_seq_feature_map(seq_tile_id, model, seq_parser, cell_line, track_in
                                                                           track_index)
 
 
-    # chrom, tss, strand, enh_tile_start = seq_tile_id.split('_')[1:5]
-    # tss = int(tss)
-    # enh_tile_start = int(enh_tile_start)
-    # # load creme and XSTREME results
-    # creme_res = read_pickle(f'../results/motifs_500,50_batch_1,10_shuffle_10_thresh_0.9,0.7/{cell_line}/{seq_tile_id}')
-    # xstreme_res = read_pickle(glob.glob(f'../results/XSTREME/FIMO/{cell_line}_enhancers_*/{seq_tile_id}')[0])
-    # # get saliency of seq
-    # wt_seq = seq_parser.extract_seq_centered(chrom, int(tss), strand, model.seq_length)
-    # wt_seq_padded = np.pad(wt_seq[np.newaxis].copy(),
-    #                        ((0, 0), (model.seq_length // 2, model.seq_length // 2), (0, 0)), 'constant')
-    # predictions = model.predict(wt_seq[np.newaxis])[0]
-    # target_mask = np.zeros_like(predictions)
-    # target_bins = [447, 448]
-    #
-    # for idx in target_bins:
-    #     target_mask[idx, track_index] = 1
-    #
-    #
-    # saliency_times_input = model.contribution_input_grad(wt_seq_padded, target_mask, mult_by_input=True)[
-    #                        model.seq_length // 2:-model.seq_length // 2].numpy()
-
-    # enh_tile_end = enh_tile_start + 5000
-    # enh_saliency_times_input = saliency_times_input[enh_tile_start: enh_tile_end]
-
     fig, ax = plt.subplots(1, 1, figsize=[15, 2])
     ax.plot(cre_saliency_scores, alpha=0.5, label='grad*input')
     max_sal = np.max(cre_saliency_scores)
@@ -333,3 +309,27 @@ def get_saliency_and_creme_mask_overlap(seq_tile_id, model, seq_parser, cell_lin
 
     return cre_saliency_scores, creme_mask
 
+
+def convert_pvalue_to_asterisks(pvalue):
+    if pvalue <= 0.0001:
+        return "****"
+    elif pvalue <= 0.001:
+        return "***"
+    elif pvalue <= 0.01:
+        return "**"
+    elif pvalue <= 0.05:
+        return "*"
+    return "ns"
+
+
+def plot_umap(all_features, labels):
+    reducer = umap.UMAP(random_state=42)
+    scaled_penguin_data = StandardScaler().fit_transform(all_features)
+    embedding = reducer.fit_transform(scaled_penguin_data)
+    print(embedding.shape)
+    ax = sns.scatterplot(
+        x=embedding[:, 0],
+        y=embedding[:, 1], hue=labels, alpha=0.3, palette=['g', 'r'])
+
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
