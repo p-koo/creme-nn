@@ -106,6 +106,7 @@ def main():
             wt = res_greedy[0]['initial_pred']
             res['predictions'].insert(0, res['only_tss_preds'])
             preds = np.array(res['predictions'])
+            # trace = preds / wt
             if element_type == 'Enhancers':
                 trace = preds / wt
 
