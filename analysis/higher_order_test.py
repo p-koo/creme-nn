@@ -17,7 +17,7 @@ import utils
 import glob
 
 
-def process_greedy_search_res(res_path, cre_tiles, log):
+def process_greedy_search_res(res_path, cre_tiles, log, optimization_name):
     raw_res = utils.read_pickle(res_path)
     res = {}
     if log:
@@ -33,12 +33,14 @@ def process_greedy_search_res(res_path, cre_tiles, log):
 
     wt = res[0]['initial_pred']
     trace = [res[i]['initial_pred'] / wt for i in res.keys()]
+    if optimization_name == 'min':
+        trace.append(np.min(res[24]['preds'].mean(axis=-1)) / wt)
+    else:
+        trace.append(np.max(res[24]['preds'].mean(axis=-1)) / wt)
+
     ####hypothetical additive model
     greedy_search_order = [np.argwhere(np.array(cre_tiles) == res[i]['selected_tile'])[0][0] for i in
                            res.keys()]
-    # first_two_points = res[0]['preds'][greedy_search_order[:2]].mean(axis=1)
-    # two_cres_shuffled = res[2]['initial_pred']
-    # second_it = [wt, first_two_points[0], first_two_points[1], two_cres_shuffled]
 
     mutant_predictions_first_iter = res[0]['preds'].mean(axis=-1)
 
@@ -47,7 +49,7 @@ def process_greedy_search_res(res_path, cre_tiles, log):
     sorted_effect = (sorted_effect_first_iter / wt)
     sum_of_effects = np.cumsum(sorted_effect_first_iter)
     hypothetical_trace = wt + sum_of_effects
-    hypothetical_trace = (np.concatenate([[wt], hypothetical_trace]) / wt)[:-1] # last of greedy is useless
+    hypothetical_trace = (np.concatenate([[wt], hypothetical_trace]) / wt)#[:-1] # last of greedy is useless
     return [trace, hypothetical_trace, sorted_effect]
 
 def main():
@@ -133,8 +135,10 @@ def main():
             second_it = [res[0]['initial_pred'], first_two_points[0], first_two_points[1], two_cres_shuffled]
 
 
-            trace, hypothetical_trace, sorted_effect = process_greedy_search_res(res_path, cre_tiles, False)
-            log_trace, log_hypothetical_trace, log_sorted_effect = process_greedy_search_res(res_path, cre_tiles, True)
+            trace, hypothetical_trace, sorted_effect = process_greedy_search_res(res_path, cre_tiles, False,
+                                                                                 optimization_name)
+            log_trace, log_hypothetical_trace, log_sorted_effect = process_greedy_search_res(res_path, cre_tiles, True,
+                                                                                             optimization_name)
 
 
             location_map = [0 for _ in range(len(cre_tiles))]

@@ -131,7 +131,7 @@ def main():
 
         df['tile class'] = row['tile class']
         df['cell line'] = 'K562'
-        df['seq_id'] = row['seq_id']
+        df['seq_id'] = f"{row['seq_id']}_{row['tile_start']}_{row['tile_end']}"
         normalized_tests.append(df)
 
     result_normalized_effects = pd.concat(normalized_tests)
