@@ -103,9 +103,9 @@ def main():
     tss_tile, cre_tiles = utils.set_tile_range(borzoi_model_seq_length, 5000)
 
     cre_tiles_starts = np.array(cre_tiles).T[0]
-    cre_tiles_starts_abs = np.abs(cre_tiles_starts - tss_tile[0]) // 1000
+    cre_tiles_starts_abs = (cre_tiles_starts - tss_tile[0]) // 1000
     cre_df.insert(1, "distance to TSS (Kb)",
-                  [np.abs(int(i) - tss_tile[0]) // 1000 for i in cre_df['tile_start'].values])
+                  [(int(i) - tss_tile[0]) // 1000 for i in cre_df['tile_start'].values])
     test_results = f'../results/distance_test_True/borzoi_5/'
     target_df = pd.read_csv('../data/borzoi_targets_human.txt', sep='\t')
     cell_lines_for_search = ['K562 ENCODE, biol_']

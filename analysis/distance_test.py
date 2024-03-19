@@ -67,7 +67,7 @@ def main():
 
     tss_tile, cre_tiles = utils.set_tile_range(model.seq_length, perturb_window)
     cre_tiles_starts = np.array(cre_tiles)[:, 0]
-    cre_tiles_starts_abs = np.abs(cre_tiles_starts - tss_tile[0]) // 1000
+    cre_tiles_starts_abs = (cre_tiles_starts - tss_tile[0]) // 1000
     # set up sequence parser from fasta
     seq_parser = utils.SequenceParser(fasta_path)
     cre_df = cre_df.sample(frac=1)
@@ -98,7 +98,7 @@ def main():
             raw_preds[cell_line] = []
             cre_df_cell = cre_df[cre_df['cell_line'] == cell_line]
             cre_df_cell.insert(1, "distance to TSS (Kb)",
-                               [np.abs(int(i) - tss_tile[0]) // 1000 for i in cre_df_cell['tile_start'].values])
+                               [(int(i) - tss_tile[0]) // 1000 for i in cre_df_cell['tile_start'].values])
             for j, (_, row) in tqdm(enumerate(cre_df_cell.iterrows())):
                 tile_start, tile_end = [row['tile_start'], row['tile_end']]
                 result_path = f'{result_dir_model}/{row["seq_id"]}_{tile_start}_{tile_end}.pickle'

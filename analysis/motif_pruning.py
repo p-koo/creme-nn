@@ -85,18 +85,18 @@ def main():
                 mut = pred_mut.mean()
                 control = pred_control.mean()
                 result_summary = {'wt': wt, 'mut': mut, 'control': control}
-                if cre_type == 'enhancer':
-                    condition = (mut - control) / wt > enhancer_definition
-                elif cre_type == 'silencer':
-                    condition = (mut - control) / control < silencer_definition
+                # if cre_type == 'enhancer':
+                #     condition = (mut - control) / wt > enhancer_definition
+                # elif cre_type == 'silencer':
+                #     condition = (mut - control) / control < silencer_definition
+                #
+                # if condition:
 
-                if condition:
+                opt_results = creme.prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whole_tile_end,
+                                     scales, thresholds, frac, N_batches, cre_type)
 
-                    opt_results = creme.prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whole_tile_end,
-                                         scales, thresholds, frac, N_batches, cre_type)
-
-                    result_summary.update(opt_results)
-                    result_summary['control_sequences'] = control_sequences
+                result_summary.update(opt_results)
+                result_summary['control_sequences'] = control_sequences
 
                 if not os.path.isfile(result_path):
 

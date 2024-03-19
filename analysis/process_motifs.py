@@ -40,33 +40,33 @@ def main():
     # dfs = pd.concat(dfs)
     # dfs.to_csv(f"{summary_csv_dir}/XSTREME_vs_CREME.csv")
     #
-    # ######## XSTREME VS SALIENCY VS CREME
-    # bps = np.arange(0, 5001, 500)
-    # dfs = []
-    # for a, (index, cell_line) in enumerate({4824: 'PC-3', 5110: 'GM12878', 5111: 'K562'}.items()):
-    #     for s, seq_tile_id in enumerate(os.listdir(f'{saliency_dir}/{index}/')):
-    #         # CREME results
-    #         prune_res = utils.read_pickle(f'{result_dir}/{cell_line}/{seq_tile_id}')
-    #         creme_frac = np.array([1] + prune_res[500]['scores'][:-1] + prune_res[50]['scores'])
-    #         creme_bps = bps[:len(creme_frac)]
-    #         control = prune_res['mut']
-    #
-    #         # XSTREME
-    #         xstreme_res = utils.read_pickle(
-    #             glob.glob(f'../results/XSTREME/FIMO/{cell_line}_enhancers_*/{seq_tile_id}')[0])
-    #
-    #         # Saliency
-    #         saliency_res = utils.read_pickle(f'{saliency_dir}/{index}/{seq_tile_id}')
-    #         saliency_frac = np.array(saliency_res['saliency']) / control
-    #         random_frac = np.array(saliency_res['random']) / control
-    #         df = pd.DataFrame([creme_frac, creme_bps, saliency_frac, random_frac]).T
-    #         df.columns = ['CREME score', 'CREME bps', 'Saliency score', 'Random score']
-    #         df['XSTREME score'] = xstreme_res['motifs'] / control
-    #         df['seq_id'] = seq_tile_id
-    #         df['cell_line'] = cell_line
-    #         dfs.append(df)
-    # dfs = pd.concat(dfs)
-    # dfs.to_csv(f'{summary_csv_dir}/CREME_vs_saliency_vs_XSTREME.csv')
+    ######## XSTREME VS SALIENCY VS CREME
+    bps = np.arange(0, 5001, 500)
+    dfs = []
+    for a, (index, cell_line) in enumerate({4824: 'PC-3', 5110: 'GM12878', 5111: 'K562'}.items()):
+        for s, seq_tile_id in enumerate(os.listdir(f'{saliency_dir}/{index}/')):
+            # CREME results
+            prune_res = utils.read_pickle(f'{result_dir}/{cell_line}/{seq_tile_id}')
+            creme_frac = np.array([1] + prune_res[500]['scores'][:-1] + prune_res[50]['scores'])
+            creme_bps = bps[:len(creme_frac)]
+            control = prune_res['mut']
+
+            # XSTREME
+            xstreme_res = utils.read_pickle(
+                glob.glob(f'../results/XSTREME/FIMO/{cell_line}_enhancers_*/{seq_tile_id}')[0])
+
+            # Saliency
+            saliency_res = utils.read_pickle(f'{saliency_dir}/{index}/{seq_tile_id}')
+            saliency_frac = np.array(saliency_res['saliency']) / control
+            random_frac = np.array(saliency_res['random']) / control
+            df = pd.DataFrame([creme_frac, creme_bps, saliency_frac, random_frac]).T
+            df.columns = ['CREME score', 'CREME bps', 'Saliency score', 'Random score']
+            df['XSTREME score'] = xstreme_res['motifs'] / control
+            df['seq_id'] = seq_tile_id
+            df['cell_line'] = cell_line
+            dfs.append(df)
+    dfs = pd.concat(dfs)
+    dfs.to_csv(f'{summary_csv_dir}/CREME_vs_saliency_vs_XSTREME.csv')
 
     #### HISTOGRAM OF OVERLAPPING VS NON-OVERLAPPING SALIENCY VALUES
     model = custom_model.Enformer()
