@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to creme's documentation!
-=================================
+Interpreting Cis-Regulatory Interactions from Large-Scale Deep Neural Networks for Genomics
+===================================================================================================
 
 .. toctree::
    :maxdepth: 2
@@ -12,9 +12,12 @@ Welcome to creme's documentation!
 
 
 
-Indices and tables
-==================
+Contents
+--------
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. toctree::
+
+   user_guide
+
+
+#
