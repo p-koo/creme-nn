@@ -19,5 +19,3 @@ Contents
 
    user_guide
 
-
-#
