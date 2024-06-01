@@ -21,7 +21,10 @@ release = '0.0.1'
 extensions = [
             'sphinx.ext.duration',
             'sphinx.ext.autodoc',
+            'myst_parser'
             ]
+
+source_suffix = ['.rst', '.md']
 
 templates_path = ['_templates']
 exclude_patterns = []
