@@ -17,5 +17,5 @@ Contents
 
 .. toctree::
 
-   api
+   API
 
