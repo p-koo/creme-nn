@@ -11,10 +11,9 @@ Welcome to creme-nn's documentation!
    :caption: Contents:
 
 
+Contents
+--------
 
-Indices and tables
-==================
+.. toctree::
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   usage
