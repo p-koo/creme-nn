@@ -152,11 +152,13 @@ def necessity_test(model, x, tiles, num_shuffle, mean=True, return_seqs=False):
             Number of shuffles to apply and average over.
         mean : bool
             If True, return the mean predictions across shuffles, otherwise return full predictions.
+        return_seqs : bool
+            If True, return generated sequences for future use.
 
     Returns
     -------
-        np.array : prediction of wild type sequence.
-        np.array : prediction of mutant sequences.
+        list : WT sequence prediction, mean and standard deviation of mutant predictions (with shuffled tile) or
+        all mutant predictions without averaging and (optionally) return generated sequences.
     """
 
     # get wild-type prediction
@@ -281,7 +283,7 @@ def sufficiency_test(model, x, tss_tile, tiles, num_shuffle, tile_seq=None, mean
 
 def distance_test(model, x, tile_fixed_coord, tile_var_coord, test_positions, num_shuffle, mean=True, seed=False):
     """
-    This test maps out the distance dependence of tile1 (anchored) and tile 2 (variable). 
+    This test maps out the distance dependence of tile1 (anchored) and tile 2 (variable position).
     Tiles are placed in dinuc shuffled background contexts, in line with global importance analysis. 
 
     Parameters
@@ -293,18 +295,23 @@ def distance_test(model, x, tile_fixed_coord, tile_var_coord, test_positions, nu
         tile_fixed_coord : list
             List with start index and end index of tile that is anchored (i.e. [start, end]).
         tile_var_coord : list
-            List with start index and end index of tile that is to be tested at avilable_tiles.
+            List with start index and end index of tile that is to be tested.
         test_positions : list
             List with start index of positions to test tile_var.
         num_shuffle : int
             Number of shuffles to apply and average over.
         mean : bool
             If True, return the mean predictions across shuffles, otherwise return full predictions.
+        seed: bool
+            If Ture, set a seed for the random dinuc shuffle of sequence and use the same background sequences
+            for all position tests (per sequence).
 
     Returns
     -------
-        np.array : prediction of dinuc sequence with tiles placed in original locations.
-        np.array : prediction of dinuc sequenc with tiles placed in variable locations.
+        dict: results organized as dictionary containing control (i.e. sequence with TSS and tile in original position)
+        and mutant (variable tile location) predictions (either summarized as mean and standard deviation or all the
+        predictions).
+
     """
 
     # crop pattern of interest
@@ -369,7 +376,8 @@ def higher_order_interaction_test(model, x, cre_tiles_to_test, optimization, num
     """
     This test performs a greedy search to identify which tile sets lead to optimal changes
     in model predictions. In each round, a new tile is identified, given the previous sets 
-    of tiles. Effect size is measured by placing tiles in dinuc shuffled sequences.
+    of tiles by shuffling each tile and selecting the tile with biggest effect (similar to
+    necessity test)
 
     Parameters
     ----------
@@ -377,24 +385,24 @@ def higher_order_interaction_test(model, x, cre_tiles_to_test, optimization, num
             A keras model.
         x : np.array
             Single one-hot sequence shape (L, A).
-        fixed_tiles : list
-            List with fixed tiles, each with a list that consists of start index and end index.
-        available_tiles : list
-            List with available tiles, each with a list that consists of start index and end index.
+        cre_tiles_to_test : list
+            List with tile coordinates to be tested, each with a list that consists of start index and end index.
+        optimization : np.argmax or np.argmin
+            Function that identifies/selects tile index for each round of greedy search.
         num_shuffle : int
             Number of shuffles to apply and average over.
         num_rounds : int
             Number of rounds to perform greedy search.
-        optimization : np.argmax or np.argmin
-            Function that identifies tile index for each round of greedy search.
-        reduce_fun : np.mean
-            Function to reduce (multivariate) predictions to a scalar.
 
     Returns
     -------
-        np.array : prediction of wild type sequence.
-        np.array : prediction of mutant sequences in each optimization round.
-        list : list of fixed tiles from each round.
+
+        dictionary with keys as iteration number, values as another dictionary with results for that iteration.
+        These include: initial predictions for that iteration (in iteration 0 this is WT, in iteration 2 this
+        is for a sequence with 2 tiles shuffled already); predictions for newly generated mutants; selected tile
+        based on predictions of this iteration; per tile mean of shuffles for the selected best tile
+
+
     """
 
     result_summary = {}
@@ -433,47 +441,75 @@ def higher_order_interaction_test(model, x, cre_tiles_to_test, optimization, num
 def multiplicity_test(model, x, tss_tile_coord, cre_tile_coord, cre_tile_seq, test_coords, num_shuffle, num_copies,
                       optimization):
     """
+    Parameters
+    ----------
+        model : keras.Model
+            A keras model.
+        x : np.array
+            Single one-hot sequence shape (L, A).
+        tss_tile_coord : list
+            Start and end coordinates of the TSS tile (which is fixed from the beginning)
+        cre_tile_coord : list
+            Start and end coordinates for where to insert the CRE as a control.
+        cre_tile_seq : np.array
+            Single one-hot sequence of the CRE shape (L, A) where L equals the length of the CRE.
+        test_coords : np.array
+            Tile start positions to test. In iteration 0 all the positions in the array will be tested and the one
+            with the most optimal prediction will be selected (and removed from the set of positions for subsequent
+            iterations).
+        num_shuffle : int
+            Number of shuffles to apply and average over.
+        num_copies : int
+            Number of copies to insert, i.e. iterations to run.
+        optimization : np.argmax or np.argmin
+            Function that identifies tile index for each round of greedy search.
 
-    :param model:
-    :param x:
-    :param tss_tile_coord:
-    :param cre_tile_coord:
-    :param cre_tile_seq:
-    :param test_coords:
-    :param num_shuffle:
-    :param num_copies:
-    :return:
+    Returns
+    ----------
+    dict: results organized as dictionary containing: (i) TSS activity on its own (in dinuc shuffled backgrounds),
+    (ii) TSS and CRE activity when CRE is positioned at the specified position,
+    (iii) list of the most optimal prediction in each iteration showing the steps of the optimization process
+    (iv) list of tile positions that were selected in each iteration, (v) list all mutant predictions -
+    for each iteration the predictions for each of the tested positions.
+
     """
-    shuffled_seqs = shuffle.dinuc_shuffle(x, num_shuffle)  # destroy all
+    shuffled_seqs = shuffle.dinuc_shuffle(x, num_shuffle)  # create backgroun seqs
+    # re-insert TSS sequence
     shuffled_seqs[:, tss_tile_coord[0]:tss_tile_coord[1], :] = x[tss_tile_coord[0]:tss_tile_coord[1], :].copy()
-
+    # get TSS only predictions
     only_tss_pred = model.predict(shuffled_seqs).mean()
-
+    # get predictions for when CRE is inserted in specified position
     tss_and_cre = shuffled_seqs.copy()
     tss_and_cre[:, cre_tile_coord[0]: cre_tile_coord[1]] = cre_tile_seq
-
     tss_and_cre_pred = model.predict(tss_and_cre).mean()
 
     tile_positions_to_test = test_coords.copy()
-    current_seq_version = shuffled_seqs.copy()
+    current_seq_version = shuffled_seqs.copy()  # start with the TSS only sequence in the first round
+    # lists for saving predictions for mutants, optimal signal and selected tiles
     all_mutants = []
     best_tss_signal = []
     selected_tile_order = []
-    for _ in tqdm(range(num_copies)):
+    for _ in tqdm(range(num_copies)):  # per iteration
+        # placeholder array for sequences of shape [N, T, L, A] where N = shuffles to average over, T = tiles to test
         test_seqs = np.empty((num_shuffle, len(tile_positions_to_test), model.seq_length, 4))
+        # placeholder for saving mutant predictions
         mutant_preds = np.empty((num_shuffle, len(tile_positions_to_test)))
-        for s, shuffled_seq in enumerate(current_seq_version):
-            for t, (tile_start, tile_end) in enumerate(tile_positions_to_test):
+        for s, shuffled_seq in enumerate(current_seq_version): # per shuffled background sequence
+            for t, (tile_start, tile_end) in enumerate(tile_positions_to_test): # per tile position remaining to test
                 test_seq = shuffled_seq.copy()
-                test_seq[tile_start: tile_end] = cre_tile_seq.copy()
-                mutant_preds[s, t] = model.predict(test_seq).mean()
+                test_seq[tile_start: tile_end] = cre_tile_seq.copy() # embed CRE in test position
+                mutant_preds[s, t] = model.predict(test_seq).mean() # prediction for current mutant
                 test_seqs[s, t, ...] = test_seq.copy()
+        # pick the optimal tile position index based on prediction means across shuffles
         best_index = optimization(mutant_preds.mean(axis=0))
-        selected_tile = tile_positions_to_test[best_index]
+        selected_tile = tile_positions_to_test[best_index]  # pick the tile coordinate
+        # save the mean TSS signal at optimal tile position
         best_tss_signal.append(mutant_preds.mean(axis=0)[best_index])
-        tile_positions_to_test.remove(selected_tile)
-        selected_tile_order.append(selected_tile)
-        all_mutants.append(mutant_preds)
+        tile_positions_to_test.remove(selected_tile)  # remove selected tile from set to test
+        selected_tile_order.append(selected_tile)  # save the tile coordinate selected
+        all_mutants.append(mutant_preds)  # save the mutant predictions
+        # re-set the starting sequences to the selected mutant which has the CRE sequence embedded at the newly
+        # selected best position (and all the previous ones)
         current_seq_version = test_seqs[:, best_index, ...].copy()
     return {'only_tss_pred': only_tss_pred, 'tss_and_cre_pred': tss_and_cre_pred, 'best_tss_signal': best_tss_signal,
             'selected_tile_order': selected_tile_order, 'all_mutants': all_mutants}
@@ -486,26 +522,78 @@ def multiplicity_test(model, x, tss_tile_coord, cre_tile_coord, cre_tile_seq, te
 
 def prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whole_tile_end, scales, thresholds, frac,
                    N_batches, cre_type='enhancer'):
-    remove_tiles = []
+    """
+    This function prunes a tile through greedy search to find the most enhancing subset of sub-tiles, explaining a
+    set fraction of the original enhancement. It's done in stages where sub-tiles of a specified scale are shuffled,
+    keeping the least enhancing N sub-tiles (N defined by N_batches). The TSS activity with only the remaining
+    sub-tiles is computed and compared to the case when the entire tile is inserted, using a ratio, i.e. the 'score'.
+    If the score is above a set threshold, the optimization continues with more iterations. When the threshold is
+    reached, the last step is reverted, and a new stage can begin if defined.
+
+    Parameters
+    ----------
+        model : keras.Model
+            A keras model.
+        wt_seq : np.array
+            Single one-hot sequence shape (L, A).
+        control_sequences : np.array
+            One-hot background sequences of shape (N, L, A).
+        mut : float
+            Prediction when only TSS and the entire CRE are embedded in background sequences. This is used
+            to compute fraction restored by a subset of tile sequences embedded.
+        whole_tile_start : int
+            Start coordinate of the CRE to prune.
+        whole_tile_end : int
+            End coordinate of the CRE to prune.
+        scales : list
+            Window sizes to use for sub-tiles. Each stage of pruning can have a different window size, e.g.
+            500bp in the first and 50bp in the second, to speed up the optimization.
+        thresholds : list
+            Score thresholds to use to determine when to stop a given optimization.
+        frac : float
+            Fraction of scale or window size to use to compute step size.
+        N_batches : list
+            List of integer batch sizes to use in each stage of the optimization. Batch size determines the
+            number of tiles that are pruned out in each iteration. For example, batch size of 1 means that only 1 tile
+            (if searching for enhancers then the most silencing tile) will be pruned. This parameter allows to prune
+            discontinuous patches of sequences.
+        cre_type : string
+            'enhancer' or 'silencer' - defines the optimization type, ie. to either prune the least enhancing or
+            least silencing elements.
+
+    Returns
+    ----------
+    dict: returns a dictionary with a summary of results for each iteration. The information of each stage is saved as
+    window size (key) and corresponding dictionary of 'scores' - the fraction tile activity recovered, bps - number of
+    bps embedded, 'all_removed_tiles' - np.array of all the removed sub-tiles, 'insert_coords' - set of
+    remaining/surviving sub-tiles.
+
+    """
+    remove_tiles = [] #  set of sub-tiles that are pruned out
 
     # save what to put back from wt sequence in form of coordinates
     insert_coords = [[whole_tile_start, whole_tile_end]]
-    pruned_seqs = control_sequences.copy()
-    bps = np.zeros((whole_tile_end - whole_tile_start))
+    pruned_seqs = control_sequences.copy()  # pruned sequences with optimized set of sub-tiles preserved
+    bps = np.zeros((whole_tile_end - whole_tile_start))  # number of bps embedded
     result_summary = {}
-
+    # for each stage of optimization using a set window size for sub-tiles, threshold for stopping the current stage
+    # and N_batch number of sub-tiles to remove
     for (window, threshold, N_batch) in zip(scales, thresholds, N_batches):
-        result_summary[window] = {'scores': [], 'bps': []}
+        result_summary[window] = {'scores': [], 'bps': []} # create a new entry in the output dictionary
         print(f"Tile size = {window}, threshold = {threshold}")
 
-        step = int(window * frac)
+        step = int(window * frac)  # determine step size as fraction of window size
         test_coords = []
 
+        # for each coordinate to be re-inserted
         for insert_coord in insert_coords:
+            # recover WT sequence
             pruned_seqs[:, insert_coord[0]: insert_coord[1], :] = wt_seq[insert_coord[0]: insert_coord[1]].copy()
             bps[insert_coord[0] - whole_tile_start: insert_coord[1] - whole_tile_start] = 1  # count added bps
+            # add sub-tile chunks for the current interval
             test_coords += [[s, s + window] for s in list(range(insert_coord[0], insert_coord[1] - step + 1, step))]
 
+        # fraction recovered with all the sub-tiles re-inserted. Note, in the first stage this is the entire CRE.
         score = model.predict(pruned_seqs).mean() / mut
         print(f"Starting score: {score}")
 
@@ -516,17 +604,18 @@ def prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whol
         all_removed_tiles = np.array([[], []]).T
 
         print("Starting optimization...")
-
+        # select optimization type
         if cre_type == 'enhancer':
             comp = operator.gt
         elif cre_type == 'silencer':
             comp = operator.lt
-
+        # continue pruning while threshold of score is not crossed
         while comp(score, threshold) and len(test_coords):
 
             print(f'score = {score}')
 
             pruned_seqs = final_check_seq.copy()  # save removed seq tiles
+            # remove test coordinates if already pruned
             new_test_coords = []
             for test_coord in test_coords:
                 if test_coord not in all_removed_tiles:
@@ -535,33 +624,34 @@ def prune_sequence(model, wt_seq, control_sequences, mut, whole_tile_start, whol
             print(f"Number of tiles to test: {len(test_coords)}")
             results = []
             for test_coord in test_coords:
-                # remove subtile
+                # shuffle subtile and get TSS activity
                 test_seqs = pruned_seqs.copy()  # don't change pruned_seqs yet
                 test_seqs[:, test_coord[0]: test_coord[1], :] = control_sequences[:, test_coord[0]: test_coord[1],
                                                                 :].copy()
                 results.append(model.predict(test_seqs).mean())
 
+            # select the batch of the least enhancing or least silencing sub-tiles
             if cre_type == 'enhancer':  # prune out silencers, ie. tiles that when shuffled lead to higher pred
                 remove_tiles = np.array(test_coords)[np.argsort(results)[-N_batch:]]  # choose N useless
             elif cre_type == 'silencer':  # remove enhancers = tiles the shuffling of which leads to drop in TSS
                 remove_tiles = np.array(test_coords)[np.argsort(results)[:N_batch]]  # choose N useless
 
-            all_removed_tiles = np.concatenate([all_removed_tiles, remove_tiles])  # add to santa's bad list
+            all_removed_tiles = np.concatenate([all_removed_tiles, remove_tiles])  # add to the list of pruned sub-tiles
 
-            # final check
+            # final check needed if batch size > 1
             final_check_seq = pruned_seqs.copy()
             for tile in remove_tiles:
                 final_check_seq[:, tile[0]: tile[1], :] = control_sequences[:, tile[0]: tile[1],
                                                           :].copy()  # prune out selected tiles
                 bps[tile[0] - whole_tile_start: tile[1] - whole_tile_start] = 0
-
+            # TSS activitiy with pruned sub-tiles / TSS activity with entire CRE
             score = model.predict(final_check_seq).mean() / mut
             print(f"Number of tiles at the end of iteration: {len(test_coords)}, score = {score}, bps = {bps.sum()}")
-            result_summary[window]['scores'].append(score)
-            result_summary[window]['bps'].append(bps.sum())
+            result_summary[window]['scores'].append(score)  # save score
+            result_summary[window]['bps'].append(bps.sum())  # save bps
 
-        result_summary[window]['all_removed_tiles'] = all_removed_tiles
-        insert_coords = test_coords.copy()
+        result_summary[window]['all_removed_tiles'] = all_removed_tiles # save the pruned tile list for this stage
+        insert_coords = test_coords.copy()  # the remaining sub-tile coordinates
         result_summary[window]['insert_coords'] = insert_coords
     return result_summary
 

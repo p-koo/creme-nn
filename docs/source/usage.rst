@@ -34,9 +34,15 @@ Multiplicity test
 ------------------
 .. autofunction:: creme.multiplicity_test
 
+Fine-tile search
+-----------------
+.. autofunction:: creme.prune_sequence
+
 Extra functions
 ----------------
 
 .. autofunction:: creme.generate_tile_shuffles
+
+
 
 
