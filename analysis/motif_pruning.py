@@ -1,19 +1,14 @@
 import pandas as pd
 import numpy as np
 import sys
-sys.path.append('../creme/')
-import custom_model
-import creme
-import utils
+
 import glob
 from tqdm import tqdm
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pyranges as pr
-import shutil
-import pickle
-import kipoiseq
 import os
+
+from creme import creme
+from creme import custom_model
+from creme import utils
 
 
 def main():

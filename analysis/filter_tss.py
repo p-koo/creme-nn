@@ -1,13 +1,8 @@
 import pandas as pd
 import numpy as np
 import sys
-sys.path.append('../creme/')
-import custom_model
-import utils
-import glob
 from tqdm import tqdm
-
-
+from creme import utils
 
 def main():
     model_name = sys.argv[1]

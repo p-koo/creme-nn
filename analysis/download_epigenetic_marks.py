@@ -1,8 +1,8 @@
 import subprocess
 import pandas as pd
 import os, sys
-sys.path.append('../creme/')
-import utils
+from creme import utils
+
 
 def main():
 

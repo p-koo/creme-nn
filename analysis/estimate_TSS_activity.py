@@ -2,14 +2,15 @@ import glob
 import pandas as pd
 import seaborn as sns
 import numpy as np
-import matplotlib.pyplot as plt
-import pyranges as pr
-import sys, os, h5py
+import sys, os
 from tqdm import tqdm
-sys.path.append('../creme')
-import creme
-import custom_model
-import utils
+
+sys.path.append('./borzoi')
+import borzoi_custom_model
+
+from creme import creme
+from creme import custom_model
+from creme import utils
 
 
 def main():
@@ -27,7 +28,7 @@ def main():
                                                                        'GM12878 ENCODE, biol_',
                                                                        'PC-3'])]
         target_df.iloc[cage_tracks].to_csv('../data/borzoi_cage_tracks.csv')
-        model = custom_model.Borzoi('../data/borzoi/*/*', track_index=cage_tracks, aggregate=False)
+        model = borzoi_custom_model.Borzoi('../data/borzoi/*/*', track_index=cage_tracks, aggregate=False)
         model.bin_index = list(np.arange(model.target_lengths // 2 - 4, model.target_lengths // 2 + 4, 1))
 
 

@@ -1,8 +1,6 @@
+from creme import utils
 import sys
-sys.path.append('../creme/')
-import utils
 import pandas as pd
-import pickle
 import glob
 import numpy as np
 from tqdm import tqdm

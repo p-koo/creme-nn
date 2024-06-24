@@ -3,10 +3,6 @@ import numpy as np
 import pandas as pd
 import os
 import glob
-import seaborn as sns
-import tempfile
-import matplotlib.pyplot as plt
-import kipoiseq
 from tqdm import tqdm
 from pymemesuite.fimo import FIMO
 from pymemesuite.common import MotifFile
@@ -14,10 +10,9 @@ import Bio.SeqIO
 from pymemesuite.common import Sequence
 import copy
 
-sys.path.append('../creme')
-import creme
-import custom_model
-import utils
+from creme import creme
+from creme import custom_model
+from creme import utils
 
 
 def main():

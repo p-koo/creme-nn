@@ -3,8 +3,8 @@ import pyBigWig
 from tqdm import tqdm
 import numpy as np
 import sys
-sys.path.append('../creme/')
-import utils
+from creme import utils
+
 
 
 def main():

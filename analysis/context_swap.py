@@ -3,18 +3,13 @@ import pickle
 import pandas as pd
 import seaborn as sns
 import numpy as np
-import matplotlib.pyplot as plt
-import pyranges as pr
-import sys, os, h5py
-import kipoiseq
+import sys, os
 from tqdm import tqdm
 import json
 
-sys.path.append('../creme')
-import creme
-import custom_model
-import utils
-import glob
+from creme import creme
+from creme import custom_model
+from creme import utils
 
 
 def main():

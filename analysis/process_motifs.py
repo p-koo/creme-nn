@@ -2,9 +2,11 @@ import pandas as pd
 import numpy as np
 import glob
 import sys, os
-sys.path.append('../creme')
-import utils, custom_model
+
 from tqdm import tqdm
+
+from creme import custom_model
+from creme import utils
 
 def main():
     summary_csv_dir = utils.make_dir('../results/summary_csvs/enformer/motif_analysis')

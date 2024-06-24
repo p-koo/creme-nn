@@ -1,19 +1,17 @@
 import glob
-import pickle
 import pandas as pd
 import seaborn as sns
 import numpy as np
-import matplotlib.pyplot as plt
-import pyranges as pr
-import sys, os, h5py
-import kipoiseq
+import sys, os
 from tqdm import tqdm
 import json
-sys.path.append('../creme')
-import creme
-import custom_model
-import utils
-import glob
+
+sys.path.append('./borzoi')
+import borzoi_custom_model
+
+from creme import creme
+from creme import custom_model
+from creme import utils
 
 
 ########################################################################################
@@ -52,7 +50,7 @@ def main():
         cell_lines_for_search = ['K562 ENCODE, biol_']
         cell_line_info, cage_tracks = utils.get_borzoi_targets(target_df, cell_lines_for_search)
         print('Loading Borzoi(s)')
-        model = custom_model.Borzoi('../data/borzoi/*/*', track_index=cage_tracks, aggregate=True)
+        model = borzoi_custom_model.Borzoi('../data/borzoi/*/*', track_index=cage_tracks, aggregate=True)
         model.bin_index = list(np.arange(model.target_lengths // 2 - 4, model.target_lengths // 2 + 4, 1))
         compute_mean = False
     else:
