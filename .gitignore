@@ -64,6 +64,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/build/
 
 # PyBuilder
 target/
@@ -99,3 +100,20 @@ ENV/
 
 # mypy
 .mypy_cache/
+#analysis files
+paper_reproducibility/*
+!paper_reproducibility/*py
+!paper_reproducibility/README.md
+!paper_reproducibility/borzoi/*py
+!paper_reproducibility/figures
+# data
+data/*
+!data/download.sh
+
+results/*
+!results/summary_csvs/
+!results/tss_positions.csv
+
+docs/source/tutorials/*
+!docs/source/tutorials/*ipynb
+
