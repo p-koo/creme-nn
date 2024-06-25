@@ -1,3 +1,4 @@
 sphinx-rtd-theme
 numpy
 tqdm
+nbsphinx
