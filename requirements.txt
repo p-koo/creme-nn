@@ -3,7 +3,6 @@ pandas==2.0.1
 seaborn== 0.13.2
 numpy==1.23.5
 matplotlib==3.7.5
-h5py==3.7.0
 tqdm==4.65.0
 tensorflow-gpu==2.11.1
 tensorflow-hub==0.13.0
