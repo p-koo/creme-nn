@@ -1,0 +1,10 @@
+,cell line,context category,Number of contexts,Number of contexts after sampling
+0,GM12878,enhancing,409,200
+1,GM12878,neutral,183,183
+2,GM12878,silencing,78,78
+3,K562,enhancing,482,200
+4,K562,neutral,295,200
+5,K562,silencing,318,200
+6,PC-3,enhancing,524,200
+7,PC-3,neutral,110,110
+8,PC-3,silencing,90,90

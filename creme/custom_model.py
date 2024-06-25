@@ -1,7 +1,10 @@
-import os 
+import os
 import numpy as np 
 import tensorflow as tf
 import tensorflow_hub as hub
+import glob
+import json
+import pandas as pd
 
 ########################################################################################
 # CREME model
@@ -30,7 +33,7 @@ class Enformer(ModelBase):
         track_index : int
             Enformer index of prediciton track for a given head.
     """
-    def __init__(self, head='human', track_index=5111):
+    def __init__(self, track_index=None, bin_index=None, head='human'):
 
         # path to enformer on tensorflow-hub
         tfhub_url = 'https://tfhub.dev/deepmind/enformer/1'
@@ -38,20 +41,26 @@ class Enformer(ModelBase):
         self.model = hub.load(tfhub_url).model
         self.head = head
         self.track_index = track_index
-
-
-    def predict_on_batch(self, x):
-        """Get full predictions from Enformer."""
-        predictions = self.model.predict_on_batch(x)
-        return {k: v.numpy() for k, v in predictions.items()}
+        self.bin_index = bin_index
+        self.seq_length = 196608
+        self.pseudo_pad = 196608
+        self.target_length = 896
+        if type(self.bin_index)==int:
+            self.bin_index = [self.bin_index]
+        if type(self.track_index)==int:
+            self.track_index = [self.track_index]
 
 
     def predict(self, x, batch_size=1):
-        """Get curated predictions from enformer in batches."""
+        """Get full predictions from enformer in batches."""
 
         # check to make sure shape is correct
         if len(x.shape) == 2:
             x = x[np.newaxis]
+
+        # get predictions
+        if x.shape[1] == self.pseudo_pad:
+            x = np.pad(x, ((0, 0), (self.pseudo_pad // 2, self.pseudo_pad // 2), (0, 0)), 'constant')
         N = x.shape[0]
 
         # get predictions
@@ -59,31 +68,17 @@ class Enformer(ModelBase):
             preds = []
             i = 0
             for batch in batch_np(x, batch_size):
-                preds.append(self.predict_on_batch(batch)[self.head][:,:,self.track_index])
+                preds.append(self.model.predict_on_batch(batch)[self.head].numpy())
                 i += batch.shape[0]
-            return np.array(preds)
+            preds = np.concatenate(preds)
         else:
-            return self.predict_on_batch(x)[self.head][:, :, self.track_index]
+            preds = self.model.predict_on_batch(x)[self.head].numpy()
 
-
-    def predict_all(self, x, batch_size=1):
-        """Get full predictions from enformer in batches."""
-
-        # check to make sure shape is correct
-        if len(x.shape) == 2:
-            x = x[np.newaxis]
-        N = x.shape[0]
-
-        # get predictions    
-        if batch_size < N:
-            preds = []
-            i = 0
-            for batch in batch_np(x, batch_size):
-                preds.append(self.predict_on_batch(batch)[self.head])
-                i += batch.shape[0]
-            return np.array(preds)
-        else:
-            return self.predict_on_batch(x)[self.head]
+        if self.bin_index:
+            preds = preds[:, self.bin_index, :]
+        if self.track_index:
+            preds = preds[..., self.track_index]
+        return preds
 
 
     @tf.function
@@ -92,7 +87,13 @@ class Enformer(ModelBase):
 
         # check to make sure shape is correct
         if len(x.shape) == 2:
+            print('Add axis')
             x = x[np.newaxis]
+        assert x.shape[1] == self.pseudo_pad + self.seq_length, 'Bad seq length'
+            # print('Add pads')
+            # print(type(x))
+            # x = self.pad_seq(x)
+            # x = np.pad(x, ((0, 0), (self.pseudo_pad // 2, self.pseudo_pad // 2), (0, 0)), 'constant')
 
         # calculate saliency maps
         target_mask_mass = tf.reduce_sum(target_mask)
@@ -110,6 +111,7 @@ class Enformer(ModelBase):
             return tf.reduce_sum(input_grad, axis=-1)
         else:
             return input_grad
+
 
 
 
