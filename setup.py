@@ -31,6 +31,9 @@ setup(
         "kipoiseq",
         "tensorflow-hub",
         "pyfaidx",
+        "logomaker",
+        "matplotlib",
+        "seaborn",
         "protobuf==3.20",
     ],
     extras_require={

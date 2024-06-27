@@ -1,5 +1,5 @@
 import numpy as np
-import shuffle
+from . import shuffle
 from tqdm import tqdm
 import operator
 
