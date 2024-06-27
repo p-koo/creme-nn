@@ -1,6 +1,6 @@
 pyranges==0.0.120
 pandas==2.0.1
-seaborn== 0.13.2
+seaborn==0.13.2
 numpy==1.23.5
 matplotlib==3.7.5
 tqdm==4.65.0
