@@ -31,9 +31,6 @@ setup(
         "kipoiseq",
         "tensorflow-hub",
         "pyfaidx",
-        "matplotlib",
-        "seaborn",
-        "tqdm",
         "protobuf==3.20",
     ],
     extras_require={
