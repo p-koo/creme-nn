@@ -12,8 +12,15 @@ CREME is based on the notion that by fitting experimental data, the DNN essentia
 
 Paper: https://www.biorxiv.org/content/10.1101/2023.07.03.547592v1 
 
-Tutorial and full documentation on [Readthedocs.org](https://creme-nn.readthedocs.io/en/latest/index.html)!
+Full documentation on [Readthedocs.org](https://creme-nn.readthedocs.io/en/latest/index.html)!
 
+Tutorials: https://creme-nn.readthedocs.io/en/latest/tutorials.html
+
+Colab examples:
+- Examples of CREME tests with Enformer: https://colab.research.google.com/drive/1j3vXKf4QNgCWoIp655ugxEGyBN0cp4K5?usp=sharing
+- Example of PyTorch version of Enformer: https://colab.research.google.com/drive/1c0ac3ei4Ntx0AgTaRkr80O8wZNb-j6wu?usp=sharing
+
+ 
 CREME is pip installable:
 ```
 pip install creme-nn
