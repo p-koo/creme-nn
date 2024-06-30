@@ -18,7 +18,7 @@ Tutorials: https://creme-nn.readthedocs.io/en/latest/tutorials.html
 
 Colab examples:
 - Examples of CREME tests with Enformer: https://colab.research.google.com/drive/1j3vXKf4QNgCWoIp655ugxEGyBN0cp4K5?usp=sharing
-- Example of PyTorch version of Enformer: https://colab.research.google.com/drive/1c0ac3ei4Ntx0AgTaRkr80O8wZNb-j6wu?usp=sharing
+- Example of CREME with a PyTorch version of Enformer: https://colab.research.google.com/drive/1c0ac3ei4Ntx0AgTaRkr80O8wZNb-j6wu?usp=sharing
 
  
 CREME is pip installable:
