@@ -11,6 +11,7 @@ CREME is based on the notion that by fitting experimental data, the DNN essentia
 
 
 Paper: https://www.biorxiv.org/content/10.1101/2023.07.03.547592v1 
+Results: https://zenodo.org/records/12584210 
 
 Full documentation on [Readthedocs.org](https://creme-nn.readthedocs.io/en/latest/index.html)!
 
