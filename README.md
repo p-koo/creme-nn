@@ -75,7 +75,7 @@ While CREME provides valuable insights, it's important to remember that its resu
 * Example of CREME with a PyTorch version of Enformer:
     * https://colab.research.google.com/drive/1c0ac3ei4Ntx0AgTaRkr80O8wZNb-j6wu?usp=sharing
 
-#### Paper: https://www.biorxiv.org/content/10.1101/2023.07.03.547592v1
+#### Paper: https://www.biorxiv.org/content/10.1101/2023.07.03.547592v2
 
 #### Full documentation on [Readthedocs.org](https://creme-nn.readthedocs.io/en/latest/index.html)!
 
