@@ -4,7 +4,7 @@ setup(
     name="creme-nn",
     # TODO: Consider using https://github.com/python-versioneer/python-versioneer to
     # get version information from git.
-    version="0.2.4",
+    version="0.2.5",
     description="An in silico perturbation framework to interpret large-scale genomic deep learning",
     # author='A. Random Developer',
     # author_email='author@example.com',
@@ -29,7 +29,6 @@ setup(
         "numpy",
         "pandas",
         "kipoiseq",
-        "tensorflow-hub",
         "pyfaidx",
         "logomaker",
         "matplotlib",
