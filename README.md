@@ -52,8 +52,10 @@ For detailed usage instructions and examples, please refer to our documentation 
 Colab Examples
 
 Colab examples:
-- Examples of CREME tests with Enformer: https://colab.research.google.com/drive/1j3vXKf4QNgCWoIp655ugxEGyBN0cp4K5?usp=sharing
-- Example of CREME with a PyTorch version of Enformer: https://colab.research.google.com/drive/1c0ac3ei4Ntx0AgTaRkr80O8wZNb-j6wu?usp=sharing
+* Examples of CREME tests with Enformer:
+    * https://colab.research.google.com/drive/1j3vXKf4QNgCWoIp655ugxEGyBN0cp4K5?usp=sharing
+* Example of CREME with a PyTorch version of Enformer:
+    * https://colab.research.google.com/drive/1c0ac3ei4Ntx0AgTaRkr80O8wZNb-j6wu?usp=sharing
 
 
 #### Tutorials: https://creme-nn.readthedocs.io/en/latest/tutorials.html
