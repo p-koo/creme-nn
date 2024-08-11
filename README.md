@@ -58,16 +58,15 @@ Colab examples:
 * Example of CREME with a PyTorch version of Enformer:
     * https://colab.research.google.com/drive/1c0ac3ei4Ntx0AgTaRkr80O8wZNb-j6wu?usp=sharing
 
-
-#### Tutorials: https://creme-nn.readthedocs.io/en/latest/tutorials.html
-
-#### Results to replicate paper with intermediate results: https://zenodo.org/records/12584210 
-
 ## Resources
 
 #### Paper: https://www.biorxiv.org/content/10.1101/2023.07.03.547592v1
 
 #### Full documentation on [Readthedocs.org](https://creme-nn.readthedocs.io/en/latest/index.html)!
+
+#### Tutorials: https://creme-nn.readthedocs.io/en/latest/tutorials.html
+
+#### Results to replicate paper with intermediate results: https://zenodo.org/records/12584210 
 
 
 ## Citation
