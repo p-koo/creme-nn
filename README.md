@@ -25,7 +25,7 @@ pip install creme-nn
 
 ## Dependencies
 
-Tested with tensorflow-gpu==2.11.1 and tensorflow-hub==0.13.0  
+Tested with `tensorflow-gpu==2.11.1` and `tensorflow-hub==0.13.0` 
 
 ```
 pyranges==0.0.120
