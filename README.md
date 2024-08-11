@@ -28,7 +28,7 @@ CREME is pip installable:
 
 ```bash
 pip install creme-nn
-
+'''
 
 ## Dependencies
 
