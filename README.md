@@ -2,7 +2,7 @@
 
 <img src="img/creme_overview.png" alt="CREME Overview" width="900"/>
 
-CREME (Cis-Regulatory Element Model Explanations) is an advanced in silico perturbation framework designed to examine large-scale Deep Neural Networks (DNNs) trained on regulatory genomics data. CREME provides interpretations at various scales, from a coarse-grained CRE-level view to a fine-grained motif-level view.
+[CREME](https://www.youtube.com/watch?v=PBwAxmrE194) is an advanced in silico perturbation framework designed to examine large-scale Deep Neural Networks (DNNs) trained on regulatory genomics data. CREME provides interpretations at various scales, from a coarse-grained CRE-level view to a fine-grained motif-level view. It is compatible with any ML framework, including TensorFlow and PyTorch. 
 
 ## Key Features
 
@@ -20,7 +20,7 @@ CREME (Cis-Regulatory Element Model Explanations) is an advanced in silico pertu
 5. `distance_test`: Maps the distance dependence between two tiles (one anchored, one variable).
 6. `higher_order_interaction_test`: Performs a greedy search to identify optimal tile sets for changing model predictions.
 7. `multiplicity_test`: Examines the effect of multiple copies of a CRE on model predictions.
-8. `prune_sequence`: Optimizes a tile through greedy search to find the most enhancing subset of sub-tiles.
+8. `prune_sequence`: Optimizes a tile through greedy search to find a sufficient subset of the most enhancing sub-tiles.
 
 ## Installation
 
@@ -65,9 +65,3 @@ Toneyan S, Koo PK. Interpreting cis-regulatory interactions from large-scale dee
 
 ## Contact
 email: koo@cshl.edu 
- 
-CREME is pip installable:
-```
-pip install creme-nn
-```
-
