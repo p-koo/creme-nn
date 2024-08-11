@@ -73,7 +73,7 @@ Colab examples:
 If you use CREME in your research, please cite our paper:
 
 `
-Toneyan S, Koo PK. Interpreting cis-regulatory interactions from large-scale deep neural networks for genomics. bioRxiv. 2023 Jul 3.
+Toneyan S, Koo PK. Interpreting cis-regulatory interactions from large-scale deep neural networks for genomics. bioRxiv. 2023.
 `
 
 ## License
