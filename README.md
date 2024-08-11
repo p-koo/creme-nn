@@ -13,15 +13,15 @@
 
 ## Core Functions
 
-1. `[context_dependence_test](https://creme-nn.readthedocs.io/en/latest/tutorials/context_dependence.html)`: Examines how sequence patterns behave in different background contexts.
-2. `[context_swap_test](https://creme-nn.readthedocs.io/en/latest/tutorials/context_swap.html)`: Analyzes the effect of placing a source sequence pattern in a target sequence context.
-3. `[necessity_test](https://creme-nn.readthedocs.io/en/latest/tutorials/necessity_test.html)`: Measures the impact of tile shuffles on model predictions.
-4. `[sufficiency_test](https://creme-nn.readthedocs.io/en/latest/tutorials/sufficiency_test_and_fine_tile_search.html)`: Determines if a region of the sequence, along with the TSS tile, is sufficient for model predictions.
-5. `[distance_test](https://creme-nn.readthedocs.io/en/latest/tutorials/distance_test.html)`: Maps the distance dependence between two tiles (one anchored, one variable).
-6. `[higher_order_interaction_test](https://creme-nn.readthedocs.io/en/latest/tutorials/higher_order_interaction_test.html)`: Performs a greedy search to identify optimal tile sets for changing model predictions.
+1. `context_dependence_test`: Examines how sequence patterns behave in different background contexts. Tutorial [here](https://creme-nn.readthedocs.io/en/latest/tutorials/context_dependence.html).
+2. `context_swap_test`: Analyzes the effect of placing a source sequence pattern in a target sequence context. Tutorial [here](https://creme-nn.readthedocs.io/en/latest/tutorials/context_swap.html).
+3. `necessity_test`: Measures the impact of tile shuffles on model predictions. Tutorial [here](https://creme-nn.readthedocs.io/en/latest/tutorials/necessity_test.html).
+4. `sufficiency_test`: Determines if a region of the sequence, along with the TSS tile, is sufficient for model predictions. Tutorial [here](https://creme-nn.readthedocs.io/en/latest/tutorials/sufficiency_test_and_fine_tile_search.html).
+5. `distance_test`: Maps the distance dependence between two tiles (one anchored, one variable). Tutorial [here](https://creme-nn.readthedocs.io/en/latest/tutorials/distance_test.html).
+6. `higher_order_interaction_test`: Performs a greedy search to identify optimal tile sets for changing model predictions. Tutorial [here](https://creme-nn.readthedocs.io/en/latest/tutorials/higher_order_interaction_test.html).
 7. `multiplicity_test`: Examines the effect of multiple copies of a CRE on model predictions.
-8. `[prune_sequence](https://creme-nn.readthedocs.io/en/latest/tutorials/sufficiency_test_and_fine_tile_search.html#Fine-tile-search)`: Optimizes a tile through greedy search to find a sufficient subset of the most enhancing sub-tiles.
-9. `[Adding a custom model to use with CREME](https://creme-nn.readthedocs.io/en/latest/tutorials/adding_a_custom_model.html)`
+8. `prune_sequence`: Also called Fine-tile search. Optimizes a tile through greedy search to find a sufficient subset of the most enhancing sub-tiles. Tutorial [here](https://creme-nn.readthedocs.io/en/latest/tutorials/sufficiency_test_and_fine_tile_search.html#Fine-tile-search).
+9. `Adding a custom model to use with CREME`: Tutorial [here](https://creme-nn.readthedocs.io/en/latest/tutorials/adding_a_custom_model.html).
 
 ## Installation
 
