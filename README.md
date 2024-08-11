@@ -32,9 +32,20 @@ pip install creme-nn
 
 ## Dependencies
 
-numpy
-tqdm
-keras (for model compatibility)
+```
+pyranges==0.0.120
+pandas==2.0.1
+seaborn==0.13.2
+numpy==1.23.5
+matplotlib==3.7.5
+tqdm==4.65.0
+tensorflow-gpu==2.11.1  # to replicate Enformer and Borzoi
+tensorflow-hub==0.13.0  # to replicate Enformer and Borzoi
+natsort==8.3.1
+pyfaidx==0.7.2.1
+kipoiseq==0.7.1
+logomaker==0.8
+```
 
 ## Usage
 For detailed usage instructions and examples, please refer to our documentation and tutorials.
