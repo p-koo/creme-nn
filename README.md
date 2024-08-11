@@ -25,7 +25,7 @@ pip install creme-nn
 
 ## Dependencies
 
-Tested with tensorflow-gpu==2.11.1 
+Tested with tensorflow-gpu==2.11.1 and tensorflow-hub==0.13.0  
 
 ```
 pyranges==0.0.120
@@ -34,7 +34,6 @@ seaborn==0.13.2
 numpy==1.23.5
 matplotlib==3.7.5
 tqdm==4.65.0
-tensorflow-hub==0.13.0  
 natsort==8.3.1
 pyfaidx==0.7.2.1
 kipoiseq==0.7.1
